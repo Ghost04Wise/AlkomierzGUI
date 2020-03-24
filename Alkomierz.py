@@ -2,9 +2,13 @@ import time
 import datetime
 import tkinter as tk
 from tkinter import *
+from pathlib import Path
 
-baza_danych = open("baza_danych.txt", 'a')
+sciezka = str(Path.home() / 'baza_wypitych_trunkow.txt')
+
+baza_danych = open(sciezka, 'a')
 baza_danych.close()
+
 tablica_danych = []
 data = datetime.date.today()
 
@@ -18,7 +22,6 @@ okno.wm_iconbitmap('ikona.ico')
 
 def menu_info():
 
-    kopia_danych()
     wyczysc_ramke()
     menu_gorna = tk.Frame(okno)
     menu_gorna.pack()
@@ -42,7 +45,6 @@ def menu_info():
 
 def dodaj():
 
-    kopia_danych()
     global ilosc
     global moc
     global opis
@@ -101,7 +103,6 @@ def podglad():
 
     if ilosc_element_baza() >= 4:
         try:
-            kopia_danych()
             wyczysc_ramke()
             menu_gorna = tk.Frame(okno)
             menu_gorna.pack(side=TOP, fill=X)
@@ -300,7 +301,7 @@ def usun_ostatni_wpis():
 
     if ilosc_element_baza() >= 4:
         wpis_bazy_do_tablicy()
-        baza_danych = open("baza_danych.txt", 'w')
+        baza_danych = open(sciezka, 'w')
         us = len(tablica_danych) - 1
         us = int(us)
         tablica_danych.pop(us)
@@ -333,8 +334,8 @@ def usun_ostatni_wpis():
         podglad()
 
     else:
-        baza_danych = open("baza_danych.txt", 'w')
-        baza_danych = open("baza_danych.txt", 'a')
+        baza_danych = open(sciezka ,'w')
+        baza_danych = open(sciezka ,'a')
         baza_danych.close()
         podglad()
 
@@ -351,13 +352,13 @@ def usun_baze():
     menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
     menu.add_command(labe="O PROGRAMIE", command=info)
     menu.add_command(label="WYJŚCIE", command=zamykanie)
-    info6 = tk.Label(menu_gorna, text="\n\n\nWYCZYŚCIŁEŚ BAZĘ TRUNKÓW!\n\n", bg='seagreen',fg='gold',
+    info6 = tk.Label(menu_gorna, text="\n\n\nWYCZYŚCIŁEŚ BAZĘ TRUNKÓW!\n\n", bg='seagreen', fg='gold',
                     font='Helvetica 14 bold')
     info6.pack()
     przycisk_dodaj = tk.Button(menu_gorna, text="ROZUMIEM!", bg="seagreen2", command=powrot)
     przycisk_dodaj.pack(side=BOTTOM)
-    baza_danych = open("baza_danych.txt", 'w')
-    baza_danych = open("baza_danych.txt", 'a')
+    baza_danych = open(sciezka, 'w')
+    baza_danych = open(sciezka, 'a')
     baza_danych.close()
 
 
@@ -392,7 +393,7 @@ def wpis_tablicy_do_bazy():
     poz = 0
     poz = int(poz)
     while len(tablica_danych) > poz:
-        baza_danych = open("baza_danych.txt", 'a')
+        baza_danych = open(sciezka, 'a')
         baza_danych.write(str(tablica_danych[poz]) + "\n")
         baza_danych.close()
         poz = poz + 1
@@ -402,7 +403,7 @@ def wpis_tablicy_do_bazy():
 def wpis_bazy_do_tablicy():
 
     tablica_danych.clear()
-    with open("baza_danych.txt", "r") as zawartosc:
+    with open(sciezka, 'r') as zawartosc:
         for linia in zawartosc:
             linia = linia.replace("\n", "")
             linia = str(linia)
@@ -412,7 +413,7 @@ def wpis_bazy_do_tablicy():
 
 def nowy_trunek(ilosc, moc):
 
-    baza_danych = open("baza_danych.txt", 'a')
+    baza_danych = open(sciezka, 'a')
     baza_danych.write(ilosc_element + "\n")
     baza_danych.write(moc_element + "\n")
     baza_danych.close()
@@ -462,7 +463,7 @@ def zapisz_opis():
     global opis
     opis_trunku = opis.get()
     opis_trunku = str(opis_trunku)
-    baza_danych = open("baza_danych.txt", 'a')
+    baza_danych = open(sciezka, 'a')
     baza_danych.write(opis_trunku + "\n")
     baza_danych.close()
 
@@ -473,12 +474,12 @@ def zapisz_date():
     data_trunku = str(data_trunku)
     if data_trunku == "":
         wpis_bazy_do_tablicy()
-        baza_danych = open("baza_danych.txt", 'a')
+        baza_danych = open(sciezka, 'a')
         baza_danych.write(str(data) + "\n")
         baza_danych.close()
     else:
         wpis_bazy_do_tablicy()
-        baza_danych = open("baza_danych.txt", 'a')
+        baza_danych = open(sciezka, 'a')
         baza_danych.write((data_trunku) + "\n")
         baza_danych.close()
 
@@ -578,7 +579,7 @@ def to_co_ostatnio():
             nowy_trunek(ilosc_element, moc_element)
             opis_trunku = str(tablica_danych[ilosc_element_baza()-4])
             opis_trunku = str(opis_trunku)
-            baza_danych = open("baza_danych.txt", 'a')
+            baza_danych = open(sciezka, 'a')
             baza_danych.write(opis_trunku + "\n")
             baza_danych.close()
             dodaj()
