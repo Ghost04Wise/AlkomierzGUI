@@ -255,13 +255,11 @@ def pewien_usun_baze():
 
 def info():
 
-    kopia_danych()
     powrot()
 
 
 def zamykanie():
 
-    kopia_danych()
     time.sleep(0.2)
     okno.destroy()
     baza_danych.close()
@@ -270,7 +268,6 @@ def zamykanie():
 
 def powrot():
 
-    kopia_danych()
     menu_info()
 
 
