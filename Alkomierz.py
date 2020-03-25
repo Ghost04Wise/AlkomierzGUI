@@ -442,8 +442,9 @@ def zapisz():
     ilosc_element = ilosc.get()
     ilosc_element = int(ilosc_element)
     moc_element = moc.get()
+    moc_element = str(moc_element)
+    moc_element = moc_element.replace(',', '.')
     moc_element = float(moc_element)
-
     if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
                 zapisz_date()
                 ilosc_element = str(ilosc_element)
