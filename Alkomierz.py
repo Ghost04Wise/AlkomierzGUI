@@ -13,8 +13,15 @@ tablica_danych = []
 data = datetime.date.today()
 
 okno = tk.Tk()
-okno.title("Alkomierz 2.2G Alpha")
-okno.geometry('515x350+700+500')
+window_height = 350
+window_width = 515
+screen_width = okno.winfo_screenwidth()
+screen_height = okno.winfo_screenheight()
+x_cordinate = int((screen_width/2) - (window_width/2))
+y_cordinate = int((screen_height/2) - (window_height/2))
+okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+
+okno.title("Alkomierz 2.3G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -34,9 +41,9 @@ def menu_info():
     menu.add_command(label="WYJŚCIE", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
-    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 21 bold')
-    opis3 = tk.Label(okno, text="\n\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.2G Alpha",
+    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
+    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
+                                "           Wersja: 2.3G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -178,7 +185,6 @@ def podglad():
             podglad()
 
     else:
-        usun_baze()
         wyczysc_ramke()
         menu_gorna = tk.Frame(okno)
         menu_gorna.pack()
@@ -195,9 +201,9 @@ def podglad():
                         font='Helvetica 21 bold')
         informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
                               font='Helvetica 10 bold')
-        opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 21 bold')
+        opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
         opis3 = tk.Label(okno,
-                         text="\n\n\nTomasz Kasperek                                                      "
+                         text="\n\nTomasz Kasperek                                                      "
                               "           Wersja: 2.2G Alpha",
                          fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
         opis.pack()
@@ -205,52 +211,6 @@ def podglad():
         informacja.pack()
         informacja2.pack()
         opis3.pack()
-
-
-def pewien_usun_wpis():
-
-    wyczysc_ramke()
-    menu_gorna = tk.Frame(okno)
-    menu_gorna.pack(side=TOP)
-    menu_gorna.configure(background='seagreen')
-    menu = tk.Menu(okno)
-    okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-    menu.add_command(labe="O PROGRAMIE", command=info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
-    puste = tk.Label(menu_gorna, text="\n\n\n\n\n\n", bg="seagreen")
-    puste.pack()
-    info2 = tk.Label(menu_gorna, text="USUNĄĆ OSTATNI WPIS?\n", bg="seagreen", fg="gold",
-                     font='Helvetica 12 bold')
-    info2.pack()
-    tak = tk.Button(menu_gorna, text="    TAK    ", command=usun_ostatni_wpis, bg="red3")
-    tak.pack(side=LEFT)
-    nie = tk.Button(menu_gorna, text="    NIE    ", command=podglad, bg="dimgray")
-    nie.pack(side=RIGHT)
-
-
-def pewien_usun_baze():
-
-    wyczysc_ramke()
-    menu_gorna = tk.Frame(okno)
-    menu_gorna.pack(side=TOP)
-    menu_gorna.configure(background='seagreen')
-    menu = tk.Menu(okno)
-    okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-    menu.add_command(labe="O PROGRAMIE", command=info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
-    puste = tk.Label(menu_gorna, text="\n\n\n\n\n\n", bg="seagreen")
-    puste.pack()
-    info3 = tk.Label(menu_gorna, text="USUNĄĆ BAZĘ DANYCH?\n", bg="seagreen", fg="gold",
-                     font='Helvetica 12 bold')
-    info3.pack()
-    tak = tk.Button(menu_gorna, text="    TAK    ", command=usun_baze, bg="red3")
-    tak.pack(side=LEFT)
-    nie = tk.Button(menu_gorna, text="    NIE    ", command=podglad, bg="dimgray")
-    nie.pack(side=RIGHT)
 
 
 def info():
@@ -261,7 +221,6 @@ def info():
 def zamykanie():
 
     time.sleep(0.2)
-    okno.destroy()
     baza_danych.close()
     sys.exit()
 
@@ -296,6 +255,7 @@ def ilosc_dawek():
 
 def usun_ostatni_wpis():
 
+    okno_kom.destroy()
     if ilosc_element_baza() >= 4:
         wpis_bazy_do_tablicy()
         baza_danych = open(sciezka, 'w')
@@ -313,50 +273,20 @@ def usun_ostatni_wpis():
         tablica_danych.pop(us)
         wpis_tablicy_do_bazy()
         baza_danych.close()
-        wyczysc_ramke()
-        menu_gorna = tk.Frame(okno)
-        menu_gorna.pack(side=TOP)
-        menu_gorna.configure(background='seagreen')
-        menu = tk.Menu(okno)
-        okno.config(menu=menu)
-        menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-        menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-        menu.add_command(labe="O PROGRAMIE", command=info)
-        menu.add_command(label="WYJŚCIE", command=zamykanie)
-        informacja2 = tk.Label(menu_gorna, text="\n\n\nUSUNĄŁEŚ OSTATNIO WPISANY TRUNEK!\n\n", bg='seagreen',
-                               fg='gold', font='Helvetica 14 bold' )
-        informacja2.pack()
-        przycisk_dodaj = tk.Button(menu_gorna, text="ROZUMIEM!", bg="seagreen2", command=powrot)
-        przycisk_dodaj.pack(side=BOTTOM)
-        podglad()
-
     else:
         baza_danych = open(sciezka ,'w')
         baza_danych = open(sciezka ,'a')
         baza_danych.close()
-        podglad()
+    podglad()
 
 
 def usun_baze():
 
-    wyczysc_ramke()
-    menu_gorna = tk.Frame(okno)
-    menu_gorna.pack(side=TOP)
-    menu_gorna.configure(background='seagreen')
-    menu = tk.Menu(okno)
-    okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-    menu.add_command(labe="O PROGRAMIE", command=info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
-    info6 = tk.Label(menu_gorna, text="\n\n\nWYCZYŚCIŁEŚ BAZĘ TRUNKÓW!\n\n", bg='seagreen', fg='gold',
-                    font='Helvetica 14 bold')
-    info6.pack()
-    przycisk_dodaj = tk.Button(menu_gorna, text="ROZUMIEM!", bg="seagreen2", command=powrot)
-    przycisk_dodaj.pack(side=BOTTOM)
+    okno_kom.destroy()
     baza_danych = open(sciezka, 'w')
     baza_danych = open(sciezka, 'a')
     baza_danych.close()
+    podglad()
 
 
 def alkoholomierz():
@@ -585,6 +515,64 @@ def to_co_ostatnio():
             dodaj()
     else:
         dodaj()
+
+
+def pewien_usun_baze():
+
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 100
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Usuwanie bazy")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?\n", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    tak = tk.Button(ramka2, text="    TAK    ", command=usun_baze, bg="red3")
+    tak.pack(side=LEFT)
+    nie = tk.Button(ramka2, text="    NIE    ", command=komunikat_nie, bg="dimgray")
+    nie.pack(side=RIGHT)
+
+
+def komunikat_nie():
+
+    okno_kom.destroy()
+    podglad()
+
+
+def pewien_usun_wpis():
+
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 100
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Usuwanie wpisu")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info2 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?\n", bg="seagreen", fg="gold", font='Helvetica 12 bold')
+    info2.pack()
+    tak = tk.Button(ramka2, text="    TAK    ", command=usun_ostatni_wpis, bg="red3")
+    tak.pack(side=LEFT)
+    nie = tk.Button(ramka2, text="    NIE    ", command=komunikat_nie, bg="dimgray")
+    nie.pack(side=RIGHT)
 
 
 menu_info()
