@@ -99,7 +99,7 @@ def dodaj():
     data2.get()
     przerwa = tk.Label(menu_gorna, text="", bg="darkseagreen")
     przerwa.pack()
-    przycisk_dodaj = tk.Button(menu_gorna, text="          DODAJ TRUNEK!          ", bg="seagreen2", command=zapisz)
+    przycisk_dodaj = tk.Button(menu_gorna, text="          DODAJ TRUNEK!          ", bg="seagreen2", command=spr_zap)
     przycisk_dodaj.pack(side=LEFT)
     przycisk_tosamo = tk.Button(menu_gorna, text="         TO CO OSTATNIO!         ", bg="seagreen2",
                                 command=to_co_ostatnio)
@@ -108,7 +108,7 @@ def dodaj():
 
 def podglad():
 
-    if ilosc_element_baza() >= 4:
+    if ilosc_element_baza() >= 5:
         try:
             wyczysc_ramke()
             menu_gorna = tk.Frame(okno)
@@ -131,11 +131,11 @@ def podglad():
             alkoholomierz()
             if ilosc_element_baza() <= 1:
                 powrot()
-            if ilosc_element_baza() >= 4:
+            if ilosc_element_baza() >= 5:
                 try:
                     pozycja = 0
                     pozycja = int(pozycja)
-                    a, b, c, d = 1, 2, 3, 0
+                    a, b, c, d = 2, 3, 4, 1
                     for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
                         lista_trun.insert(END, str(pozycja + 1) + ".| " + str(tablica_danych[pozycja + d]) +
                                           " WYPIŁEŚ " + str(tablica_danych[pozycja + a]) + "ml " +
@@ -204,7 +204,7 @@ def podglad():
         opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
         opis3 = tk.Label(okno,
                          text="\n\nTomasz Kasperek                                                      "
-                              "           Wersja: 2.2G Alpha",
+                              "           Wersja: 2.3G Alpha",
                          fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
         opis.pack()
         opis2.pack()
@@ -256,7 +256,7 @@ def ilosc_dawek():
 def usun_ostatni_wpis():
 
     okno_kom.destroy()
-    if ilosc_element_baza() >= 4:
+    if ilosc_element_baza() >= 5:
         wpis_bazy_do_tablicy()
         baza_danych = open(sciezka, 'w')
         us = len(tablica_danych) - 1
@@ -295,23 +295,23 @@ def alkoholomierz():
     global czysty_alkohol
     pozycja = 0
     pozycja = int(pozycja)
-    a = 1
-    b = 2
+    a = 2
+    b = 3
     czyste = []
     try:
         while ilosc_element_baza() > pozycja:
             wpis_bazy_do_tablicy()
             czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
             czyste.append(czysta)
-            pozycja = pozycja + 1
-            a = a + 3
-            b = b + 3
+            pozycja += 1
+            a += 3
+            b += 3
     except IndexError:
         None
 
     if len(tablica_danych) != 0:
         czysty_alkohol = int(sum(czyste))
-        dat = str(tablica_danych[0])
+        dat = str(tablica_danych[1])
         return czysty_alkohol
 
 
@@ -348,7 +348,7 @@ def nowy_trunek(ilosc, moc):
 
 def dni_wpisywania():
 
-    data_start = tablica_danych[0]
+    data_start = tablica_danych[1]
 
     rok = data_start[0:4]
     rok = int(rok)
@@ -363,27 +363,6 @@ def dni_wpisywania():
     interwal = today - start
     dni = int(interwal.total_seconds() / 86400)
     return dni
-
-
-def zapisz():
-
-    global ilosc_element
-    global moc_element
-    ilosc_element = ilosc.get()
-    ilosc_element = int(ilosc_element)
-    moc_element = moc.get()
-    moc_element = str(moc_element)
-    moc_element = moc_element.replace(',', '.')
-    moc_element = float(moc_element)
-    if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
-                zapisz_date()
-                ilosc_element = str(ilosc_element)
-                moc_element = str(moc_element)
-                nowy_trunek(ilosc_element, moc_element)
-                zapisz_opis()
-                dodaj()
-    else:
-        dodaj()
 
 
 def zapisz_opis():
@@ -414,7 +393,7 @@ def zapisz_date():
 
 def ilosc_plynu():
 
-    pozycja = 1
+    pozycja = 2
     pozycja = int(pozycja)
     ilosc_pl = []
     try:
@@ -464,7 +443,7 @@ def podglad_ile_dni():
 
 def srednia_posiadowy():
 
-    pozycja = 0
+    pozycja = 1
     dni_picia = []
     try:
         for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
@@ -474,20 +453,6 @@ def srednia_posiadowy():
     except IndexError:
         None
     return int(alkoholomierz() / (len(dni_picia) + 1))
-
-
-def kopia_danych():
-
-    wpis_bazy_do_tablicy()
-    poz = 0
-    poz = int(poz)
-    kopia_danych = open("kopia_danych.txt", 'w')
-    while len(tablica_danych) > poz:
-        kopia_danych = open("kopia_danych.txt", 'a')
-        kopia_danych.write(str(tablica_danych[poz]) + "\n")
-        kopia_danych.close()
-        poz = poz + 1
-        kopia_danych.close()
 
 
 def to_co_ostatnio():
@@ -573,6 +538,85 @@ def pewien_usun_wpis():
     tak.pack(side=LEFT)
     nie = tk.Button(ramka2, text="    NIE    ", command=komunikat_nie, bg="dimgray")
     nie.pack(side=RIGHT)
+
+
+def zapisz():
+
+    global ilosc_element
+    global moc_element
+    ilosc_element = ilosc.get()
+    ilosc_element = int(ilosc_element)
+    moc_element = moc.get()
+    moc_element = str(moc_element)
+    moc_element = moc_element.replace(',', '.')
+    moc_element = float(moc_element)
+    zapisz_date()
+    ilosc_element = str(ilosc_element)
+    moc_element = str(moc_element)
+    nowy_trunek(ilosc_element, moc_element)
+    zapisz_opis()
+    dodaj()
+
+
+def spr_zap():
+
+    global ilosc_element
+    global moc_element
+    ilosc_element = ilosc.get()
+    ilosc_element = int(ilosc_element)
+    moc_element = moc.get()
+    moc_element = str(moc_element)
+    moc_element = moc_element.replace(',', '.')
+    moc_element = float(moc_element)
+    if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+        if ilosc_element_baza() >= 5:
+            zapisz()
+        else:
+            get_klucz()
+
+
+def get_klucz():
+
+    global okno_getkod
+    global klucz
+    okno_getkod = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_getkod.winfo_screenwidth()
+    screen_height = okno_getkod.winfo_screenheight()
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    okno_getkod.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_getkod.title("Nadawanie klucza")
+    okno_getkod.configure(background='seagreen')
+    okno_getkod.resizable(False, False)
+    okno_getkod.wm_iconbitmap('ikona.ico')
+    ramka2 = tk.Frame(okno_getkod)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="\nNadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="red2",
+                     font='Helvetica 12 bold')
+    info3.pack()
+    klucz = Entry(ramka2)
+    klucz.pack()
+    klucz.get()
+    przerwa = tk.Label(ramka2, text="")
+    przerwa.configure(bg="seagreen")
+    przerwa.pack()
+    zapamietaj = tk.Button(ramka2, text="ZAPAMIĘTAJ", command=zapamietaj_klucz)
+    zapamietaj.pack()
+
+
+def zapamietaj_klucz():
+
+    klucz_dostepu = klucz.get()
+    klucz_dostepu = str(klucz_dostepu)
+    baza_danych = open(sciezka, 'a')
+    baza_danych.write(str(klucz_dostepu) + "\n")
+    baza_danych.close()
+    zapisz()
+    okno_getkod.destroy()
+    podglad()
 
 
 menu_info()
