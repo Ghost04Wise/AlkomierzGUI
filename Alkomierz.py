@@ -256,7 +256,7 @@ def ilosc_dawek():
 def usun_ostatni_wpis():
 
     okno_kom.destroy()
-    if ilosc_element_baza() >= 5:
+    if ilosc_element_baza() > 5:
         wpis_bazy_do_tablicy()
         baza_danych = open(sciezka, 'w')
         us = len(tablica_danych) - 1
