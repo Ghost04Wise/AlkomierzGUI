@@ -255,29 +255,35 @@ def ilosc_dawek():
 
 def usun_ostatni_wpis():
 
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
     okno_kom.destroy()
-    if ilosc_element_baza() > 5:
-        wpis_bazy_do_tablicy()
-        baza_danych = open(sciezka, 'w')
-        us = len(tablica_danych) - 1
-        us = int(us)
-        tablica_danych.pop(us)
-        us = len(tablica_danych) - 1
-        us = int(us)
-        tablica_danych.pop(us)
-        us = len(tablica_danych) - 1
-        us = int(us)
-        tablica_danych.pop(us)
-        us = len(tablica_danych) - 1
-        us = int(us)
-        tablica_danych.pop(us)
-        wpis_tablicy_do_bazy()
-        baza_danych.close()
+    if uwierzytelnienie() == 1:
+        if ilosc_element_baza() > 5:
+            wpis_bazy_do_tablicy()
+            baza_danych = open(sciezka, 'w')
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            wpis_tablicy_do_bazy()
+            baza_danych.close()
+        else:
+            baza_danych = open(sciezka ,'w')
+            baza_danych = open(sciezka ,'a')
+            baza_danych.close()
+        podglad()
     else:
-        baza_danych = open(sciezka ,'w')
-        baza_danych = open(sciezka ,'a')
-        baza_danych.close()
-    podglad()
+        podglad()
 
 
 def usun_baze():
@@ -413,13 +419,13 @@ def ilosc_plynu():
 def porownanie_do_polakow():
 
     if dni_wpisywania() == 0:
-        if alkoholomierz() / 1 > 30:
+        if alkoholomierz() / 1 >= 30:
             return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
         if alkoholomierz() / 1 < 30:
             return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
 
     else:
-        if alkoholomierz() / dni_wpisywania() > 30:
+        if alkoholomierz() / dni_wpisywania() >= 30:
             return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
         if alkoholomierz() / dni_wpisywania() < 30:
             return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
@@ -483,10 +489,10 @@ def to_co_ostatnio():
 
 
 def pewien_usun_baze():
-
+    global klucz_autoryzacyjny
     global okno_kom
     okno_kom = tk.Toplevel()
-    window_height = 100
+    window_height = 120
     window_width = 280
     screen_width = okno_kom.winfo_screenwidth()
     screen_height = okno_kom.winfo_screenheight()
@@ -500,11 +506,23 @@ def pewien_usun_baze():
     ramka2 = tk.Frame(okno_kom)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?\n", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?", bg="seagreen", fg="red4", font='Helvetica 12 bold')
     info3.pack()
-    tak = tk.Button(ramka2, text="    TAK    ", command=usun_baze, bg="red3")
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2)
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    TAK    ", command=usun_baze, bg="red3")
     tak.pack(side=LEFT)
-    nie = tk.Button(ramka2, text="    NIE    ", command=komunikat_nie, bg="dimgray")
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
     nie.pack(side=RIGHT)
 
 
@@ -516,9 +534,10 @@ def komunikat_nie():
 
 def pewien_usun_wpis():
 
+    global klucz_autoryzacyjny
     global okno_kom
     okno_kom = tk.Toplevel()
-    window_height = 100
+    window_height = 120
     window_width = 280
     screen_width = okno_kom.winfo_screenwidth()
     screen_height = okno_kom.winfo_screenheight()
@@ -532,11 +551,23 @@ def pewien_usun_wpis():
     ramka2 = tk.Frame(okno_kom)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info2 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?\n", bg="seagreen", fg="gold", font='Helvetica 12 bold')
-    info2.pack()
-    tak = tk.Button(ramka2, text="    TAK    ", command=usun_ostatni_wpis, bg="red3")
+    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2)
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    TAK    ", command=usun_ostatni_wpis, bg="red3")
     tak.pack(side=LEFT)
-    nie = tk.Button(ramka2, text="    NIE    ", command=komunikat_nie, bg="dimgray")
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
     nie.pack(side=RIGHT)
 
 
@@ -617,6 +648,15 @@ def zapamietaj_klucz():
     zapisz()
     okno_getkod.destroy()
     podglad()
+
+
+def uwierzytelnienie():
+
+    wpis_bazy_do_tablicy()
+    if str(tablica_danych[0]) == str(kl_aut):
+        return 1
+    else:
+        return 2
 
 
 menu_info()
