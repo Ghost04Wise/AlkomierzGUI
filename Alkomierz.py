@@ -21,7 +21,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.3G Alpha")
+okno.title("Alkomierz 2.4G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -43,7 +43,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.3G Alpha",
+                                "           Wersja: 2.4G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -204,7 +204,7 @@ def podglad():
         opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
         opis3 = tk.Label(okno,
                          text="\n\nTomasz Kasperek                                                      "
-                              "           Wersja: 2.3G Alpha",
+                              "           Wersja: 2.4G Alpha",
                          fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
         opis.pack()
         opis2.pack()
@@ -287,12 +287,17 @@ def usun_ostatni_wpis():
 
 
 def usun_baze():
-
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
     okno_kom.destroy()
-    baza_danych = open(sciezka, 'w')
-    baza_danych = open(sciezka, 'a')
-    baza_danych.close()
-    podglad()
+    if uwierzytelnienie() == 1:
+        baza_danych = open(sciezka, 'w')
+        baza_danych = open(sciezka, 'a')
+        baza_danych.close()
+        podglad()
+    else:
+        podglad()
 
 
 def alkoholomierz():
@@ -599,7 +604,7 @@ def spr_zap():
     moc_element = str(moc_element)
     moc_element = moc_element.replace(',', '.')
     moc_element = float(moc_element)
-    if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+    if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
         if ilosc_element_baza() >= 5:
             zapisz()
         else:
@@ -625,7 +630,7 @@ def get_klucz():
     ramka2 = tk.Frame(okno_getkod)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info3 = tk.Label(ramka2, text="\nNadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="red2",
+    info3 = tk.Label(ramka2, text="\nNadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="gold",
                      font='Helvetica 12 bold')
     info3.pack()
     klucz = Entry(ramka2)
@@ -634,7 +639,7 @@ def get_klucz():
     przerwa = tk.Label(ramka2, text="")
     przerwa.configure(bg="seagreen")
     przerwa.pack()
-    zapamietaj = tk.Button(ramka2, text="ZAPAMIĘTAJ", command=zapamietaj_klucz)
+    zapamietaj = tk.Button(ramka2, text="ZAPAMIĘTAJ", command=zapamietaj_klucz, bg='seagreen2')
     zapamietaj.pack()
 
 
