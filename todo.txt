@@ -1,3 +1,4 @@
 blokada wpisania blednej daty do bazy
-autoryzacja przy usuwaniu wpisu lub bazy
 blokada okna matki podczas komunikatu
+dodanie jezyka angielskiego
+gwiazdki przy wpisywaniu klucza

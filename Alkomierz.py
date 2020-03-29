@@ -494,6 +494,7 @@ def to_co_ostatnio():
 
 
 def pewien_usun_baze():
+
     global klucz_autoryzacyjny
     global okno_kom
     okno_kom = tk.Toplevel()
@@ -635,6 +636,7 @@ def get_klucz():
     info3.pack()
     klucz = Entry(ramka2)
     klucz.pack()
+    klucz.focus_set()
     klucz.get()
     przerwa = tk.Label(ramka2, text="")
     przerwa.configure(bg="seagreen")
@@ -648,7 +650,7 @@ def zapamietaj_klucz():
     klucz_dostepu = klucz.get()
     klucz_dostepu = str(klucz_dostepu)
     baza_danych = open(sciezka, 'a')
-    baza_danych.write(str(klucz_dostepu) + "\n")
+    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
     baza_danych.close()
     zapisz()
     okno_getkod.destroy()
@@ -658,10 +660,24 @@ def zapamietaj_klucz():
 def uwierzytelnienie():
 
     wpis_bazy_do_tablicy()
-    if str(tablica_danych[0]) == str(kl_aut):
+    if str(odkoduj(tablica_danych[0])) == str(kl_aut):
         return 1
     else:
         return 2
+
+
+def zakoduj(klucz):
+    kod=''
+    for znak in klucz:
+        kod=kod+chr(ord(znak)+5)
+    return kod
+
+
+def odkoduj(klucz):
+    kod=''
+    for znak in klucz:
+        kod=kod+chr(ord(znak)-5)
+    return kod
 
 
 menu_info()
