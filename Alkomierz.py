@@ -5,7 +5,7 @@ from tkinter import *
 from pathlib import Path
 import re
 
-sciezka = str(Path.home() / 'baza_wypitych_trunkow.txt')
+sciezka = str('baza_wypitych_trunkow.txt')
 
 baza_danych = open(sciezka, 'a')
 baza_danych.close()
