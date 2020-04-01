@@ -1,4 +1,5 @@
-blokada wpisania blednej daty do bazy
 blokada okna matki podczas komunikatu
-dodanie jezyka angielskiego
+okno córka pojawia sie zawsze na srodku okna matka
 gwiazdki przy wpisywaniu klucza
+dodanie przykladowych trunków bez koniecznosci wpisywania recznie
+dodanie jezyka angielskiego

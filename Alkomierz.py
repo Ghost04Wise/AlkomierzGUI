@@ -3,6 +3,7 @@ import datetime
 import tkinter as tk
 from tkinter import *
 from pathlib import Path
+import re
 
 sciezka = str(Path.home() / 'baza_wypitych_trunkow.txt')
 
@@ -21,7 +22,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.4G Alpha")
+okno.title("Alkomierz 2.5G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -43,7 +44,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.4G Alpha",
+                                "           Wersja: 2.5G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -137,7 +138,7 @@ def podglad():
                     pozycja = int(pozycja)
                     a, b, c, d = 2, 3, 4, 1
                     for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
-                        lista_trun.insert(END, str(pozycja + 1) + ".| " + str(tablica_danych[pozycja + d]) +
+                        lista_trun.insert(END, str(pozycja + 1) + ".|    " + str(tablica_danych[pozycja + d]) +
                                           " WYPIŁEŚ " + str(tablica_danych[pozycja + a]) + "ml " +
                                           str(tablica_danych[pozycja + b]) + "% TRUNKU: " +
                                           str(tablica_danych[pozycja + c]))
@@ -204,7 +205,7 @@ def podglad():
         opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
         opis3 = tk.Label(okno,
                          text="\n\nTomasz Kasperek                                                      "
-                              "           Wersja: 2.4G Alpha",
+                              "           Wersja: 2.5G Alpha",
                          fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
         opis.pack()
         opis2.pack()
@@ -287,6 +288,7 @@ def usun_ostatni_wpis():
 
 
 def usun_baze():
+
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
     kl_aut = str(kl_aut)
@@ -423,17 +425,15 @@ def ilosc_plynu():
 
 def porownanie_do_polakow():
 
+    dzielnik = dni_wpisywania()
     if dni_wpisywania() == 0:
-        if alkoholomierz() / 1 >= 30:
-            return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
-        if alkoholomierz() / 1 < 30:
-            return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
-
-    else:
-        if alkoholomierz() / dni_wpisywania() >= 30:
-            return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
-        if alkoholomierz() / dni_wpisywania() < 30:
-            return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+        dzielnik = 1
+    if alkoholomierz() / dzielnik > 30:
+        return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+    if alkoholomierz() / dzielnik < 30:
+        return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+    if alkoholomierz() / dzielnik == 30:
+        return "PIJESZ TYLE CO PRZECIĘTNY POLAK(30g/dzień)!"
 
 
 def porownanie_do_polakow_wartosc():
@@ -502,8 +502,8 @@ def pewien_usun_baze():
     window_width = 280
     screen_width = okno_kom.winfo_screenwidth()
     screen_height = okno_kom.winfo_screenheight()
-    x_cordinate = int((screen_width / 2) - (window_width / 2))
-    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
     okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
     okno_kom.title("Usuwanie bazy")
     okno_kom.configure(background='seagreen')
@@ -519,6 +519,7 @@ def pewien_usun_baze():
     klucz_autoryzacyjny = Entry(ramka2)
     klucz_autoryzacyjny.pack(side=RIGHT)
     klucz_autoryzacyjny.get()
+    klucz_autoryzacyjny.focus_set()
     przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
     przerwa.pack()
     ramka3 = tk.Frame(okno_kom)
@@ -547,8 +548,8 @@ def pewien_usun_wpis():
     window_width = 280
     screen_width = okno_kom.winfo_screenwidth()
     screen_height = okno_kom.winfo_screenheight()
-    x_cordinate = int((screen_width / 2) - (window_width / 2))
-    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
     okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
     okno_kom.title("Usuwanie wpisu")
     okno_kom.configure(background='seagreen')
@@ -564,6 +565,7 @@ def pewien_usun_wpis():
     klucz_autoryzacyjny = Entry(ramka2)
     klucz_autoryzacyjny.pack(side=RIGHT)
     klucz_autoryzacyjny.get()
+    klucz_autoryzacyjny.focus_set()
     przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
     przerwa.pack()
     ramka3 = tk.Frame(okno_kom)
@@ -605,11 +607,42 @@ def spr_zap():
     moc_element = str(moc_element)
     moc_element = moc_element.replace(',', '.')
     moc_element = float(moc_element)
-    if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
-        if ilosc_element_baza() >= 5:
-            zapisz()
+
+    data_trunku = data2.get()
+    if data_trunku == "":
+        if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+            if ilosc_element_baza() >= 5:
+                zapisz()
+            else:
+                get_klucz()
+    else:
+        data_trunku = str(data_trunku)
+        rok = data_trunku[0:4]
+        rok = int(rok)
+        miesiac = data_trunku[5:7]
+        miesiac = int(miesiac)
+        dzien = data_trunku[8:10]
+        dzien = int(dzien)
+        tab_data = [rok, miesiac, dzien]
+        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+        today = datetime.date.today()
+        interwal = today - data_wpis
+        dni = int(interwal.total_seconds() / 86400)
+        if 0 <= dni < 15:
+            spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+            if spr_wzor:
+                if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+                    if ilosc_element_baza() >= 5:
+                        zapisz()
+                    else:
+                        get_klucz()
+            else:
+                None
         else:
-            get_klucz()
+            None
+
+
+# Sekcja uwierzytelniania użytkownika:
 
 
 def get_klucz():
@@ -621,8 +654,8 @@ def get_klucz():
     window_width = 280
     screen_width = okno_getkod.winfo_screenwidth()
     screen_height = okno_getkod.winfo_screenheight()
-    x_cordinate = int((screen_width / 2) - (window_width / 2))
-    y_cordinate = int((screen_height / 2) - (window_height / 2))
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
     okno_getkod.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
     okno_getkod.title("Nadawanie klucza")
     okno_getkod.configure(background='seagreen')
@@ -667,6 +700,7 @@ def uwierzytelnienie():
 
 
 def zakoduj(klucz):
+
     kod=''
     for znak in klucz:
         kod=kod+chr(ord(znak)+5)
@@ -674,10 +708,14 @@ def zakoduj(klucz):
 
 
 def odkoduj(klucz):
+
     kod=''
     for znak in klucz:
         kod=kod+chr(ord(znak)-5)
     return kod
+
+
+# Sekcja główna wywołania programu:
 
 
 menu_info()
