@@ -1,5 +1,4 @@
 blokada okna matki podczas komunikatu
-okno córka pojawia sie zawsze na srodku okna matka
 gwiazdki przy wpisywaniu klucza
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego
