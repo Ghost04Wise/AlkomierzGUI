@@ -284,7 +284,7 @@ def usun_ostatni_wpis():
             baza_danych.close()
         podglad()
     else:
-        podglad()
+        pewien_usun_wpis()
 
 
 def usun_baze():
@@ -299,7 +299,7 @@ def usun_baze():
         baza_danych.close()
         podglad()
     else:
-        podglad()
+        pewien_usun_baze()
 
 
 def alkoholomierz():
@@ -517,7 +517,7 @@ def pewien_usun_baze():
     info3.pack()
     autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
     autoryzacja.pack(side=LEFT)
-    klucz_autoryzacyjny = Entry(ramka2)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
     klucz_autoryzacyjny.pack(side=RIGHT)
     klucz_autoryzacyjny.get()
     klucz_autoryzacyjny.focus_set()
@@ -564,7 +564,7 @@ def pewien_usun_wpis():
     info3.pack()
     autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
     autoryzacja.pack(side=LEFT)
-    klucz_autoryzacyjny = Entry(ramka2)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
     klucz_autoryzacyjny.pack(side=RIGHT)
     klucz_autoryzacyjny.get()
     klucz_autoryzacyjny.focus_set()

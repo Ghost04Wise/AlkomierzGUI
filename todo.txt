@@ -1,4 +1,3 @@
-blokada okna matki podczas komunikatu
-gwiazdki przy wpisywaniu klucza
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego
+
