@@ -28,6 +28,9 @@ okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
 
 
+# Sekcja rysowanie ekranów w programie:
+
+
 def menu_info():
 
     wyczysc_ramke()
@@ -36,9 +39,9 @@ def menu_info():
     menu_gorna.configure(background='gray')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-    menu.add_command(labe="O PROGRAMIE", command=info)
+    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+    menu.add_command(labe="O PROGRAMIE", command=menu_info)
     menu.add_command(label="WYJŚCIE", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
@@ -51,7 +54,7 @@ def menu_info():
     opis3.pack()
 
 
-def dodaj():
+def menu_dodaj():
 
     global ilosc
     global moc
@@ -63,9 +66,9 @@ def dodaj():
     menu_gorna.configure(background='darkseagreen')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-    menu.add_command(labe="O PROGRAMIE", command=info)
+    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+    menu.add_command(labe="O PROGRAMIE", command=menu_info)
     menu.add_command(label="WYJŚCIE", command=zamykanie)
     kolejnosc = tk.Label(menu_gorna, text="WPISUJESZ " + str(ilosc_dawek()) + ". TRUNEK!",
                          bg="darkseagreen", fg="brown4",
@@ -107,7 +110,7 @@ def dodaj():
     przycisk_tosamo.pack(side=RIGHT)
 
 
-def podglad():
+def menu_podglad():
 
     if ilosc_element_baza() >= 5:
         try:
@@ -117,9 +120,9 @@ def podglad():
             menu_gorna.configure(background='seagreen')
             menu = tk.Menu(okno)
             okno.config(menu=menu)
-            menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-            menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-            menu.add_command(labe="O PROGRAMIE", command=info)
+            menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+            menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+            menu.add_command(labe="O PROGRAMIE", command=menu_info)
             menu.add_command(label="WYJŚCIE", command=zamykanie)
             scrollbar = Scrollbar(okno)
             lista_trun = Listbox(menu_gorna, yscrollcommand=scrollbar.set, bg="darkgreen", fg="gold",
@@ -131,7 +134,7 @@ def podglad():
 
             alkoholomierz()
             if ilosc_element_baza() <= 1:
-                powrot()
+                menu_info()
             if ilosc_element_baza() >= 5:
                 try:
                     pozycja = 0
@@ -183,40 +186,43 @@ def podglad():
                 wyliczenia3.pack()
         except ValueError:
             usun_ostatni_wpis()
-            podglad()
+            menu_podglad()
 
     else:
-        wyczysc_ramke()
-        menu_gorna = tk.Frame(okno)
-        menu_gorna.pack()
-        menu_gorna.configure(background='gray')
-        menu = tk.Menu(okno)
-        okno.config(menu=menu)
-        menu.add_command(labe="DODAJ TRUNEK", command=dodaj)
-        menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=podglad)
-        menu.add_command(labe="O PROGRAMIE", command=info)
-        menu.add_command(label="WYJŚCIE", command=zamykanie)
-        opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
-                        font='Helvetica 12 bold')
-        informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
-                        font='Helvetica 21 bold')
-        informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
-                              font='Helvetica 10 bold')
-        opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
-        opis3 = tk.Label(okno,
-                         text="\n\nTomasz Kasperek                                                      "
-                              "           Wersja: 2.5G Alpha",
-                         fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
-        opis.pack()
-        opis2.pack()
-        informacja.pack()
-        informacja2.pack()
-        opis3.pack()
+        menu_podglad_pusta()
 
 
-def info():
+def menu_podglad_pusta():
 
-    powrot()
+    wyczysc_ramke()
+    menu_gorna = tk.Frame(okno)
+    menu_gorna.pack()
+    menu_gorna.configure(background='gray')
+    menu = tk.Menu(okno)
+    okno.config(menu=menu)
+    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+    menu.add_command(labe="O PROGRAMIE", command=menu_info)
+    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
+                    font='Helvetica 12 bold')
+    informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
+                          font='Helvetica 21 bold')
+    informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
+                           font='Helvetica 10 bold')
+    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
+    opis3 = tk.Label(okno,
+                     text="\n\nTomasz Kasperek                                                      "
+                          "           Wersja: 2.5G Alpha",
+                     fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
+    opis.pack()
+    opis2.pack()
+    informacja.pack()
+    informacja2.pack()
+    opis3.pack()
+
+
+# Sekcja funkcji:
 
 
 def zamykanie():
@@ -224,11 +230,6 @@ def zamykanie():
     time.sleep(0.2)
     baza_danych.close()
     sys.exit()
-
-
-def powrot():
-
-    menu_info()
 
 
 def wyczysc_ramke():
@@ -282,7 +283,7 @@ def usun_ostatni_wpis():
             baza_danych = open(sciezka ,'w')
             baza_danych = open(sciezka ,'a')
             baza_danych.close()
-        podglad()
+        menu_podglad_pusta()
     else:
         pewien_usun_wpis()
 
@@ -297,7 +298,7 @@ def usun_baze():
         baza_danych = open(sciezka, 'w')
         baza_danych = open(sciezka, 'a')
         baza_danych.close()
-        podglad()
+        menu_podglad_pusta()
     else:
         pewien_usun_baze()
 
@@ -486,11 +487,11 @@ def to_co_ostatnio():
             baza_danych = open(sciezka, 'a')
             baza_danych.write(opis_trunku + "\n")
             baza_danych.close()
-            dodaj()
+            menu_podglad()
         else:
-            dodaj()
+            menu_podglad()
     else:
-        dodaj()
+        menu_podglad()
 
 
 def pewien_usun_baze():
@@ -537,7 +538,7 @@ def pewien_usun_baze():
 def komunikat_nie():
 
     okno_kom.destroy()
-    podglad()
+    menu_podglad()
 
 
 def pewien_usun_wpis():
@@ -596,7 +597,7 @@ def zapisz():
     moc_element = str(moc_element)
     nowy_trunek(ilosc_element, moc_element)
     zapisz_opis()
-    dodaj()
+    menu_podglad()
 
 
 def spr_zap():
@@ -690,7 +691,7 @@ def zapamietaj_klucz():
     baza_danych.close()
     zapisz()
     okno_getkod.destroy()
-    podglad()
+    menu_podglad()
 
 
 def uwierzytelnienie():
