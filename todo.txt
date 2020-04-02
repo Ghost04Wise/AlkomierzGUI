@@ -1,3 +1,4 @@
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego
+wykres picia
 

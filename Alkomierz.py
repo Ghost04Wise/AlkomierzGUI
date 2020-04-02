@@ -283,7 +283,7 @@ def usun_ostatni_wpis():
             baza_danych = open(sciezka ,'w')
             baza_danych = open(sciezka ,'a')
             baza_danych.close()
-        menu_podglad_pusta()
+        menu_podglad()
     else:
         pewien_usun_wpis()
 
@@ -491,7 +491,7 @@ def to_co_ostatnio():
         else:
             menu_podglad()
     else:
-        menu_podglad()
+        None
 
 
 def pewien_usun_baze():
