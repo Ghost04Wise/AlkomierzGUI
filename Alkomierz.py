@@ -28,30 +28,7 @@ okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
 
 
-# Sekcja rysowanie ekranów w programie:
-
-
-def menu_info():
-
-    wyczysc_ramke()
-    menu_gorna = tk.Frame(okno)
-    menu_gorna.pack()
-    menu_gorna.configure(background='gray')
-    menu = tk.Menu(okno)
-    okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-    menu.add_command(labe="O PROGRAMIE", command=menu_info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
-    opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
-                    font='Helvetica 12 bold')
-    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
-    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.5G Alpha",
-                     fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
-    opis.pack()
-    opis2.pack()
-    opis3.pack()
+                        # Sekcja opcji z menubar w programie:
 
 
 def menu_dodaj():
@@ -222,7 +199,63 @@ def menu_podglad_pusta():
     opis3.pack()
 
 
-# Sekcja funkcji:
+def menu_info():
+
+    wyczysc_ramke()
+    menu_gorna = tk.Frame(okno)
+    menu_gorna.pack()
+    menu_gorna.configure(background='gray')
+    menu = tk.Menu(okno)
+    okno.config(menu=menu)
+    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+    menu.add_command(labe="O PROGRAMIE", command=menu_info)
+    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
+                    font='Helvetica 12 bold')
+    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
+    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
+                                "           Wersja: 2.5G Alpha",
+                     fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
+    opis.pack()
+    opis2.pack()
+    opis3.pack()
+
+
+
+
+
+
+
+
+
+
+    wyczysc_ramke()
+    menu_gorna = tk.Frame(okno)
+    menu_gorna.pack()
+    menu_gorna.configure(background='gray')
+    menu = tk.Menu(okno)
+    okno.config(menu=menu)
+    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
+    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
+    menu.add_command(labe="O PROGRAMIE", command=menu_info)
+    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
+                    font='Helvetica 12 bold')
+    informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
+                          font='Helvetica 21 bold')
+    informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
+                           font='Helvetica 10 bold')
+    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
+    opis3 = tk.Label(okno,
+                     text="\n\nTomasz Kasperek                                                      "
+                          "           Wersja: 2.5G Alpha",
+                     fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
+    opis.pack()
+    opis2.pack()
+    informacja.pack()
+    informacja2.pack()
+    opis3.pack()
 
 
 def zamykanie():
@@ -232,113 +265,22 @@ def zamykanie():
     sys.exit()
 
 
+                                # Sekcja operacji GUI:
+
+
 def wyczysc_ramke():
 
     for obiekty in okno.winfo_children():
         obiekty.destroy()
 
 
-def ilosc_element_baza():
+def komunikat_nie():
 
-    wpis_bazy_do_tablicy()
-    sztuki = len(tablica_danych)
-    return int(sztuki)
-
-
-def ilosc_dawek():
-
-    wpis_bazy_do_tablicy()
-    enty = (len(tablica_danych)) / 4
-    enty = int(enty) + 1
-    if enty == 0:
-        enty = 1
-    return enty
-
-
-def usun_ostatni_wpis():
-
-    global kl_aut
-    kl_aut = klucz_autoryzacyjny.get()
-    kl_aut = str(kl_aut)
     okno_kom.destroy()
-    if uwierzytelnienie() == 1:
-        if ilosc_element_baza() > 5:
-            wpis_bazy_do_tablicy()
-            baza_danych = open(sciezka, 'w')
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            wpis_tablicy_do_bazy()
-            baza_danych.close()
-        else:
-            baza_danych = open(sciezka ,'w')
-            baza_danych = open(sciezka ,'a')
-            baza_danych.close()
-        menu_podglad()
-    else:
-        pewien_usun_wpis()
+    menu_podglad()
 
 
-def usun_baze():
-
-    global kl_aut
-    kl_aut = klucz_autoryzacyjny.get()
-    kl_aut = str(kl_aut)
-    okno_kom.destroy()
-    if uwierzytelnienie() == 1:
-        baza_danych = open(sciezka, 'w')
-        baza_danych = open(sciezka, 'a')
-        baza_danych.close()
-        menu_podglad_pusta()
-    else:
-        pewien_usun_baze()
-
-
-def alkoholomierz():
-
-    global dat
-    global czysty_alkohol
-    pozycja = 0
-    pozycja = int(pozycja)
-    a = 2
-    b = 3
-    czyste = []
-    try:
-        while ilosc_element_baza() > pozycja:
-            wpis_bazy_do_tablicy()
-            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
-            czyste.append(czysta)
-            pozycja += 1
-            a += 3
-            b += 3
-    except IndexError:
-        None
-
-    if len(tablica_danych) != 0:
-        czysty_alkohol = int(sum(czyste))
-        dat = str(tablica_danych[1])
-        return czysty_alkohol
-
-
-def wpis_tablicy_do_bazy():
-
-    poz = 0
-    poz = int(poz)
-    while len(tablica_danych) > poz:
-        baza_danych = open(sciezka, 'a')
-        baza_danych.write(str(tablica_danych[poz]) + "\n")
-        baza_danych.close()
-        poz = poz + 1
-        baza_danych.close()
+                            # Sekcja  obsługi bazy danych:
 
 
 def wpis_bazy_do_tablicy():
@@ -352,193 +294,16 @@ def wpis_bazy_do_tablicy():
     baza_danych.close()
 
 
-def nowy_trunek(ilosc, moc):
+def wpis_tablicy_do_bazy():
 
-    baza_danych = open(sciezka, 'a')
-    baza_danych.write(ilosc_element + "\n")
-    baza_danych.write(moc_element + "\n")
-    baza_danych.close()
-
-
-def dni_wpisywania():
-
-    data_start = tablica_danych[1]
-
-    rok = data_start[0:4]
-    rok = int(rok)
-    miesiac = data_start[5:7]
-    miesiac = int(miesiac)
-    dzien = data_start[8:10]
-    dzien = int(dzien)
-    tab_data = [rok, miesiac, dzien]
-
-    start = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-    today = datetime.date.today()
-    interwal = today - start
-    dni = int(interwal.total_seconds() / 86400)
-    return dni
-
-
-def zapisz_opis():
-
-    global opis
-    opis_trunku = opis.get()
-    opis_trunku = str(opis_trunku)
-    baza_danych = open(sciezka, 'a')
-    baza_danych.write(opis_trunku + "\n")
-    baza_danych.close()
-
-
-def zapisz_date():
-
-    data_trunku = data2.get()
-    data_trunku = str(data_trunku)
-    if data_trunku == "":
-        wpis_bazy_do_tablicy()
+    poz = 0
+    poz = int(poz)
+    while len(tablica_danych) > poz:
         baza_danych = open(sciezka, 'a')
-        baza_danych.write(str(data) + "\n")
+        baza_danych.write(str(tablica_danych[poz]) + "\n")
         baza_danych.close()
-    else:
-        wpis_bazy_do_tablicy()
-        baza_danych = open(sciezka, 'a')
-        baza_danych.write((data_trunku) + "\n")
+        poz = poz + 1
         baza_danych.close()
-
-
-def ilosc_plynu():
-
-    pozycja = 2
-    pozycja = int(pozycja)
-    ilosc_pl = []
-    try:
-        while ilosc_element_baza() > pozycja:
-            wpis_bazy_do_tablicy()
-            ilosc_plynu = int(int(tablica_danych[pozycja]))
-            ilosc_pl.append(ilosc_plynu)
-            pozycja += 4
-            ilosc_suma = sum(ilosc_pl)
-            ilosc_suma = ilosc_suma/1000
-            ilosc_suma = float(ilosc_suma)
-    except IndexError:
-        None
-    return ilosc_suma
-
-
-def porownanie_do_polakow():
-
-    dzielnik = dni_wpisywania()
-    if dni_wpisywania() == 0:
-        dzielnik = 1
-    if alkoholomierz() / dzielnik > 30:
-        return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
-    if alkoholomierz() / dzielnik < 30:
-        return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
-    if alkoholomierz() / dzielnik == 30:
-        return "PIJESZ TYLE CO PRZECIĘTNY POLAK(30g/dzień)!"
-
-
-def porownanie_do_polakow_wartosc():
-
-    if dni_wpisywania() == 0:
-        return int(alkoholomierz() / 1)
-    else:
-        return int(alkoholomierz() / dni_wpisywania())
-
-
-def podglad_ile_dni():
-
-    if dni_wpisywania() == 0:
-        return "DZIŚ"
-    else:
-        return str(dni_wpisywania()) + " DNI TEMU"
-
-
-def srednia_posiadowy():
-
-    pozycja = 1
-    dni_picia = []
-    try:
-        for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
-            if str(tablica_danych[pozycja]) != str(tablica_danych[pozycja + 4]):
-                dni_picia.append(tablica_danych[pozycja])
-            pozycja += 4
-    except IndexError:
-        None
-    return int(alkoholomierz() / (len(dni_picia) + 1))
-
-
-def to_co_ostatnio():
-
-    if ilosc_element_baza() >= 4:
-        zapisz_date()
-        wpis_bazy_do_tablicy()
-        global ilosc_element
-        global moc_element
-        ilosc_element = tablica_danych[ilosc_element_baza()-4]
-        ilosc_element = int(ilosc_element)
-        moc_element = tablica_danych[ilosc_element_baza()-3]
-        moc_element = float(moc_element)
-        if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
-            ilosc_element = str(ilosc_element)
-            moc_element = str(moc_element)
-            nowy_trunek(ilosc_element, moc_element)
-            opis_trunku = str(tablica_danych[ilosc_element_baza()-4])
-            opis_trunku = str(opis_trunku)
-            baza_danych = open(sciezka, 'a')
-            baza_danych.write(opis_trunku + "\n")
-            baza_danych.close()
-            menu_podglad()
-        else:
-            menu_podglad()
-    else:
-        None
-
-
-def pewien_usun_baze():
-
-    global klucz_autoryzacyjny
-    global okno_kom
-    okno_kom = tk.Toplevel()
-    window_height = 120
-    window_width = 280
-    screen_width = okno_kom.winfo_screenwidth()
-    screen_height = okno_kom.winfo_screenheight()
-    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
-    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
-    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-    okno_kom.title("Usuwanie bazy")
-    okno_kom.configure(background='seagreen')
-    okno_kom.resizable(False, False)
-    okno_kom.wm_iconbitmap('ikona.ico')
-    okno_kom.grab_set()
-    ramka2 = tk.Frame(okno_kom)
-    ramka2.configure(bg='seagreen')
-    ramka2.pack()
-    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?", bg="seagreen", fg="red4", font='Helvetica 12 bold')
-    info3.pack()
-    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
-    autoryzacja.pack(side=LEFT)
-    klucz_autoryzacyjny = Entry(ramka2, show="*")
-    klucz_autoryzacyjny.pack(side=RIGHT)
-    klucz_autoryzacyjny.get()
-    klucz_autoryzacyjny.focus_set()
-    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
-    przerwa.pack()
-    ramka3 = tk.Frame(okno_kom)
-    ramka3.configure(bg='seagreen')
-    ramka3.pack()
-    tak = tk.Button(ramka3, text="    TAK    ", command=usun_baze, bg="red3")
-    tak.pack(side=LEFT)
-    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
-    przerwa2.pack(side=LEFT)
-    nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
-    nie.pack(side=RIGHT)
-
-
-def komunikat_nie():
-
-    okno_kom.destroy()
-    menu_podglad()
 
 
 def pewien_usun_wpis():
@@ -582,23 +347,223 @@ def pewien_usun_wpis():
     nie.pack(side=RIGHT)
 
 
-def zapisz():
+def usun_ostatni_wpis():
 
-    global ilosc_element
-    global moc_element
-    ilosc_element = ilosc.get()
-    ilosc_element = int(ilosc_element)
-    moc_element = moc.get()
-    moc_element = str(moc_element)
-    moc_element = moc_element.replace(',', '.')
-    moc_element = float(moc_element)
-    zapisz_date()
-    ilosc_element = str(ilosc_element)
-    moc_element = str(moc_element)
-    nowy_trunek(ilosc_element, moc_element)
-    zapisz_opis()
-    menu_podglad()
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
+    okno_kom.destroy()
+    if uwierzytelnienie() == 1:
+        if ilosc_element_baza() > 5:
+            wpis_bazy_do_tablicy()
+            baza_danych = open(sciezka, 'w')
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            wpis_tablicy_do_bazy()
+            baza_danych.close()
+        else:
+            baza_danych = open(sciezka ,'w')
+            baza_danych = open(sciezka ,'a')
+            baza_danych.close()
+        menu_podglad()
+    else:
+        pewien_usun_wpis()
 
+
+def pewien_usun_baze():
+
+    global klucz_autoryzacyjny
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Usuwanie bazy")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    okno_kom.grab_set()
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    klucz_autoryzacyjny.focus_set()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    TAK    ", command=usun_baze, bg="red3")
+    tak.pack(side=LEFT)
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
+    nie.pack(side=RIGHT)
+
+
+def usun_baze():
+
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
+    okno_kom.destroy()
+    if uwierzytelnienie() == 1:
+        baza_danych = open(sciezka, 'w')
+        baza_danych = open(sciezka, 'a')
+        baza_danych.close()
+        menu_podglad_pusta()
+    else:
+        pewien_usun_baze()
+
+
+def ilosc_element_baza():
+
+    wpis_bazy_do_tablicy()
+    sztuki = len(tablica_danych)
+    return int(sztuki)
+
+
+                     # Sekcja operacji na informacjach z bazy:
+
+
+def alkoholomierz():
+
+    global dat
+    global czysty_alkohol
+    pozycja = 0
+    pozycja = int(pozycja)
+    a = 2
+    b = 3
+    czyste = []
+    try:
+        while ilosc_element_baza() > pozycja:
+            wpis_bazy_do_tablicy()
+            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
+            czyste.append(czysta)
+            pozycja += 1
+            a += 3
+            b += 3
+    except IndexError:
+        None
+
+    if len(tablica_danych) != 0:
+        czysty_alkohol = int(sum(czyste))
+        dat = str(tablica_danych[1])
+        return czysty_alkohol
+
+
+def ilosc_dawek():
+
+    wpis_bazy_do_tablicy()
+    enty = (len(tablica_danych)) / 4
+    enty = int(enty) + 1
+    if enty == 0:
+        enty = 1
+    return enty
+
+
+def dni_wpisywania():
+
+    data_start = tablica_danych[1]
+
+    rok = data_start[0:4]
+    rok = int(rok)
+    miesiac = data_start[5:7]
+    miesiac = int(miesiac)
+    dzien = data_start[8:10]
+    dzien = int(dzien)
+    tab_data = [rok, miesiac, dzien]
+
+    start = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+    today = datetime.date.today()
+    interwal = today - start
+    dni = int(interwal.total_seconds() / 86400)
+    return dni
+
+
+def porownanie_do_polakow():
+
+    dzielnik = dni_wpisywania()
+    if dni_wpisywania() == 0:
+        dzielnik = 1
+    if alkoholomierz() / dzielnik > 30:
+        return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+    if alkoholomierz() / dzielnik < 30:
+        return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+    if alkoholomierz() / dzielnik == 30:
+        return "PIJESZ TYLE CO PRZECIĘTNY POLAK(30g/dzień)!"
+
+
+def porownanie_do_polakow_wartosc():
+
+    if dni_wpisywania() == 0:
+        return int(alkoholomierz() / 1)
+    else:
+        return int(alkoholomierz() / dni_wpisywania())
+
+
+def ilosc_plynu():
+
+    pozycja = 2
+    pozycja = int(pozycja)
+    ilosc_pl = []
+    try:
+        while ilosc_element_baza() > pozycja:
+            wpis_bazy_do_tablicy()
+            ilosc_plynu = int(int(tablica_danych[pozycja]))
+            ilosc_pl.append(ilosc_plynu)
+            pozycja += 4
+            ilosc_suma = sum(ilosc_pl)
+            ilosc_suma = ilosc_suma/1000
+            ilosc_suma = float(ilosc_suma)
+    except IndexError:
+        None
+    return ilosc_suma
+
+
+def podglad_ile_dni():
+
+    if dni_wpisywania() == 0:
+        return "DZIŚ"
+    else:
+        return str(dni_wpisywania()) + " DNI TEMU"
+
+
+def srednia_posiadowy():
+
+    pozycja = 1
+    dni_picia = []
+    try:
+        for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
+            if str(tablica_danych[pozycja]) != str(tablica_danych[pozycja + 4]):
+                dni_picia.append(tablica_danych[pozycja])
+            pozycja += 4
+    except IndexError:
+        None
+    return int(alkoholomierz() / (len(dni_picia) + 1))
+
+
+                          # Sekcja zapisu nowego trunku:
 
 def spr_zap():
 
@@ -645,7 +610,86 @@ def spr_zap():
             None
 
 
-# Sekcja uwierzytelniania użytkownika:
+def zapisz():
+
+    global ilosc_element
+    global moc_element
+    ilosc_element = ilosc.get()
+    ilosc_element = int(ilosc_element)
+    moc_element = moc.get()
+    moc_element = str(moc_element)
+    moc_element = moc_element.replace(',', '.')
+    moc_element = float(moc_element)
+    zapisz_date()
+    ilosc_element = str(ilosc_element)
+    moc_element = str(moc_element)
+    nowy_trunek(ilosc_element, moc_element)
+    zapisz_opis()
+    menu_podglad()
+
+
+def zapisz_date():
+
+    data_trunku = data2.get()
+    data_trunku = str(data_trunku)
+    if data_trunku == "":
+        wpis_bazy_do_tablicy()
+        baza_danych = open(sciezka, 'a')
+        baza_danych.write(str(data) + "\n")
+        baza_danych.close()
+    else:
+        wpis_bazy_do_tablicy()
+        baza_danych = open(sciezka, 'a')
+        baza_danych.write((data_trunku) + "\n")
+        baza_danych.close()
+
+
+def nowy_trunek(ilosc, moc):
+
+    baza_danych = open(sciezka, 'a')
+    baza_danych.write(ilosc_element + "\n")
+    baza_danych.write(moc_element + "\n")
+    baza_danych.close()
+
+
+def zapisz_opis():
+
+    global opis
+    opis_trunku = opis.get()
+    opis_trunku = str(opis_trunku)
+    baza_danych = open(sciezka, 'a')
+    baza_danych.write(opis_trunku + "\n")
+    baza_danych.close()
+
+
+def to_co_ostatnio():
+
+    if ilosc_element_baza() >= 4:
+        zapisz_date()
+        wpis_bazy_do_tablicy()
+        global ilosc_element
+        global moc_element
+        ilosc_element = tablica_danych[ilosc_element_baza()-4]
+        ilosc_element = int(ilosc_element)
+        moc_element = tablica_danych[ilosc_element_baza()-3]
+        moc_element = float(moc_element)
+        if ilosc_element > 1 and moc_element > 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+            ilosc_element = str(ilosc_element)
+            moc_element = str(moc_element)
+            nowy_trunek(ilosc_element, moc_element)
+            opis_trunku = str(tablica_danych[ilosc_element_baza()-4])
+            opis_trunku = str(opis_trunku)
+            baza_danych = open(sciezka, 'a')
+            baza_danych.write(opis_trunku + "\n")
+            baza_danych.close()
+            menu_podglad()
+        else:
+            menu_podglad()
+    else:
+        None
+
+
+                       # Sekcja uwierzytelniania użytkownika:
 
 
 def get_klucz():
@@ -694,15 +738,6 @@ def zapamietaj_klucz():
     menu_podglad()
 
 
-def uwierzytelnienie():
-
-    wpis_bazy_do_tablicy()
-    if str(odkoduj(tablica_danych[0])) == str(kl_aut):
-        return 1
-    else:
-        return 2
-
-
 def zakoduj(klucz):
 
     kod=''
@@ -719,7 +754,16 @@ def odkoduj(klucz):
     return kod
 
 
-# Sekcja główna wywołania programu:
+def uwierzytelnienie():
+
+    wpis_bazy_do_tablicy()
+    if str(odkoduj(tablica_danych[0])) == str(kl_aut):
+        return 1
+    else:
+        return 2
+
+
+                        # Sekcja główna wywołania programu:
 
 
 menu_info()
