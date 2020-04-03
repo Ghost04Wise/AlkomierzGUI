@@ -28,7 +28,7 @@ okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
 
 
-                        # Sekcja opcji z menubar w programie:
+# Sekcja opcji z menubar w programie:
 
 
 def menu_dodaj():
@@ -222,13 +222,7 @@ def menu_info():
     opis3.pack()
 
 
-
-
-
-
-
-
-
+def menu_podglad_puste():
 
     wyczysc_ramke()
     menu_gorna = tk.Frame(okno)
@@ -265,7 +259,7 @@ def zamykanie():
     sys.exit()
 
 
-                                # Sekcja operacji GUI:
+# Sekcja operacji GUI:
 
 
 def wyczysc_ramke():
@@ -280,7 +274,7 @@ def komunikat_nie():
     menu_podglad()
 
 
-                            # Sekcja  obsługi bazy danych:
+# Sekcja  obsługi bazy danych:
 
 
 def wpis_bazy_do_tablicy():
@@ -443,7 +437,7 @@ def ilosc_element_baza():
     return int(sztuki)
 
 
-                     # Sekcja operacji na informacjach z bazy:
+# Sekcja operacji na informacjach z bazy:
 
 
 def alkoholomierz():
@@ -563,7 +557,8 @@ def srednia_posiadowy():
     return int(alkoholomierz() / (len(dni_picia) + 1))
 
 
-                          # Sekcja zapisu nowego trunku:
+# Sekcja zapisu nowego trunku:
+
 
 def spr_zap():
 
@@ -578,7 +573,7 @@ def spr_zap():
 
     data_trunku = data2.get()
     if data_trunku == "":
-        if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+        if 1 <= ilosc_element <= 1000 and moc_element >= 0.1 and moc_element <= 100:
             if ilosc_element_baza() >= 5:
                 zapisz()
             else:
@@ -596,18 +591,49 @@ def spr_zap():
         today = datetime.date.today()
         interwal = today - data_wpis
         dni = int(interwal.total_seconds() / 86400)
-        if 0 <= dni < 15:
-            spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+
+        spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+        if 0 <= dni:
             if spr_wzor:
-                if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
-                    if ilosc_element_baza() >= 5:
-                        zapisz()
+                if ilosc_element_baza() >= 5:
+                    if dni <= kolejnosc_wpisu():
+                        if 1 <= ilosc_element <= 1000 and 0.1 <= moc_element <= 100:
+                            if ilosc_element_baza() >= 5:
+                                zapisz()
+                            else:
+                                get_klucz()
+                        else:
+                            None
                     else:
-                        get_klucz()
+                        None
+                else:
+                    if 1 <= ilosc_element <= 1000 and moc_element >= 0.1 and moc_element <= 100:
+                        if ilosc_element_baza() >= 5:
+                            zapisz()
+                        else:
+                            get_klucz()
             else:
                 None
         else:
             None
+
+
+def kolejnosc_wpisu():
+
+    data_trunku = tablica_danych[ilosc_element_baza()-4]
+    data_trunku = str(data_trunku)
+    rok = data_trunku[0:4]
+    rok = int(rok)
+    miesiac = data_trunku[5:7]
+    miesiac = int(miesiac)
+    dzien = data_trunku[8:10]
+    dzien = int(dzien)
+    tab_data = [rok, miesiac, dzien]
+    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+    today = datetime.date.today()
+    interwal = today - data_wpis
+    dni = int(interwal.total_seconds() / 86400)
+    return dni
 
 
 def zapisz():
@@ -689,7 +715,7 @@ def to_co_ostatnio():
         None
 
 
-                       # Sekcja uwierzytelniania użytkownika:
+# Sekcja uwierzytelniania użytkownika:
 
 
 def get_klucz():
@@ -763,7 +789,7 @@ def uwierzytelnienie():
         return 2
 
 
-                        # Sekcja główna wywołania programu:
+# Sekcja główna wywołania programu:
 
 
 menu_info()
