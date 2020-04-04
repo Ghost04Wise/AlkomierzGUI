@@ -43,10 +43,10 @@ def menu_dodaj():
     menu_gorna.configure(background='darkseagreen')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-    menu.add_command(labe="O PROGRAMIE", command=menu_info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     kolejnosc = tk.Label(menu_gorna, text="WPISUJESZ " + str(ilosc_dawek()) + ". TRUNEK!",
                          bg="darkseagreen", fg="brown4",
                          font='Helvetica 14 bold')
@@ -69,7 +69,7 @@ def menu_dodaj():
     opis = Entry(menu_gorna)
     opis.pack()
     opis.get()
-    data_tekst = tk.Label(menu_gorna, text="\nKIEDY GO WYPIŁEŚ?(PUSTE=DZIŚ)", bg="darkseagreen", fg="gold",
+    data_tekst = tk.Label(menu_gorna, text="\nKIEDY GO WYPIŁEŚ? (PUSTE=DZIŚ)", bg="darkseagreen", fg="gold",
                           font="Helvetica 12 bold")
     data_format_tekst = tk.Label(menu_gorna, text="RRRR-MM-DD", bg="darkseagreen", fg="red",
                           font="Helvetica 8 bold")
@@ -97,10 +97,10 @@ def menu_podglad():
             menu_gorna.configure(background='seagreen')
             menu = tk.Menu(okno)
             okno.config(menu=menu)
-            menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-            menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-            menu.add_command(labe="O PROGRAMIE", command=menu_info)
-            menu.add_command(label="WYJŚCIE", command=zamykanie)
+            menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+            menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+            menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+            menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
             scrollbar = Scrollbar(okno)
             lista_trun = Listbox(menu_gorna, yscrollcommand=scrollbar.set, bg="darkgreen", fg="gold",
                                  font='Helvetica 10 bold')
@@ -110,63 +110,59 @@ def menu_podglad():
             lista_trun.config(height=10, width=85)
 
             alkoholomierz()
-            if ilosc_element_baza() <= 1:
-                menu_info()
-            if ilosc_element_baza() >= 5:
-                try:
-                    pozycja = 0
-                    pozycja = int(pozycja)
-                    a, b, c, d = 2, 3, 4, 1
-                    id_trunku = 0
-                    for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
-                        lista_trun.insert(END, str(pozycja + 1) + ":     " + str(tablica_danych[pozycja + d]) +
+            try:
+                pozycja = 0
+                pozycja = int(pozycja)
+                a, b, c, d = 2, 3, 4, 1
+                id_trunku = 0
+                for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
+                    lista_trun.insert(END, str(pozycja + 1) + ":     " + str(tablica_danych[pozycja + d]) +
                                           "     wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
-                                          str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) + "g):   " +
-                                          str(tablica_danych[pozycja + c]))
-                        lista_trun.see(tk.END)
-                        if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
+                                          str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) +
+                                          "g): " + str(tablica_danych[pozycja + c]))
+                    lista_trun.see(tk.END)
+                    if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "-----------------------------------------------------------------"
                                                    "--------------------------------------------------------------")
-                        pozycja = pozycja + 1
-                        a = a + 3
-                        b = b + 3
-                        c = c + 3
-                        d = d + 3
-                        id_trunku += 4
-                except IndexError:
-                    None
+                    pozycja = pozycja + 1
+                    a = a + 3
+                    b = b + 3
+                    c = c + 3
+                    d = d + 3
+                    id_trunku += 4
+            except IndexError:
+                None
 
-                przycisk_usun_trunek = tk.Button(menu_gorna, text="                     USUŃ OSTATNI TRUNEK        "
+            przycisk_usun_trunek = tk.Button(menu_gorna, text="                     USUŃ OSTATNI TRUNEK        "
                                                                   "             ", bg="seagreen2", font='Helvetica 10 ',
                                                  command=pewien_usun_wpis)
-                przycisk_usun_baze = tk.Button(menu_gorna, text="                     USUŃ BAZĘ DANYCH           "
+            przycisk_usun_baze = tk.Button(menu_gorna, text="                     USUŃ BAZĘ DANYCH           "
                                                                 "          ", bg="seagreen2", fg="red",
                                                font='Helvetica 10 bold', command=pewien_usun_baze)
-                przycisk_usun_trunek.pack(side=LEFT)
-                przycisk_usun_baze.pack(side=LEFT)
+            przycisk_usun_trunek.pack(side=LEFT)
+            przycisk_usun_baze.pack(side=LEFT)
 
-                menu_dolna = tk.Frame(okno)
-                menu_dolna.pack(side=TOP, fill=X)
-                menu_dolna.configure(background='seagreen')
-                wyliczenia1 = Label(menu_dolna, text="\nOD " + dat + "(" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
+            menu_dolna = tk.Frame(okno)
+            menu_dolna.pack(side=TOP, fill=X)
+            menu_dolna.configure(background='seagreen')
+            wyliczenia1 = Label(menu_dolna, text="\nOD " + dat + "(" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
                                                      str(ilosc_plynu()) + "L TRUNKÓW,\n W KTÓRYCH ZNAJDOWAŁO SIĘ "
                                                      + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU.",
                                     bg="seagreen", fg="gold",
                                     font='Helvetica 11 bold')
-                wyliczenia2 = Label(menu_dolna, text=porownanie_do_polakow(),
+            wyliczenia2 = Label(menu_dolna, text=porownanie_do_polakow(),
                                     bg="seagreen", fg="blue",
                                     font='Helvetica 11 bold')
-                wyliczenia3 = Label(menu_dolna, text="ŚREDNIO PODCZAS JEDNEGO POSIEDZENIA WYPIJASZ " +
+            wyliczenia3 = Label(menu_dolna, text="ŚREDNIO PODCZAS JEDNEGO POSIEDZENIA WYPIJASZ " +
                                                      str(srednia_posiadowy())
                                                      + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
                                     font='Helvetica 9 bold')
-                wyliczenia1.pack()
-                wyliczenia2.pack()
-                wyliczenia3.pack()
+            wyliczenia1.pack()
+            wyliczenia2.pack()
+            wyliczenia3.pack()
         except ValueError:
-            usun_ostatni_wpis()
+            spr_poprawnosc_bazy()
             menu_podglad()
-
     else:
         menu_podglad_pusta()
 
@@ -179,10 +175,10 @@ def menu_podglad_pusta():
     menu_gorna.configure(background='gray')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-    menu.add_command(labe="O PROGRAMIE", command=menu_info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
     informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
@@ -209,10 +205,10 @@ def menu_info():
     menu_gorna.configure(background='gray')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-    menu.add_command(labe="O PROGRAMIE", command=menu_info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
@@ -232,10 +228,10 @@ def menu_podglad_puste():
     menu_gorna.configure(background='gray')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
-    menu.add_command(labe="DODAJ TRUNEK", command=menu_dodaj)
-    menu.add_command(labe="SPIS WYPITYCH TRUNKÓW", command=menu_podglad)
-    menu.add_command(labe="O PROGRAMIE", command=menu_info)
-    menu.add_command(label="WYJŚCIE", command=zamykanie)
+    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
     informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
@@ -437,6 +433,21 @@ def ilosc_element_baza():
     wpis_bazy_do_tablicy()
     sztuki = len(tablica_danych)
     return int(sztuki)
+
+
+def spr_poprawnosc_bazy():
+
+    if ilosc_element_baza() < 5:
+        baza_danych = open(sciezka, 'w')
+        baza_danych = open(sciezka, 'a')
+        baza_danych.close()
+    else:
+        while not (ilosc_element_baza()-1) % 4 == 0:
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            baza_danych = open(sciezka, 'w')
+            wpis_tablicy_do_bazy()
 
 
 # Sekcja operacji na informacjach z bazy:
@@ -807,7 +818,6 @@ def uwierzytelnienie():
 
 # Sekcja główna wywołania programu:
 
-
+spr_poprawnosc_bazy()
 menu_info()
 okno.mainloop()
-
