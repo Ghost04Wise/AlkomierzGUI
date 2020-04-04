@@ -22,7 +22,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.5G Alpha")
+okno.title("Alkomierz 2.6G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -117,10 +117,11 @@ def menu_podglad():
                     pozycja = 0
                     pozycja = int(pozycja)
                     a, b, c, d = 2, 3, 4, 1
+                    id_trunku = 0
                     for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
-                        lista_trun.insert(END, str(pozycja + 1) + ".|    " + str(tablica_danych[pozycja + d]) +
-                                          " WYPIŁEŚ " + str(tablica_danych[pozycja + a]) + "ml " +
-                                          str(tablica_danych[pozycja + b]) + "% TRUNKU: " +
+                        lista_trun.insert(END, str(pozycja + 1) + ":     " + str(tablica_danych[pozycja + d]) +
+                                          "     wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
+                                          str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) + "g):   " +
                                           str(tablica_danych[pozycja + c]))
                         lista_trun.see(tk.END)
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
@@ -131,6 +132,7 @@ def menu_podglad():
                         b = b + 3
                         c = c + 3
                         d = d + 3
+                        id_trunku += 4
                 except IndexError:
                     None
 
@@ -190,7 +192,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 2.5G Alpha",
+                          "           Wersja: 2.6G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -215,7 +217,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.5G Alpha",
+                                "           Wersja: 2.6G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -254,7 +256,7 @@ def menu_podglad_puste():
 
 def zamykanie():
 
-    time.sleep(0.2)
+    time.sleep(0.1)
     baza_danych.close()
     sys.exit()
 
@@ -543,6 +545,12 @@ def podglad_ile_dni():
         return str(dni_wpisywania()) + " DNI TEMU"
 
 
+def ile_alko_wtrunku(id_trunku):
+
+    wpis_bazy_do_tablicy()
+    return int((int(tablica_danych[id_trunku+2]) * float(tablica_danych[id_trunku+3])) / 100)
+
+
 def srednia_posiadowy():
 
     pozycja = 1
@@ -670,6 +678,14 @@ def zapisz_date():
         baza_danych.close()
 
 
+def zapisz_date_dzisiejsza():
+
+    wpis_bazy_do_tablicy()
+    baza_danych = open(sciezka, 'a')
+    baza_danych.write(str(data) + "\n")
+    baza_danych.close()
+
+
 def nowy_trunek(ilosc, moc):
 
     baza_danych = open(sciezka, 'a')
@@ -691,7 +707,7 @@ def zapisz_opis():
 def to_co_ostatnio():
 
     if ilosc_element_baza() >= 4:
-        zapisz_date()
+        zapisz_date_dzisiejsza()
         wpis_bazy_do_tablicy()
         global ilosc_element
         global moc_element
@@ -794,3 +810,4 @@ def uwierzytelnienie():
 
 menu_info()
 okno.mainloop()
+

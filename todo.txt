@@ -1,4 +1,3 @@
-blokada wpisania trunku, ktory byl wypity przed ostatnim wpisanym trunkiem
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego
 wykres picia
