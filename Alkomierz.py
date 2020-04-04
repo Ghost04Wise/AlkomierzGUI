@@ -818,6 +818,7 @@ def uwierzytelnienie():
 
 # Sekcja główna wywołania programu:
 
+
 spr_poprawnosc_bazy()
 menu_info()
 okno.mainloop()
