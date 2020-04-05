@@ -592,45 +592,56 @@ def spr_zap():
 
     data_trunku = data2.get()
     if data_trunku == "":
-        if 1 <= ilosc_element <= 1000 and moc_element >= 0.1 and moc_element <= 100:
-            if ilosc_element_baza() >= 5:
-                zapisz()
-            else:
-                get_klucz()
-    else:
-        data_trunku = str(data_trunku)
-        rok = data_trunku[0:4]
-        rok = int(rok)
-        miesiac = data_trunku[5:7]
-        miesiac = int(miesiac)
-        dzien = data_trunku[8:10]
-        dzien = int(dzien)
-        tab_data = [rok, miesiac, dzien]
-        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-        today = datetime.date.today()
-        interwal = today - data_wpis
-        dni = int(interwal.total_seconds() / 86400)
-
-        spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
-        if 0 <= dni:
-            if spr_wzor:
+        opis_trunku = opis.get()
+        opis_trunku = str(opis_trunku)
+        if len(opis_trunku) <= 25:
+            if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                 if ilosc_element_baza() >= 5:
-                    if dni <= kolejnosc_wpisu():
-                        if 1 <= ilosc_element <= 1000 and 0.1 <= moc_element <= 100:
+                    zapisz()
+                else:
+                    get_klucz()
+            else:
+                None
+        else:
+            None
+    else:
+        opis_trunku = opis.get()
+        opis_trunku = str(opis_trunku)
+        if len(opis_trunku) <= 25:
+            data_trunku = str(data_trunku)
+            rok = data_trunku[0:4]
+            rok = int(rok)
+            miesiac = data_trunku[5:7]
+            miesiac = int(miesiac)
+            dzien = data_trunku[8:10]
+            dzien = int(dzien)
+            tab_data = [rok, miesiac, dzien]
+            data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+            today = datetime.date.today()
+            interwal = today - data_wpis
+            dni = int(interwal.total_seconds() / 86400)
+            spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+            if 0 <= dni:
+                if spr_wzor:
+                    if ilosc_element_baza() >= 5:
+                        if dni <= kolejnosc_wpisu():
+                            if 1 <= ilosc_element <= 2000 and 0.1 <= moc_element <= 100:
+                                if ilosc_element_baza() >= 5:
+                                    zapisz()
+                                else:
+                                    get_klucz()
+                            else:
+                                None
+                        else:
+                            None
+                    else:
+                        if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                             if ilosc_element_baza() >= 5:
                                 zapisz()
                             else:
                                 get_klucz()
-                        else:
-                            None
-                    else:
-                        None
                 else:
-                    if 1 <= ilosc_element <= 1000 and moc_element >= 0.1 and moc_element <= 100:
-                        if ilosc_element_baza() >= 5:
-                            zapisz()
-                        else:
-                            get_klucz()
+                    None
             else:
                 None
         else:
@@ -710,6 +721,7 @@ def zapisz_opis():
     global opis
     opis_trunku = opis.get()
     opis_trunku = str(opis_trunku)
+    opis_trunku = opis_trunku.replace("\\", "/")
     baza_danych = open(sciezka, 'a')
     baza_danych.write(opis_trunku + "\n")
     baza_danych.close()
@@ -717,7 +729,7 @@ def zapisz_opis():
 
 def to_co_ostatnio():
 
-    if ilosc_element_baza() >= 4:
+    if ilosc_element_baza() >= 5:
         zapisz_date_dzisiejsza()
         wpis_bazy_do_tablicy()
         global ilosc_element
@@ -765,9 +777,11 @@ def get_klucz():
     ramka2 = tk.Frame(okno_getkod)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info3 = tk.Label(ramka2, text="\nNadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="gold",
+    info3 = tk.Label(ramka2, text="Nadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="gold",
                      font='Helvetica 12 bold')
+    info4 = tk.Label(ramka2, text="Minimum 5 znaków", bg="seagreen", fg='red2', font='Helvetica 9 bold')
     info3.pack()
+    info4.pack()
     klucz = Entry(ramka2)
     klucz.pack()
     klucz.focus_set()
