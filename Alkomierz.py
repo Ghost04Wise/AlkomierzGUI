@@ -69,7 +69,7 @@ def menu_dodaj():
     opis = Entry(menu_gorna)
     opis.pack()
     opis.get()
-    data_tekst = tk.Label(menu_gorna, text="\nKIEDY GO WYPIŁEŚ? (PUSTE=DZIŚ)", bg="darkseagreen", fg="gold",
+    data_tekst = tk.Label(menu_gorna, text="\nKIEDY GO WYPIŁEŚ?", bg="darkseagreen", fg="gold",
                           font="Helvetica 12 bold")
     data_format_tekst = tk.Label(menu_gorna, text="RRRR-MM-DD", bg="darkseagreen", fg="red",
                           font="Helvetica 8 bold")
@@ -77,6 +77,7 @@ def menu_dodaj():
     data_format_tekst.pack()
     data2 = Entry(menu_gorna)
     data2.pack()
+    data2.insert(0, data)
     data2.get()
     przerwa = tk.Label(menu_gorna, text="", bg="darkseagreen")
     przerwa.pack()
