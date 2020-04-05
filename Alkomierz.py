@@ -583,69 +583,77 @@ def spr_zap():
 
     global ilosc_element
     global moc_element
-    ilosc_element = ilosc.get()
-    ilosc_element = int(ilosc_element)
-    moc_element = moc.get()
-    moc_element = str(moc_element)
-    moc_element = moc_element.replace(',', '.')
-    moc_element = float(moc_element)
-
-    data_trunku = data2.get()
-    if data_trunku == "":
-        opis_trunku = opis.get()
-        opis_trunku = str(opis_trunku)
-        if len(opis_trunku) <= 25:
-            if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
-                if ilosc_element_baza() >= 5:
-                    zapisz()
-                else:
-                    get_klucz()
-            else:
-                None
-        else:
-            None
-    else:
-        opis_trunku = opis.get()
-        opis_trunku = str(opis_trunku)
-        if len(opis_trunku) <= 25:
-            data_trunku = str(data_trunku)
-            rok = data_trunku[0:4]
-            rok = int(rok)
-            miesiac = data_trunku[5:7]
-            miesiac = int(miesiac)
-            dzien = data_trunku[8:10]
-            dzien = int(dzien)
-            tab_data = [rok, miesiac, dzien]
-            data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-            today = datetime.date.today()
-            interwal = today - data_wpis
-            dni = int(interwal.total_seconds() / 86400)
-            spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
-            if 0 <= dni:
-                if spr_wzor:
+    try:
+        ilosc_element = ilosc.get()
+        ilosc_element = int(ilosc_element)
+        moc_element = moc.get()
+        moc_element = str(moc_element)
+        moc_element = moc_element.replace(',', '.')
+        moc_element = float(moc_element)
+    except ValueError:
+        None
+    try:
+        data_trunku = data2.get()
+        if data_trunku == "":
+            opis_trunku = opis.get()
+            opis_trunku = str(opis_trunku)
+            if len(opis_trunku) <= 25:
+                if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                     if ilosc_element_baza() >= 5:
-                        if dni <= kolejnosc_wpisu():
-                            if 1 <= ilosc_element <= 2000 and 0.1 <= moc_element <= 100:
-                                if ilosc_element_baza() >= 5:
-                                    zapisz()
-                                else:
-                                    get_klucz()
-                            else:
-                                None
-                        else:
-                            None
+                        zapisz()
                     else:
-                        if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
-                            if ilosc_element_baza() >= 5:
-                                zapisz()
-                            else:
-                                get_klucz()
+                        get_klucz()
                 else:
                     None
             else:
                 None
         else:
-            None
+            opis_trunku = opis.get()
+            opis_trunku = str(opis_trunku)
+            try:
+                if len(opis_trunku) <= 25:
+                    data_trunku = str(data_trunku)
+                    rok = data_trunku[0:4]
+                    rok = int(rok)
+                    miesiac = data_trunku[5:7]
+                    miesiac = int(miesiac)
+                    dzien = data_trunku[8:10]
+                    dzien = int(dzien)
+                    tab_data = [rok, miesiac, dzien]
+                    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                    today = datetime.date.today()
+                    interwal = today - data_wpis
+                    dni = int(interwal.total_seconds() / 86400)
+                    spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+                    if 0 <= dni:
+                        if spr_wzor:
+                            if ilosc_element_baza() >= 5:
+                                if dni <= kolejnosc_wpisu():
+                                    if 1 <= ilosc_element <= 2000 and 0.1 <= moc_element <= 100:
+                                        if ilosc_element_baza() >= 5:
+                                            zapisz()
+                                        else:
+                                            get_klucz()
+                                    else:
+                                        None
+                                else:
+                                    None
+                            else:
+                                if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
+                                    if ilosc_element_baza() >= 5:
+                                        zapisz()
+                                    else:
+                                        get_klucz()
+                        else:
+                            None
+                    else:
+                        None
+                else:
+                    None
+            except ValueError:
+                None
+    except TypeError:
+        None
 
 
 def kolejnosc_wpisu():
@@ -796,13 +804,15 @@ def zapamietaj_klucz():
 
     klucz_dostepu = klucz.get()
     klucz_dostepu = str(klucz_dostepu)
-    temp = klucz_dostepu[0-5]
-    baza_danych = open(sciezka, 'a')
-    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-    baza_danych.close()
-    zapisz()
-    okno_getkod.destroy()
-    menu_podglad()
+    if len(klucz_dostepu) >= 5:
+        baza_danych = open(sciezka, 'a')
+        baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+        baza_danych.close()
+        zapisz()
+        okno_getkod.destroy()
+        menu_podglad()
+    else:
+        None
 
 
 def zakoduj(klucz):
