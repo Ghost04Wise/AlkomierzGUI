@@ -22,7 +22,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.6G Alpha")
+okno.title("Alkomierz 2.7G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -201,7 +201,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 2.6G Alpha",
+                          "           Wersja: 2.7G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -230,7 +230,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.6G Alpha",
+                                "           Wersja: 2.7G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -421,7 +421,7 @@ def usun_ostatni_wpis():
             baza_danych.close()
         menu_podglad()
     else:
-        pewien_usun_wpis()
+        error("Błędny klucz!")
 
 
 def pewien_usun_baze():
@@ -477,7 +477,7 @@ def usun_baze():
         baza_danych.close()
         menu_podglad_pusta()
     else:
-        pewien_usun_baze()
+        error("Błędny klucz!")
 
 
 def ilosc_element_baza():
@@ -978,7 +978,7 @@ def zmiana_dalej():
         okno_kom.destroy()
         get_klucz(zmiana_hasla)
     else:
-        None
+        error("Błędny klucz!")
 
 
 # Sekcja główna wywołania programu:
