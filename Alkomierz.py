@@ -46,6 +46,10 @@ def menu_dodaj():
     menu.add_command(label="    DODAJ    ", command=menu_dodaj)
     menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
     menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    if ilosc_element_baza() >= 5:
+        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+    else:
+        None
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     kolejnosc = tk.Label(menu_gorna, text="WPISUJESZ " + str(ilosc_dawek()) + ". TRUNEK!",
                          bg="darkseagreen", fg="brown4",
@@ -101,6 +105,10 @@ def menu_podglad():
             menu.add_command(label="    DODAJ    ", command=menu_dodaj)
             menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
             menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+            if ilosc_element_baza() >= 5:
+                menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+            else:
+                None
             menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
             scrollbar = Scrollbar(okno)
             lista_trun = Listbox(menu_gorna, yscrollcommand=scrollbar.set, bg="darkgreen", fg="gold",
@@ -179,6 +187,10 @@ def menu_podglad_pusta():
     menu.add_command(label="    DODAJ    ", command=menu_dodaj)
     menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
     menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    if ilosc_element_baza() >= 5:
+        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+    else:
+        None
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
@@ -209,6 +221,10 @@ def menu_info():
     menu.add_command(label="    DODAJ    ", command=menu_dodaj)
     menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
     menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    if ilosc_element_baza() >= 5:
+        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+    else:
+        None
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
@@ -232,6 +248,10 @@ def menu_podglad_puste():
     menu.add_command(label="    DODAJ    ", command=menu_dodaj)
     menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
     menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    if ilosc_element_baza() >= 5:
+        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+    else:
+        None
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
@@ -272,6 +292,37 @@ def komunikat_nie():
     okno_kom.destroy()
     menu_podglad()
 
+
+def error(komunikat):
+
+    global okno_error
+    okno_error = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_error.winfo_screenwidth()
+    screen_height = okno_error.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_error.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_error.title("Komunikat")
+    okno_error.configure(background='seagreen')
+    okno_error.resizable(False, False)
+    okno_error.wm_iconbitmap('ikona.ico')
+    okno_error.grab_set()
+    ramka2 = tk.Frame(okno_error)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="\n" + komunikat, bg="seagreen", fg="gold", font='Helvetica 12 bold')
+    info3.pack()
+    info4 = tk.Label(ramka2, text="", bg="seagreen", fg="red2", font='Helvetica 12 bold')
+    info4.pack()
+    ok = tk.Button(ramka2, text="   ROZUMIEM   ", command=error_del, bg='seagreen2')
+    ok.pack()
+
+
+def error_del():
+
+    okno_error.destroy()
 
 # Sekcja  obsługi bazy danych:
 
@@ -603,7 +654,7 @@ def spr_zap():
                     if ilosc_element_baza() >= 5:
                         zapisz()
                     else:
-                        get_klucz()
+                        get_klucz(zapamietaj_klucz)
                 else:
                     None
             else:
@@ -634,7 +685,7 @@ def spr_zap():
                                         if ilosc_element_baza() >= 5:
                                             zapisz()
                                         else:
-                                            get_klucz()
+                                            get_klucz(zapamietaj_klucz)
                                     else:
                                         None
                                 else:
@@ -644,7 +695,7 @@ def spr_zap():
                                     if ilosc_element_baza() >= 5:
                                         zapisz()
                                     else:
-                                        get_klucz()
+                                        get_klucz(zapamietaj_klucz)
                         else:
                             None
                     else:
@@ -766,54 +817,72 @@ def to_co_ostatnio():
 # Sekcja uwierzytelniania użytkownika:
 
 
-def get_klucz():
+def get_klucz(czynnosc):
 
-    global okno_getkod
-    global klucz
-    okno_getkod = tk.Toplevel()
-    window_height = 120
-    window_width = 280
-    screen_width = okno_getkod.winfo_screenwidth()
-    screen_height = okno_getkod.winfo_screenheight()
-    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
-    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
-    okno_getkod.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-    okno_getkod.title("Nadawanie klucza")
-    okno_getkod.configure(background='seagreen')
-    okno_getkod.resizable(False, False)
-    okno_getkod.wm_iconbitmap('ikona.ico')
-    okno_getkod.grab_set()
-    ramka2 = tk.Frame(okno_getkod)
-    ramka2.configure(bg='seagreen')
-    ramka2.pack()
-    info3 = tk.Label(ramka2, text="Nadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="gold",
-                     font='Helvetica 12 bold')
-    info4 = tk.Label(ramka2, text="Minimum 5 znaków", bg="seagreen", fg='red2', font='Helvetica 9 bold')
-    info3.pack()
-    info4.pack()
-    klucz = Entry(ramka2)
-    klucz.pack()
-    klucz.focus_set()
-    przerwa = tk.Label(ramka2, text="")
-    przerwa.configure(bg="seagreen")
-    przerwa.pack()
-    zapamietaj = tk.Button(ramka2, text="ZAPAMIĘTAJ", command=zapamietaj_klucz, bg='seagreen2')
-    zapamietaj.pack()
+    if ilosc_element_baza() < 5 and czynnosc == zmiana_hasla:
+        None
+    else:
+        global okno_getkod
+        global klucz
+        global klucz_repeat
+        okno_getkod = tk.Toplevel()
+        window_height = 170
+        window_width = 280
+        screen_width = okno_getkod.winfo_screenwidth()
+        screen_height = okno_getkod.winfo_screenheight()
+        x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+        y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+        okno_getkod.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+        okno_getkod.title("Nadawanie klucza")
+        okno_getkod.configure(background='seagreen')
+        okno_getkod.resizable(False, False)
+        okno_getkod.wm_iconbitmap('ikona.ico')
+        okno_getkod.grab_set()
+        ramka2 = tk.Frame(okno_getkod)
+        ramka2.configure(bg='seagreen')
+        ramka2.pack()
+        info3 = tk.Label(ramka2, text="Nadaj nowy klucz autoryzacyjny:", bg="seagreen", fg="gold",
+                         font='Helvetica 12 bold')
+        info4 = tk.Label(ramka2, text="Minimum 5 znaków", bg="seagreen", fg='red2', font='Helvetica 9 bold')
+        info3.pack()
+        info4.pack()
+        klucz = Entry(ramka2)
+        klucz.pack()
+        klucz.focus_set()
+        info5 = tk.Label(ramka2, text="Powtórz klucz:", bg="seagreen", fg='red2', font='Helvetica 9 bold')
+        info5.pack()
+        klucz_repeat = Entry(ramka2)
+        klucz_repeat.pack()
+        przerwa = tk.Label(ramka2, text="")
+        przerwa.configure(bg="seagreen")
+        przerwa.pack()
+        zapamietaj = tk.Button(ramka2, text="ZAPAMIĘTAJ", command=czynnosc, bg='seagreen2')
+        zapamietaj.pack()
 
 
 def zapamietaj_klucz():
 
     klucz_dostepu = klucz.get()
     klucz_dostepu = str(klucz_dostepu)
+    klucz_dostepu2 = klucz_repeat.get()
+    klucz_dostepu2 = str(klucz_dostepu2)
     if len(klucz_dostepu) >= 5:
-        baza_danych = open(sciezka, 'a')
-        baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-        baza_danych.close()
-        zapisz()
-        okno_getkod.destroy()
-        menu_podglad()
+        if klucz_dostepu == klucz_dostepu2:
+            wpis_bazy_do_tablicy()
+            if ilosc_element_baza() > 0:
+                tablica_danych[0] = klucz_dostepu
+                wpis_tablicy_do_bazy()
+            else:
+                baza_danych = open(sciezka, 'a')
+                baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                baza_danych.close()
+            zapisz()
+            okno_getkod.destroy()
+            menu_podglad()
+        else:
+            error("Wpisane klucze są różne!")
     else:
-        None
+        error("Wpisany klucz jest zbyt krótki!")
 
 
 def zakoduj(klucz):
@@ -839,6 +908,77 @@ def uwierzytelnienie():
         return 1
     else:
         return 2
+
+
+def zmiana_hasla():
+
+        klucz_dostepu = klucz.get()
+        klucz_dostepu = str(klucz_dostepu)
+        klucz_dostepu2 = klucz_repeat.get()
+        klucz_dostepu2 = str(klucz_dostepu2)
+        if len(klucz_dostepu) >= 5:
+            if klucz_dostepu == klucz_dostepu2:
+                wpis_bazy_do_tablicy()
+                if ilosc_element_baza() > 0:
+                    tablica_danych[0] = str(zakoduj(klucz_dostepu))
+                    baza_danych = open(sciezka, 'w')
+                    wpis_tablicy_do_bazy()
+                else:
+                    baza_danych = open(sciezka, 'a')
+                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                    baza_danych.close()
+                okno_getkod.destroy()
+            else:
+                error("Wpisane klucze są różne!")
+        else:
+            error("Wpisany klucz jest zbyt krótki!")
+
+
+def zmiana_hasla_uwierzytelnianie():
+
+    global klucz_autoryzacyjny
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Zmiana klucza")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    okno_kom.grab_set()
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="\nPodaj klucz autoryzacyjny:", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
+    klucz_autoryzacyjny.pack()
+    klucz_autoryzacyjny.get()
+    klucz_autoryzacyjny.focus_set()
+    przerwa = tk.Label(ramka2, text='', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    ok = tk.Button(ramka3, text="    DALEJ     ", command=zmiana_dalej, bg="red3")
+    ok.pack(side=LEFT)
+
+
+def zmiana_dalej():
+
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
+    if uwierzytelnienie() == 1:
+        okno_kom.destroy()
+        get_klucz(zmiana_hasla)
+    else:
+        None
 
 
 # Sekcja główna wywołania programu:
