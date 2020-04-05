@@ -140,7 +140,7 @@ def menu_podglad():
                     d = d + 3
                     id_trunku += 4
             except IndexError:
-                None
+                error("menu_podglad")
 
             przycisk_usun_trunek = tk.Button(menu_gorna, text="                     USUŃ OSTATNI TRUNEK        "
                                                                   "             ", bg="seagreen2", font='Helvetica 10 ',
@@ -237,40 +237,6 @@ def menu_info():
     opis3.pack()
 
 
-def menu_podglad_puste():
-
-    wyczysc_ramke()
-    menu_gorna = tk.Frame(okno)
-    menu_gorna.pack()
-    menu_gorna.configure(background='gray')
-    menu = tk.Menu(okno)
-    okno.config(menu=menu)
-    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
-    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
-    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
-    if ilosc_element_baza() >= 5:
-        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
-    else:
-        None
-    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
-    opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
-                    font='Helvetica 12 bold')
-    informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
-                          font='Helvetica 21 bold')
-    informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
-                           font='Helvetica 10 bold')
-    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
-    opis3 = tk.Label(okno,
-                     text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 2.5G Alpha",
-                     fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
-    opis.pack()
-    opis2.pack()
-    informacja.pack()
-    informacja2.pack()
-    opis3.pack()
-
-
 def zamykanie():
 
     time.sleep(0.1)
@@ -312,7 +278,7 @@ def error(komunikat):
     ramka2 = tk.Frame(okno_error)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info3 = tk.Label(ramka2, text="\n" + komunikat, bg="seagreen", fg="gold", font='Helvetica 12 bold')
+    info3 = tk.Label(ramka2, text="" + komunikat, bg="seagreen", fg="gold", font='Helvetica 12 bold')
     info3.pack()
     info4 = tk.Label(ramka2, text="", bg="seagreen", fg="red2", font='Helvetica 12 bold')
     info4.pack()
@@ -323,6 +289,7 @@ def error(komunikat):
 def error_del():
 
     okno_error.destroy()
+
 
 # Sekcja  obsługi bazy danych:
 
@@ -523,7 +490,7 @@ def alkoholomierz():
             a += 3
             b += 3
     except IndexError:
-        None
+        error("alkomierz")
 
     if len(tablica_danych) != 0:
         czysty_alkohol = int(sum(czyste))
@@ -596,7 +563,7 @@ def ilosc_plynu():
             ilosc_suma = ilosc_suma/1000
             ilosc_suma = float(ilosc_suma)
     except IndexError:
-        None
+        error("ilosc_plynu")
     return ilosc_suma
 
 
@@ -624,7 +591,7 @@ def srednia_posiadowy():
                 dni_picia.append(tablica_danych[pozycja])
             pozycja += 4
     except IndexError:
-        None
+        error("srednia_posiadowy")
     return int(alkoholomierz() / (len(dni_picia) + 1))
 
 
@@ -656,9 +623,9 @@ def spr_zap():
                     else:
                         get_klucz(zapamietaj_klucz)
                 else:
-                    None
+                    error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
             else:
-                None
+                error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
         else:
             opis_trunku = opis.get()
             opis_trunku = str(opis_trunku)
@@ -689,23 +656,25 @@ def spr_zap():
                                     else:
                                         None
                                 else:
-                                    None
+                                    error("Nie możesz wpisać trunku\n wypitego przed ostatnio wpisanym!")
                             else:
                                 if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                                     if ilosc_element_baza() >= 5:
                                         zapisz()
                                     else:
                                         get_klucz(zapamietaj_klucz)
+                                else:
+                                    error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
                         else:
-                            None
+                            error("Błędna data wypicia trunku!")
                     else:
-                        None
+                        error("Nie możesz wpisać trunku\n wypitego przed ostatnio wpisanym!")
                 else:
-                    None
+                    error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
             except ValueError:
-                None
+                error("Błędna data wypicia trunku!")
     except TypeError:
-        None
+        error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
 
 
 def kolejnosc_wpisu():
@@ -811,7 +780,7 @@ def to_co_ostatnio():
         else:
             menu_podglad()
     else:
-        None
+        error("Brak wpisów w bazie danych!")
 
 
 # Sekcja uwierzytelniania użytkownika:
@@ -910,30 +879,6 @@ def uwierzytelnienie():
         return 2
 
 
-def zmiana_hasla():
-
-        klucz_dostepu = klucz.get()
-        klucz_dostepu = str(klucz_dostepu)
-        klucz_dostepu2 = klucz_repeat.get()
-        klucz_dostepu2 = str(klucz_dostepu2)
-        if len(klucz_dostepu) >= 5:
-            if klucz_dostepu == klucz_dostepu2:
-                wpis_bazy_do_tablicy()
-                if ilosc_element_baza() > 0:
-                    tablica_danych[0] = str(zakoduj(klucz_dostepu))
-                    baza_danych = open(sciezka, 'w')
-                    wpis_tablicy_do_bazy()
-                else:
-                    baza_danych = open(sciezka, 'a')
-                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-                    baza_danych.close()
-                okno_getkod.destroy()
-            else:
-                error("Wpisane klucze są różne!")
-        else:
-            error("Wpisany klucz jest zbyt krótki!")
-
-
 def zmiana_hasla_uwierzytelnianie():
 
     global klucz_autoryzacyjny
@@ -967,6 +912,30 @@ def zmiana_hasla_uwierzytelnianie():
     ramka3.pack()
     ok = tk.Button(ramka3, text="    DALEJ     ", command=zmiana_dalej, bg="red3")
     ok.pack(side=LEFT)
+
+
+def zmiana_hasla():
+
+        klucz_dostepu = klucz.get()
+        klucz_dostepu = str(klucz_dostepu)
+        klucz_dostepu2 = klucz_repeat.get()
+        klucz_dostepu2 = str(klucz_dostepu2)
+        if len(klucz_dostepu) >= 5:
+            if klucz_dostepu == klucz_dostepu2:
+                wpis_bazy_do_tablicy()
+                if ilosc_element_baza() > 0:
+                    tablica_danych[0] = str(zakoduj(klucz_dostepu))
+                    baza_danych = open(sciezka, 'w')
+                    wpis_tablicy_do_bazy()
+                else:
+                    baza_danych = open(sciezka, 'a')
+                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                    baza_danych.close()
+                okno_getkod.destroy()
+            else:
+                error("Wpisane klucze są różne!")
+        else:
+            error("Wpisany klucz jest zbyt krótki!")
 
 
 def zmiana_dalej():
