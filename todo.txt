@@ -1,6 +1,4 @@
-- Komunikaty mówiące użytkownikowi że robi coś źle
 - usuwanie i edytowanie DOWOLNEGO wpisu(id kazdego trunku)
-
 
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego

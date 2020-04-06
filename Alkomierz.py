@@ -119,20 +119,24 @@ def menu_podglad():
             lista_trun.config(height=10, width=85)
 
             alkoholomierz()
+
+            pozycja = 0
+            pozycja = int(pozycja)
+            a, b, c, d = 2, 3, 4, 1
+            id_trunku = 0
             try:
-                pozycja = 0
-                pozycja = int(pozycja)
-                a, b, c, d = 2, 3, 4, 1
-                id_trunku = 0
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
                     lista_trun.insert(END, str(pozycja + 1) + ":     " + str(tablica_danych[pozycja + d]) +
                                           "     wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
                                           str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) +
                                           "g): " + str(tablica_danych[pozycja + c]))
                     lista_trun.see(tk.END)
-                    if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
-                            lista_trun.insert(END, "-----------------------------------------------------------------"
-                                                   "--------------------------------------------------------------")
+                    if pozycja + d + 4 <= ilosc_element_baza() - 1:
+                        if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
+                                lista_trun.insert(END, "---------------------------------------------------------------"
+                                                       "--------------------------------------------------------------")
+                    else:
+                        break
                     pozycja = pozycja + 1
                     a = a + 3
                     b = b + 3
@@ -140,7 +144,7 @@ def menu_podglad():
                     d = d + 3
                     id_trunku += 4
             except IndexError:
-                error("menu_podglad")
+                error_uszkodzona()
 
             przycisk_usun_trunek = tk.Button(menu_gorna, text="                     USUŃ OSTATNI TRUNEK        "
                                                                   "             ", bg="seagreen2", font='Helvetica 10 ',
@@ -170,8 +174,7 @@ def menu_podglad():
             wyliczenia2.pack()
             wyliczenia3.pack()
         except ValueError:
-            spr_poprawnosc_bazy()
-            menu_podglad()
+           error_uszkodzona()
     else:
         menu_podglad_pusta()
 
@@ -289,6 +292,48 @@ def error(komunikat):
 def error_del():
 
     okno_error.destroy()
+
+
+def error_uszkodzona():
+
+    global klucz_autoryzacyjny
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 140
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Baza uszkodzona")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    okno_kom.grab_set()
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="BAZA JEST USZKODZONA,\n NIE MOŻEMY JEJ NAPRAWIĆ.\n Usunąć bazę?", bg="seagreen",
+                     fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    klucz_autoryzacyjny.focus_set()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    TAK    ", command=usun_baze, bg="red3")
+    tak.pack(side=LEFT)
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    NIE    ", command=menu_info, bg="dimgray")
+    nie.pack(side=RIGHT)
 
 
 # Sekcja  obsługi bazy danych:
@@ -468,6 +513,24 @@ def spr_poprawnosc_bazy():
             baza_danych = open(sciezka, 'w')
             wpis_tablicy_do_bazy()
 
+    global dat
+    global czysty_alkohol
+    pozycja = 0
+    pozycja = int(pozycja)
+    a = 2
+    b = 3
+    czyste = []
+    try:
+        while ilosc_element_baza() > pozycja:
+            wpis_bazy_do_tablicy()
+            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
+            czyste.append(czysta)
+            pozycja += 1
+            a += 3
+            b += 3
+    except ValueError or IndexError:
+        error("Baza danych uszkodzona!!!\n Czy chcesz ją usunąć?")
+
 
 # Sekcja operacji na informacjach z bazy:
 
@@ -490,7 +553,7 @@ def alkoholomierz():
             a += 3
             b += 3
     except IndexError:
-        error("alkomierz")
+        None
 
     if len(tablica_danych) != 0:
         czysty_alkohol = int(sum(czyste))
@@ -591,7 +654,7 @@ def srednia_posiadowy():
                 dni_picia.append(tablica_danych[pozycja])
             pozycja += 4
     except IndexError:
-        error("srednia_posiadowy")
+        None
     return int(alkoholomierz() / (len(dni_picia) + 1))
 
 
@@ -623,7 +686,7 @@ def spr_zap():
                     else:
                         get_klucz(zapamietaj_klucz)
                 else:
-                    error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
+                    error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
             else:
                 error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
         else:
@@ -654,9 +717,9 @@ def spr_zap():
                                         else:
                                             get_klucz(zapamietaj_klucz)
                                     else:
-                                        None
+                                        error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                                 else:
-                                    error("Nie możesz wpisać trunku\n wypitego przed ostatnio wpisanym!")
+                                    error("Nie możesz wpisać trunku wypitego\n przed tym, którego wpisałeś ostatnio!")
                             else:
                                 if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                                     if ilosc_element_baza() >= 5:
@@ -664,17 +727,17 @@ def spr_zap():
                                     else:
                                         get_klucz(zapamietaj_klucz)
                                 else:
-                                    error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
+                                    error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                         else:
                             error("Błędna data wypicia trunku!")
                     else:
-                        error("Nie możesz wpisać trunku\n wypitego przed ostatnio wpisanym!")
+                        error("Nie możesz wpisać trunku\n którego dopiero wypijesz!")
                 else:
                     error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
             except ValueError:
                 error("Błędna data wypicia trunku!")
     except TypeError:
-        error("Ilość wyraź w wartości\n całkowitej pomiędzy 1-2000,\nmoc pomiędzy 0,1-100")
+        error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
 
 
 def kolejnosc_wpisu():
@@ -953,6 +1016,5 @@ def zmiana_dalej():
 # Sekcja główna wywołania programu:
 
 
-spr_poprawnosc_bazy()
 menu_info()
 okno.mainloop()
