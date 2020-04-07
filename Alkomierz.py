@@ -603,20 +603,12 @@ def usuwanie(id):
 
     wpis_bazy_do_tablicy()
     baza_danych = open(sciezka, 'w')
-    if id == 1:
-        tablica_danych.pop(id)
-        tablica_danych.pop(id)
-        tablica_danych.pop(id)
-        tablica_danych.pop(id)
-        wpis_tablicy_do_bazy()
-        menu_podglad()
-    else:
-        tablica_danych.pop(id+3*(id-1))
-        tablica_danych.pop(id+3*(id-1))
-        tablica_danych.pop(id+3*(id-1))
-        tablica_danych.pop(id+3*(id-1))
-        wpis_tablicy_do_bazy()
-        menu_podglad()
+    tablica_danych.pop(id+3*(id-1))
+    tablica_danych.pop(id+3*(id-1))
+    tablica_danych.pop(id+3*(id-1))
+    tablica_danych.pop(id+3*(id-1))
+    wpis_tablicy_do_bazy()
+    menu_podglad()
 
 
 # Sekcja operacji na informacjach z bazy:

@@ -1,4 +1,4 @@
-- usuwanie i edytowanie DOWOLNEGO wpisu(id kazdego trunku)
+- edytowanie DOWOLNEGO wpisu(id kazdego trunku)
 
 dodanie przykladowych trunków bez koniecznosci wpisywania recznie
 dodanie jezyka angielskiego

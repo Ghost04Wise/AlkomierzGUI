@@ -1,10 +1,6 @@
 lyf9qu
 2020-03-02
 500
-6.0
-Miloslaw Marcowe
-2020-03-02
-500
 5.6
 Zywiec
 2020-03-05
@@ -27,10 +23,6 @@ Zywiec Biale
 500
 4.9
 Zywiec Biale
-2020-03-10
-500
-6.0
-Perla Chmielowa
 2020-03-11
 500
 6.0
@@ -119,10 +111,10 @@ Bia³y rum Bacardi
 260
 14.0
 Wino
-2020-04-06
-500
-5.0
-Zatecky svetly lezak
+2020-04-07
+330
+6.0
+£om¿a Jasne Pe³ne
 2020-04-07
 330
 6.0
