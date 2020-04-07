@@ -55,7 +55,7 @@ def menu_dodaj():
                          bg="darkseagreen", fg="brown4",
                          font='Helvetica 14 bold')
     kolejnosc.pack()
-    ilosc_tekst = tk.Label(menu_gorna, text="WPISZ ILOŚĆ WYPITEGO TRUNKU(ml)", bg='darkseagreen',
+    ilosc_tekst = tk.Label(menu_gorna, text="ILOŚĆ(ml):", bg='darkseagreen',
                            fg="gold",
                            font='Helvetica 11 bold')
     ilosc_tekst.pack()
@@ -63,17 +63,17 @@ def menu_dodaj():
     ilosc.pack()
     ilosc.focus_set()
     ilosc.get()
-    moc_tekst = tk.Label(menu_gorna, text="\nWPISZ MOC WYPITEGO TRUNKU(%)", bg='darkseagreen',
+    moc_tekst = tk.Label(menu_gorna, text="\nZAWARTOŚĆ ALKOHOLU(%):", bg='darkseagreen',
                          fg="gold", font='Helvetica 11 bold')
     moc_tekst.pack()
     moc = Entry(menu_gorna)
     moc.pack()
-    opis_tekst = tk.Label(menu_gorna, text="\nCO TO ZA TRUNEK?", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
+    opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
     opis_tekst.pack()
     opis = Entry(menu_gorna)
     opis.pack()
     opis.get()
-    data_tekst = tk.Label(menu_gorna, text="\nKIEDY GO WYPIŁEŚ?", bg="darkseagreen", fg="gold",
+    data_tekst = tk.Label(menu_gorna, text="\nDATA SPOŻYCIA:", bg="darkseagreen", fg="gold",
                           font="Helvetica 12 bold")
     data_format_tekst = tk.Label(menu_gorna, text="RRRR-MM-DD", bg="darkseagreen", fg="red",
                           font="Helvetica 8 bold")
@@ -433,7 +433,7 @@ def usun_ostatni_wpis():
             baza_danych.close()
         menu_podglad()
     else:
-        error("Błędny klucz!")
+        error("\nBłędny klucz!")
 
 
 def pewien_usun_baze():
@@ -489,7 +489,7 @@ def usun_baze():
         baza_danych.close()
         menu_podglad_pusta()
     else:
-        error("Błędny klucz!")
+        error("\nBłędny klucz!")
 
 
 def ilosc_element_baza():
@@ -731,7 +731,7 @@ def spr_zap():
                         else:
                             error("Błędna data wypicia trunku!")
                     else:
-                        error("Nie możesz wpisać trunku\n którego dopiero wypijesz!")
+                        error("Nie możesz wpisać trunku\n którego nie wypiłeś!")
                 else:
                     error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
             except ValueError:
@@ -830,7 +830,7 @@ def to_co_ostatnio():
         ilosc_element = int(ilosc_element)
         moc_element = tablica_danych[ilosc_element_baza()-3]
         moc_element = float(moc_element)
-        if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 1000 and moc_element <= 100:
+        if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 2000 and moc_element <= 100:
             ilosc_element = str(ilosc_element)
             moc_element = str(moc_element)
             nowy_trunek(ilosc_element, moc_element)
@@ -843,7 +843,7 @@ def to_co_ostatnio():
         else:
             menu_podglad()
     else:
-        error("Brak wpisów w bazie danych!")
+        error("\nBrak wpisów w bazie danych!")
 
 
 # Sekcja uwierzytelniania użytkownika:
