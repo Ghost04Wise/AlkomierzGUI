@@ -116,7 +116,7 @@ def menu_podglad():
             scrollbar = Scrollbar(lista_trun)
             lista_trun.pack(side=TOP)
             scrollbar.config(command=lista_trun.yview)
-            lista_trun.config(height=10, width=85)
+            lista_trun.config(height=12, width=85)
 
             alkoholomierz()
 
@@ -125,16 +125,18 @@ def menu_podglad():
             a, b, c, d = 2, 3, 4, 1
             id_trunku = 0
             try:
+                lista_trun.insert(END, "-------------------------------------------------    " + str(tablica_danych[pozycja + d]) + "    --------------------------------------------------------")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
-                    lista_trun.insert(END, str(pozycja + 1) + ":     " + str(tablica_danych[pozycja + d]) +
-                                          "     wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
+
+                    lista_trun.insert(END, str(pozycja + 1) + ".  Wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
                                           str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) +
                                           "g): " + str(tablica_danych[pozycja + c]))
                     lista_trun.see(tk.END)
                     if pozycja + d + 4 <= ilosc_element_baza() - 1:
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
-                                lista_trun.insert(END, "---------------------------------------------------------------"
-                                                       "--------------------------------------------------------------")
+                            lista_trun.insert(END, "")
+                            lista_trun.insert(END, "\n-------------------------------------------------    " + str(tablica_danych[pozycja + d + 4]) + "    --------------------------------------------------------")
+                            lista_trun.insert(END, "")
                     else:
                         break
                     pozycja = pozycja + 1
@@ -145,20 +147,20 @@ def menu_podglad():
                     id_trunku += 4
             except IndexError:
                 error_uszkodzona()
-
-            przycisk_usun_trunek = tk.Button(menu_gorna, text="                     USUŃ OSTATNI TRUNEK        "
-                                                                  "             ", bg="seagreen2", font='Helvetica 10 ',
-                                                 command=pewien_usun_wpis)
-            przycisk_usun_baze = tk.Button(menu_gorna, text="                     USUŃ BAZĘ DANYCH           "
-                                                                "          ", bg="seagreen2", fg="red",
+            przycisk_edytuj_trunek = tk.Button(menu_gorna, text="       EDYTUJ TRUNEK       ", bg="seagreen2", font='Helvetica 10 ',
+                                             command=None)
+            przycisk_usun_trunek = tk.Button(menu_gorna, text="         USUŃ TRUNEK         ", bg="seagreen2", font='Helvetica 10 ',
+                                                 command=komunikat_usun_trunek)
+            przycisk_usun_baze = tk.Button(menu_gorna, text="  USUŃ BAZĘ DANYCH    ", bg="seagreen2", fg="red",
                                                font='Helvetica 10 bold', command=pewien_usun_baze)
+            przycisk_edytuj_trunek.pack(side=LEFT)
             przycisk_usun_trunek.pack(side=LEFT)
             przycisk_usun_baze.pack(side=LEFT)
 
             menu_dolna = tk.Frame(okno)
             menu_dolna.pack(side=TOP, fill=X)
             menu_dolna.configure(background='seagreen')
-            wyliczenia1 = Label(menu_dolna, text="\nOD " + dat + "(" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
+            wyliczenia1 = Label(menu_dolna, text="OD " + dat + "(" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
                                                      str(ilosc_plynu()) + "L TRUNKÓW,\n W KTÓRYCH ZNAJDOWAŁO SIĘ "
                                                      + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU.",
                                     bg="seagreen", fg="gold",
@@ -362,7 +364,7 @@ def wpis_tablicy_do_bazy():
         baza_danych.close()
 
 
-def pewien_usun_wpis():
+"""def pewien_usun_wpis():
 
     global klucz_autoryzacyjny
     global okno_kom
@@ -400,10 +402,10 @@ def pewien_usun_wpis():
     przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
     przerwa2.pack(side=LEFT)
     nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
-    nie.pack(side=RIGHT)
+    nie.pack(side=RIGHT)"""
 
 
-def usun_ostatni_wpis():
+"""def usun_ostatni_wpis():
 
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
@@ -433,7 +435,7 @@ def usun_ostatni_wpis():
             baza_danych.close()
         menu_podglad()
     else:
-        error("\nBłędny klucz!")
+        error("\nBłędny klucz!")"""
 
 
 def pewien_usun_baze():
@@ -530,6 +532,75 @@ def spr_poprawnosc_bazy():
             b += 3
     except ValueError or IndexError:
         error("Baza danych uszkodzona!!!\n Czy chcesz ją usunąć?")
+
+
+def komunikat_usun_trunek():
+
+    global id_usun
+    global klucz_autoryzacyjny
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Usuwanie trunku")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    okno_kom.grab_set()
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="Wybierz ID trunku:", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    id_usun = Entry(ramka2, width=3)
+    id_usun.pack()
+    id_usun.get()
+    id_usun.focus_set()
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    USUŃ    ", command=usuwanie_trunku, bg="red3")
+    tak.pack(side=LEFT)
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    POWRÓT   ", command=komunikat_nie, bg="dimgray")
+    nie.pack(side=RIGHT)
+
+
+def usuwanie_trunku():
+
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
+    try:
+        id = id_usun.get()
+        id = int(id)
+        okno_kom.destroy()
+        if uwierzytelnienie() == 1:
+            if id <= int((ilosc_element_baza() - 1) / 4):
+                usuwanie(id)
+            else:
+                error("\nBrak trunku z ID " + str(id) + "!")
+        else:
+            error("\nBłędny klucz!")
+    except ValueError:
+        error("\nWpisz poprawne ID!")
+
+def usuwanie(id):
+
+    None
 
 
 # Sekcja operacji na informacjach z bazy:
@@ -1010,7 +1081,7 @@ def zmiana_dalej():
         okno_kom.destroy()
         get_klucz(zmiana_hasla)
     else:
-        error("Błędny klucz!")
+        error("\nBłędny klucz!")
 
 
 # Sekcja główna wywołania programu:
