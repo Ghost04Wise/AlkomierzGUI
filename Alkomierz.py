@@ -73,6 +73,7 @@ def menu_dodaj():
     opis = Entry(menu_gorna)
     opis.pack()
     opis.get()
+    opis.bind("<Return>", (lambda event: spr_zap()))
     data_tekst = tk.Label(menu_gorna, text="\nDATA SPOŻYCIA:", bg="darkseagreen", fg="gold",
                           font="Helvetica 12 bold")
     data_format_tekst = tk.Label(menu_gorna, text="RRRR-MM-DD", bg="darkseagreen", fg="red",
@@ -125,7 +126,10 @@ def menu_podglad():
             a, b, c, d = 2, 3, 4, 1
             id_trunku = 0
             try:
-                lista_trun.insert(END, "-------------------------------------------------    " + str(tablica_danych[pozycja + d]) + "    --------------------------------------------------------")
+                lista_trun.insert(END, "-------------------------------------------------    " +
+                                  str(tablica_danych[pozycja + d]) + "    --------------------------"
+                                                                     "------------------------------")
+                lista_trun.insert(END,  "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
 
                     lista_trun.insert(END, str(pozycja + 1) + ".  Wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
@@ -135,7 +139,9 @@ def menu_podglad():
                     if pozycja + d + 4 <= ilosc_element_baza() - 1:
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "")
-                            lista_trun.insert(END, "\n-------------------------------------------------    " + str(tablica_danych[pozycja + d + 4]) + "    --------------------------------------------------------")
+                            lista_trun.insert(END, "\n-------------------------------------------------    " +
+                                              str(tablica_danych[pozycja + d + 4]) + "    ---------------------------"
+                                                                                     "-----------------------------")
                             lista_trun.insert(END, "")
                     else:
                         break
@@ -147,10 +153,10 @@ def menu_podglad():
                     id_trunku += 4
             except IndexError:
                 error_uszkodzona()
-            przycisk_edytuj_trunek = tk.Button(menu_gorna, text="       EDYTUJ TRUNEK       ", bg="seagreen2", font='Helvetica 10 ',
-                                             command=None)
-            przycisk_usun_trunek = tk.Button(menu_gorna, text="         USUŃ TRUNEK         ", bg="seagreen2", font='Helvetica 10 ',
-                                                 command=komunikat_usun_trunek)
+            przycisk_edytuj_trunek = tk.Button(menu_gorna, text="       EDYTUJ TRUNEK       ", bg="seagreen2",
+                                               font='Helvetica 10 ', command=None)
+            przycisk_usun_trunek = tk.Button(menu_gorna, text="         USUŃ TRUNEK         ", bg="seagreen2",
+                                             font='Helvetica 10 ', command=komunikat_usun_trunek)
             przycisk_usun_baze = tk.Button(menu_gorna, text="  USUŃ BAZĘ DANYCH    ", bg="seagreen2", fg="red",
                                                font='Helvetica 10 bold', command=pewien_usun_baze)
             przycisk_edytuj_trunek.pack(side=LEFT)
@@ -289,6 +295,7 @@ def error(komunikat):
     info4.pack()
     ok = tk.Button(ramka2, text="   ROZUMIEM   ", command=error_del, bg='seagreen2')
     ok.pack()
+    okno_error.focus_set()
 
 
 def error_del():
@@ -484,8 +491,8 @@ def usun_baze():
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
     kl_aut = str(kl_aut)
-    okno_kom.destroy()
     if uwierzytelnienie() == 1:
+        okno_kom.destroy()
         baza_danych = open(sciezka, 'w')
         baza_danych = open(sciezka, 'a')
         baza_danych.close()
@@ -587,9 +594,9 @@ def usuwanie_trunku():
     try:
         id = id_usun.get()
         id = int(id)
-        okno_kom.destroy()
         if uwierzytelnienie() == 1:
-            if id <= int((ilosc_element_baza() - 1) / 4):
+            if int((ilosc_element_baza() - 1) / 4) >= id >= 1:
+                okno_kom.destroy()
                 usuwanie(id)
             else:
                 error("\nBrak trunku z ID " + str(id) + "!")
