@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import *
 from pathlib import Path
 import re
+import os
 
 sciezka = str('baza_wypitych_trunkow.txt')
 
@@ -59,18 +60,18 @@ def menu_dodaj():
                            fg="gold",
                            font='Helvetica 11 bold')
     ilosc_tekst.pack()
-    ilosc = Entry(menu_gorna)
+    ilosc = Entry(menu_gorna, width=10)
     ilosc.pack()
     ilosc.focus_set()
     ilosc.get()
     moc_tekst = tk.Label(menu_gorna, text="\nZAWARTOŚĆ ALKOHOLU(%):", bg='darkseagreen',
                          fg="gold", font='Helvetica 11 bold')
     moc_tekst.pack()
-    moc = Entry(menu_gorna)
+    moc = Entry(menu_gorna, width=10)
     moc.pack()
     opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
     opis_tekst.pack()
-    opis = Entry(menu_gorna)
+    opis = Entry(menu_gorna, width=25)
     opis.pack()
     opis.get()
     opis.bind("<Return>", (lambda event: spr_zap()))
@@ -80,7 +81,7 @@ def menu_dodaj():
                           font="Helvetica 8 bold")
     data_tekst.pack()
     data_format_tekst.pack()
-    data2 = Entry(menu_gorna)
+    data2 = Entry(menu_gorna, width=10)
     data2.pack()
     data2.insert(0, data)
     data2.get()
@@ -88,9 +89,11 @@ def menu_dodaj():
     przerwa.pack()
     przycisk_dodaj = tk.Button(menu_gorna, text="          DODAJ TRUNEK!          ", bg="seagreen2", command=spr_zap)
     przycisk_dodaj.pack(side=LEFT)
+    przycisk_dodaj.bind("<Return>", (lambda event: spr_zap()))
     przycisk_tosamo = tk.Button(menu_gorna, text="         TO CO OSTATNIO!         ", bg="seagreen2",
                                 command=to_co_ostatnio)
     przycisk_tosamo.pack(side=RIGHT)
+    przycisk_tosamo.bind("<Return>", (lambda event: to_co_ostatnio()))
 
 
 def menu_podglad():
@@ -223,6 +226,9 @@ def menu_podglad_pusta():
 
 def menu_info():
 
+    if os.path.isfile("temp.txt"):
+        os.unlink("temp.txt")
+
     wyczysc_ramke()
     menu_gorna = tk.Frame(okno)
     menu_gorna.pack()
@@ -251,6 +257,8 @@ def menu_info():
 def zamykanie():
 
     time.sleep(0.1)
+    if os.path.isfile("temp.txt"):
+        os.unlink("temp.txt")
     baza_danych.close()
     sys.exit()
 
@@ -760,70 +768,80 @@ def spr_zap():
         moc_element = float(moc_element)
     except ValueError:
         None
+
     try:
-        data_trunku = data2.get()
-        if data_trunku == "":
-            opis_trunku = opis.get()
-            opis_trunku = str(opis_trunku)
-            if len(opis_trunku) <= 25:
-                if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
-                    if ilosc_element_baza() >= 5:
-                        zapisz()
-                    else:
-                        get_klucz(zapamietaj_klucz)
-                else:
-                    error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
-            else:
-                error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
-        else:
-            opis_trunku = opis.get()
-            opis_trunku = str(opis_trunku)
-            try:
+        global opis
+        opis_trunku = opis.get()
+        opis_trunku = str(opis_trunku)
+        temp = open("temp.txt", 'a')
+        temp.write(opis_trunku + "\n")
+        temp.close()
+        try:
+            data_trunku = data2.get()
+            if data_trunku == "":
+                opis_trunku = opis.get()
+                opis_trunku = str(opis_trunku)
                 if len(opis_trunku) <= 25:
-                    data_trunku = str(data_trunku)
-                    rok = data_trunku[0:4]
-                    rok = int(rok)
-                    miesiac = data_trunku[5:7]
-                    miesiac = int(miesiac)
-                    dzien = data_trunku[8:10]
-                    dzien = int(dzien)
-                    tab_data = [rok, miesiac, dzien]
-                    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-                    today = datetime.date.today()
-                    interwal = today - data_wpis
-                    dni = int(interwal.total_seconds() / 86400)
-                    spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
-                    if 0 <= dni:
-                        if spr_wzor:
-                            if ilosc_element_baza() >= 5:
-                                if dni <= kolejnosc_wpisu():
-                                    if 1 <= ilosc_element <= 2000 and 0.1 <= moc_element <= 100:
+                    if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
+                        if ilosc_element_baza() >= 5:
+                            zapisz()
+                        else:
+                            get_klucz(zapamietaj_klucz)
+                    else:
+                        error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+                else:
+                    error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+            else:
+                opis_trunku = opis.get()
+                opis_trunku = str(opis_trunku)
+                try:
+                    if len(opis_trunku) <= 25:
+                        data_trunku = str(data_trunku)
+                        rok = data_trunku[0:4]
+                        rok = int(rok)
+                        miesiac = data_trunku[5:7]
+                        miesiac = int(miesiac)
+                        dzien = data_trunku[8:10]
+                        dzien = int(dzien)
+                        tab_data = [rok, miesiac, dzien]
+                        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                        today = datetime.date.today()
+                        interwal = today - data_wpis
+                        dni = int(interwal.total_seconds() / 86400)
+                        spr_wzor = re.search("[2][0][2][0-9]-[0-9][0-9]-[0-9][0-9]$", data_trunku)
+                        if 0 <= dni:
+                            if spr_wzor:
+                                if ilosc_element_baza() >= 5:
+                                    if dni <= kolejnosc_wpisu():
+                                        if 1 <= ilosc_element <= 2000 and 0.1 <= moc_element <= 100:
+                                            if ilosc_element_baza() >= 5:
+                                                zapisz()
+                                            else:
+                                                get_klucz(zapamietaj_klucz)
+                                        else:
+                                            error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+                                    else:
+                                        error("Nie możesz wpisać trunku wypitego\n przed tym, którego wpisałeś ostatnio!")
+                                else:
+                                    if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                                         if ilosc_element_baza() >= 5:
                                             zapisz()
                                         else:
                                             get_klucz(zapamietaj_klucz)
                                     else:
                                         error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
-                                else:
-                                    error("Nie możesz wpisać trunku wypitego\n przed tym, którego wpisałeś ostatnio!")
                             else:
-                                if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
-                                    if ilosc_element_baza() >= 5:
-                                        zapisz()
-                                    else:
-                                        get_klucz(zapamietaj_klucz)
-                                else:
-                                    error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+                                error("Błędna data wypicia trunku!")
                         else:
-                            error("Błędna data wypicia trunku!")
+                            error("Nie możesz wpisać trunku\n którego nie wypiłeś!")
                     else:
-                        error("Nie możesz wpisać trunku\n którego nie wypiłeś!")
-                else:
-                    error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
-            except ValueError:
-                error("Błędna data wypicia trunku!")
-    except TypeError:
-        error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+                        error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+                except ValueError:
+                    error("Błędna data wypicia trunku!")
+        except TypeError:
+            error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+    except UnicodeEncodeError:
+        error("\nOpis zawiera nieobsługiwane znaki!")
 
 
 def kolejnosc_wpisu():
