@@ -379,80 +379,6 @@ def wpis_tablicy_do_bazy():
         baza_danych.close()
 
 
-"""def pewien_usun_wpis():
-
-    global klucz_autoryzacyjny
-    global okno_kom
-    okno_kom = tk.Toplevel()
-    window_height = 120
-    window_width = 280
-    screen_width = okno_kom.winfo_screenwidth()
-    screen_height = okno_kom.winfo_screenheight()
-    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
-    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
-    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-    okno_kom.title("Usuwanie wpisu")
-    okno_kom.configure(background='seagreen')
-    okno_kom.resizable(False, False)
-    okno_kom.wm_iconbitmap('ikona.ico')
-    okno_kom.grab_set()
-    ramka2 = tk.Frame(okno_kom)
-    ramka2.configure(bg='seagreen')
-    ramka2.pack()
-    info3 = tk.Label(ramka2, text="\nJESTEŚ PEWIEN?", bg="seagreen", fg="red4", font='Helvetica 12 bold')
-    info3.pack()
-    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
-    autoryzacja.pack(side=LEFT)
-    klucz_autoryzacyjny = Entry(ramka2, show="*")
-    klucz_autoryzacyjny.pack(side=RIGHT)
-    klucz_autoryzacyjny.get()
-    klucz_autoryzacyjny.focus_set()
-    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
-    przerwa.pack()
-    ramka3 = tk.Frame(okno_kom)
-    ramka3.configure(bg='seagreen')
-    ramka3.pack()
-    tak = tk.Button(ramka3, text="    TAK    ", command=usun_ostatni_wpis, bg="red3")
-    tak.pack(side=LEFT)
-    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
-    przerwa2.pack(side=LEFT)
-    nie = tk.Button(ramka3, text="    NIE    ", command=komunikat_nie, bg="dimgray")
-    nie.pack(side=RIGHT)"""
-
-
-"""def usun_ostatni_wpis():
-
-    global kl_aut
-    kl_aut = klucz_autoryzacyjny.get()
-    kl_aut = str(kl_aut)
-    okno_kom.destroy()
-    if uwierzytelnienie() == 1:
-        if ilosc_element_baza() > 5:
-            wpis_bazy_do_tablicy()
-            baza_danych = open(sciezka, 'w')
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            wpis_tablicy_do_bazy()
-            baza_danych.close()
-        else:
-            baza_danych = open(sciezka ,'w')
-            baza_danych = open(sciezka ,'a')
-            baza_danych.close()
-        menu_podglad()
-    else:
-        error("\nBłędny klucz!")"""
-
-
 def pewien_usun_baze():
 
     global klucz_autoryzacyjny
@@ -821,7 +747,7 @@ def spr_zap():
                                         else:
                                             error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                                     else:
-                                        error("Nie możesz wpisać trunku wypitego\n przed tym, którego wpisałeś ostatnio!")
+                                        error("Baza musi być\n uzupełniana chrolonoligcznie!")
                                 else:
                                     if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                                         if ilosc_element_baza() >= 5:
@@ -1002,23 +928,30 @@ def zapamietaj_klucz():
     klucz_dostepu = str(klucz_dostepu)
     klucz_dostepu2 = klucz_repeat.get()
     klucz_dostepu2 = str(klucz_dostepu2)
-    if len(klucz_dostepu) >= 5:
-        if klucz_dostepu == klucz_dostepu2:
-            wpis_bazy_do_tablicy()
-            if ilosc_element_baza() > 0:
-                tablica_danych[0] = klucz_dostepu
-                wpis_tablicy_do_bazy()
+    try:
+        temp = open("temp.txt", 'a')
+        temp.write(klucz_dostepu + "\n")
+        temp.close()
+
+        if len(klucz_dostepu) >= 5:
+            if klucz_dostepu == klucz_dostepu2:
+                wpis_bazy_do_tablicy()
+                if ilosc_element_baza() > 0:
+                    tablica_danych[0] = klucz_dostepu
+                    wpis_tablicy_do_bazy()
+                else:
+                    baza_danych = open(sciezka, 'a')
+                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                    baza_danych.close()
+                zapisz()
+                okno_getkod.destroy()
+                menu_podglad()
             else:
-                baza_danych = open(sciezka, 'a')
-                baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-                baza_danych.close()
-            zapisz()
-            okno_getkod.destroy()
-            menu_podglad()
+                error("Wpisane klucze są różne!")
         else:
-            error("Wpisane klucze są różne!")
-    else:
-        error("Wpisany klucz jest zbyt krótki!")
+            error("Wpisany klucz jest zbyt krótki!")
+    except UnicodeEncodeError:
+        error("\nKlucz zawiera nieobsługiwane znaki!")
 
 
 def zakoduj(klucz):
@@ -1087,22 +1020,29 @@ def zmiana_hasla():
         klucz_dostepu = str(klucz_dostepu)
         klucz_dostepu2 = klucz_repeat.get()
         klucz_dostepu2 = str(klucz_dostepu2)
-        if len(klucz_dostepu) >= 5:
-            if klucz_dostepu == klucz_dostepu2:
-                wpis_bazy_do_tablicy()
-                if ilosc_element_baza() > 0:
-                    tablica_danych[0] = str(zakoduj(klucz_dostepu))
-                    baza_danych = open(sciezka, 'w')
-                    wpis_tablicy_do_bazy()
+
+        try:
+            temp = open("temp.txt", 'a')
+            temp.write(klucz_dostepu + "\n")
+            temp.close()
+            if len(klucz_dostepu) >= 5:
+                if klucz_dostepu == klucz_dostepu2:
+                    wpis_bazy_do_tablicy()
+                    if ilosc_element_baza() > 0:
+                        tablica_danych[0] = str(zakoduj(klucz_dostepu))
+                        baza_danych = open(sciezka, 'w')
+                        wpis_tablicy_do_bazy()
+                    else:
+                        baza_danych = open(sciezka, 'a')
+                        baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                        baza_danych.close()
+                    okno_getkod.destroy()
                 else:
-                    baza_danych = open(sciezka, 'a')
-                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-                    baza_danych.close()
-                okno_getkod.destroy()
+                    error("Wpisane klucze są różne!")
             else:
-                error("Wpisane klucze są różne!")
-        else:
-            error("Wpisany klucz jest zbyt krótki!")
+                error("Wpisany klucz jest zbyt krótki!")
+        except UnicodeEncodeError:
+            error("\nKlucz zawiera nieobsługiwane znaki!")
 
 
 def zmiana_dalej():
