@@ -98,6 +98,9 @@ def menu_dodaj():
 
 def menu_podglad():
 
+    if os.path.isfile("temp.txt"):
+        os.unlink("temp.txt")
+
     if ilosc_element_baza() >= 5:
         try:
             wyczysc_ramke()
@@ -157,7 +160,7 @@ def menu_podglad():
             except IndexError:
                 error_uszkodzona()
             przycisk_edytuj_trunek = tk.Button(menu_gorna, text="       EDYTUJ TRUNEK       ", bg="seagreen2",
-                                               font='Helvetica 10 ', command=None)
+                                               font='Helvetica 10 ', command=komunikat_edytuj_trunek)
             przycisk_usun_trunek = tk.Button(menu_gorna, text="         USUŃ TRUNEK         ", bg="seagreen2",
                                              font='Helvetica 10 ', command=komunikat_usun_trunek)
             przycisk_usun_baze = tk.Button(menu_gorna, text="  USUŃ BAZĘ DANYCH    ", bg="seagreen2", fg="red",
@@ -331,7 +334,7 @@ def error_uszkodzona():
     ramka2 = tk.Frame(okno_kom)
     ramka2.configure(bg='seagreen')
     ramka2.pack()
-    info3 = tk.Label(ramka2, text="BAZA JEST USZKODZONA,\n NIE MOŻEMY JEJ NAPRAWIĆ.\n Usunąć bazę?", bg="seagreen",
+    info3 = tk.Label(ramka2, text="BAZA JEST USZKODZONA,\nBRAK MOŻLIWOŚCI NAPRAWY.\n Usunąć bazę?", bg="seagreen",
                      fg="red4", font='Helvetica 12 bold')
     info3.pack()
     autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
@@ -377,6 +380,9 @@ def wpis_tablicy_do_bazy():
         baza_danych.close()
         poz = poz + 1
         baza_danych.close()
+
+
+# Usuwanie bazy danych:
 
 
 def pewien_usun_baze():
@@ -435,44 +441,7 @@ def usun_baze():
         error("\nBłędny klucz!")
 
 
-def ilosc_element_baza():
-
-    wpis_bazy_do_tablicy()
-    sztuki = len(tablica_danych)
-    return int(sztuki)
-
-
-def spr_poprawnosc_bazy():
-
-    if ilosc_element_baza() < 5:
-        baza_danych = open(sciezka, 'w')
-        baza_danych = open(sciezka, 'a')
-        baza_danych.close()
-    else:
-        while not (ilosc_element_baza()-1) % 4 == 0:
-            us = len(tablica_danych) - 1
-            us = int(us)
-            tablica_danych.pop(us)
-            baza_danych = open(sciezka, 'w')
-            wpis_tablicy_do_bazy()
-
-    global dat
-    global czysty_alkohol
-    pozycja = 0
-    pozycja = int(pozycja)
-    a = 2
-    b = 3
-    czyste = []
-    try:
-        while ilosc_element_baza() > pozycja:
-            wpis_bazy_do_tablicy()
-            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
-            czyste.append(czysta)
-            pozycja += 1
-            a += 3
-            b += 3
-    except ValueError or IndexError:
-        error("Baza danych uszkodzona!!!\n Czy chcesz ją usunąć?")
+# Usuwanie trunku:
 
 
 def komunikat_usun_trunek():
@@ -548,8 +517,244 @@ def usuwanie(id):
     tablica_danych.pop(id+3*(id-1))
     tablica_danych.pop(id+3*(id-1))
     tablica_danych.pop(id+3*(id-1))
+    if len(tablica_danych) < 5:
+        tablica_danych.pop(0)
     wpis_tablicy_do_bazy()
     menu_podglad()
+
+
+# Edytowanie trunku:
+
+
+def komunikat_edytuj_trunek():
+
+    global id_usun
+    global klucz_autoryzacyjny
+    global okno_kom
+    okno_kom = tk.Toplevel()
+    window_height = 120
+    window_width = 280
+    screen_width = okno_kom.winfo_screenwidth()
+    screen_height = okno_kom.winfo_screenheight()
+    x_cordinate = int(okno.winfo_x() + (screen_width / 16.5))
+    y_cordinate = int(okno.winfo_y() + (screen_height / 9))
+    okno_kom.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    okno_kom.title("Edytowanie trunku")
+    okno_kom.configure(background='seagreen')
+    okno_kom.resizable(False, False)
+    okno_kom.wm_iconbitmap('ikona.ico')
+    okno_kom.grab_set()
+    ramka2 = tk.Frame(okno_kom)
+    ramka2.configure(bg='seagreen')
+    ramka2.pack()
+    info3 = tk.Label(ramka2, text="Wybierz ID trunku:", bg="seagreen", fg="red4", font='Helvetica 12 bold')
+    info3.pack()
+    id_usun = Entry(ramka2, width=3)
+    id_usun.pack()
+    id_usun.get()
+    id_usun.focus_set()
+    autoryzacja = tk.Label(ramka2, text="Klucz autoryzacyjny:", bg='seagreen', fg='red4', font='Helvetica 9 bold')
+    autoryzacja.pack(side=LEFT)
+    klucz_autoryzacyjny = Entry(ramka2, show="*")
+    klucz_autoryzacyjny.pack(side=RIGHT)
+    klucz_autoryzacyjny.get()
+    przerwa = tk.Label(ramka2, text='\n', bg='seagreen')
+    przerwa.pack()
+    ramka3 = tk.Frame(okno_kom)
+    ramka3.configure(bg='seagreen')
+    ramka3.pack()
+    tak = tk.Button(ramka3, text="    EDYTUJ    ", command=edytuj_trunku, bg="red3")
+    tak.pack(side=LEFT)
+    przerwa2 = tk.Label(ramka3, text='               ', bg='seagreen')
+    przerwa2.pack(side=LEFT)
+    nie = tk.Button(ramka3, text="    POWRÓT   ", command=komunikat_nie, bg="dimgray")
+    nie.pack(side=RIGHT)
+
+
+def edytuj_trunku():
+    global id
+    global kl_aut
+    kl_aut = klucz_autoryzacyjny.get()
+    kl_aut = str(kl_aut)
+    try:
+        id = id_usun.get()
+        id = int(id)
+        if uwierzytelnienie() == 1:
+            if int((ilosc_element_baza() - 1) / 4) >= id >= 1:
+                okno_kom.destroy()
+                edytuj(id)
+            else:
+                error("\nBrak trunku z ID " + str(id) + "!")
+        else:
+            error("\nBłędny klucz!")
+    except ValueError:
+        error("\nWpisz poprawne ID!")
+
+
+def edytuj(id):
+
+    global ilosc
+    global moc
+    global opis
+    global data2
+    wyczysc_ramke()
+    menu_gorna = tk.Frame(okno)
+    menu_gorna.pack(side=TOP)
+    menu_gorna.configure(background='darkseagreen')
+    menu = tk.Menu(okno)
+    okno.config(menu=menu)
+    menu.add_command(label="    DODAJ    ", command=menu_dodaj)
+    menu.add_command(label="    WYPITE TRUNKI   ", command=menu_podglad)
+    menu.add_command(label="  O PROGRAMIE  ", command=menu_info)
+    if ilosc_element_baza() >= 5:
+        menu.add_command(label="  ZMIEŃ KLUCZ  ", command=zmiana_hasla_uwierzytelnianie)
+    else:
+        None
+    menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
+    kolejnosc = tk.Label(menu_gorna, text="EDYTUJESZ " + str(id) + ". TRUNEK!",
+                         bg="darkseagreen", fg="brown4",
+                         font='Helvetica 14 bold')
+    kolejnosc.pack()
+    ilosc_tekst = tk.Label(menu_gorna, text="ILOŚĆ(ml):", bg='darkseagreen',
+                           fg="gold",
+                           font='Helvetica 11 bold')
+    ilosc_tekst.pack()
+    ilosc = Entry(menu_gorna, width=10)
+    ilosc.pack()
+    ilosc.insert(0, str(tablica_danych[id + 3 * (id - 1) + 1]))
+    ilosc.focus_set()
+    ilosc.get()
+    moc_tekst = tk.Label(menu_gorna, text="\nZAWARTOŚĆ ALKOHOLU(%):", bg='darkseagreen',
+                         fg="gold", font='Helvetica 11 bold')
+    moc_tekst.pack()
+    moc = Entry(menu_gorna, width=10)
+    moc.pack()
+    moc.insert(0, str(tablica_danych[id + 3 * (id - 1) + 2]))
+    opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
+    opis_tekst.pack()
+    opis = Entry(menu_gorna, width=25)
+    opis.pack()
+    opis.insert(0, str(tablica_danych[id + 3 * (id - 1)+3]))
+    opis.get()
+    opis.bind("<Return>", (lambda event: spr_zap()))
+    data2 = Entry(menu_gorna, width=10)
+    data2.insert(0, tablica_danych[id+3*(id-1)])
+    data2.get()
+    przerwa = tk.Label(menu_gorna, text="\n\n\n\n\n\n", bg="darkseagreen")
+    przerwa.pack()
+    przycisk_dodaj = tk.Button(menu_gorna, text="      WPROWADŹ ZMIANY      ",
+                               bg="seagreen2", command=zapisz_mod_wpis)
+    przycisk_dodaj.pack(side=LEFT)
+    przycisk_dodaj.bind("<Return>", (lambda event: zapisz_mod_wpis()))
+    przycisk_anuluj = tk.Button(menu_gorna, text="                 ANULUJ                 ",
+                               bg="seagreen2", command=menu_podglad)
+    przycisk_anuluj.pack(side=RIGHT)
+    przycisk_anuluj.bind("<Return>", (lambda event: menu_podglad()))
+
+
+def zapisz_mod_wpis():
+
+    global ilosc_element
+    global moc_element
+    try:
+        ilosc_element = ilosc.get()
+        ilosc_element = int(ilosc_element)
+        moc_element = moc.get()
+        moc_element = str(moc_element)
+        moc_element = moc_element.replace(',', '.')
+        moc_element = float(moc_element)
+    except ValueError:
+        None
+    try:
+        global opis
+        opis_trunku = opis.get()
+        opis_trunku = str(opis_trunku)
+        temp = open("temp.txt", 'a')
+        temp.write(opis_trunku + "\n")
+        temp.close()
+        opis_trunku = opis.get()
+        opis_trunku = str(opis_trunku)
+        if len(opis_trunku) <= 25:
+            if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
+                zapisz_mod()
+            else:
+                error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
+        else:
+            error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+    except UnicodeEncodeError:
+        error("\nOpis zawiera nieobsługiwane znaki!")
+
+
+def zapisz_mod():
+
+    global ilosc_element
+    global moc_element
+    global opis
+
+    ilosc_element = ilosc.get()
+    ilosc_element = str(ilosc_element)
+
+    moc_element = moc.get()
+    moc_element = str(moc_element)
+    moc_element = moc_element.replace(',', '.')
+    moc_element = float(moc_element)
+    moc_element = str(moc_element)
+
+    opis_trunku = opis.get()
+    opis_trunku = str(opis_trunku)
+    opis_trunku = opis_trunku.replace("\\", "/")
+
+    wpis_bazy_do_tablicy()
+    tablica_danych[id + 3 * (id - 1)+ 1] = str(ilosc_element)
+    tablica_danych[id + 3 * (id - 1) + 2] = str(moc_element)
+    tablica_danych[id + 3 * (id - 1) + 3] = str(opis_trunku)
+    baza_danych = open(sciezka, 'w')
+    wpis_tablicy_do_bazy()
+
+    menu_podglad()
+
+
+# Ilosc elementów w bazie i poprawnosc bazy:
+
+
+def ilosc_element_baza():
+
+    wpis_bazy_do_tablicy()
+    sztuki = len(tablica_danych)
+    return int(sztuki)
+
+
+def spr_poprawnosc_bazy():
+
+    if ilosc_element_baza() < 5:
+        baza_danych = open(sciezka, 'w')
+        baza_danych = open(sciezka, 'a')
+        baza_danych.close()
+    else:
+        while not (ilosc_element_baza()-1) % 4 == 0:
+            us = len(tablica_danych) - 1
+            us = int(us)
+            tablica_danych.pop(us)
+            baza_danych = open(sciezka, 'w')
+            wpis_tablicy_do_bazy()
+
+    global dat
+    global czysty_alkohol
+    pozycja = 0
+    pozycja = int(pozycja)
+    a = 2
+    b = 3
+    czyste = []
+    try:
+        while ilosc_element_baza() > pozycja:
+            wpis_bazy_do_tablicy()
+            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
+            czyste.append(czysta)
+            pozycja += 1
+            a += 3
+            b += 3
+    except ValueError or IndexError:
+        error("Baza danych uszkodzona!!!\n Czy chcesz ją usunąć?")
 
 
 # Sekcja operacji na informacjach z bazy:
