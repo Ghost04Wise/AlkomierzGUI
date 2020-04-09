@@ -172,7 +172,7 @@ def menu_podglad():
             menu_dolna = tk.Frame(okno)
             menu_dolna.pack(side=TOP, fill=X)
             menu_dolna.configure(background='seagreen')
-            wyliczenia1 = Label(menu_dolna, text="OD " + dat + "(" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
+            wyliczenia1 = Label(menu_dolna, text="OD " + dat + " (" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
                                                      str(ilosc_plynu()) + "L TRUNKÓW,\n W KTÓRYCH ZNAJDOWAŁO SIĘ "
                                                      + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU.",
                                     bg="seagreen", fg="gold",
@@ -708,7 +708,7 @@ def zapisz_mod():
     opis_trunku = opis_trunku.replace("\\", "/")
 
     wpis_bazy_do_tablicy()
-    tablica_danych[id + 3 * (id - 1)+ 1] = str(ilosc_element)
+    tablica_danych[id + 3 * (id - 1) + 1] = str(ilosc_element)
     tablica_danych[id + 3 * (id - 1) + 2] = str(moc_element)
     tablica_danych[id + 3 * (id - 1) + 3] = str(opis_trunku)
     baza_danych = open(sciezka, 'w')
@@ -824,11 +824,11 @@ def porownanie_do_polakow():
     if dni_wpisywania() == 0:
         dzielnik = 1
     if alkoholomierz() / dzielnik > 30:
-        return "PIJESZ WIĘCEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+        return "PIJESZ WIĘCEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
     if alkoholomierz() / dzielnik < 30:
-        return "PIJESZ MNIEJ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK(30g/dzień)!"
+        return "PIJESZ MNIEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
     if alkoholomierz() / dzielnik == 30:
-        return "PIJESZ TYLE CO PRZECIĘTNY POLAK(30g/dzień)!"
+        return "PIJESZ TYLE CO PRZECIĘTNY POLAK (30g/dzień)!"
 
 
 def porownanie_do_polakow_wartosc():
