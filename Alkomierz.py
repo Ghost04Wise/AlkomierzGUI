@@ -23,7 +23,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.7G Alpha")
+okno.title("Alkomierz 2.8G Alpha")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -218,7 +218,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 2.7G Alpha",
+                          "           Wersja: 2.8G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -250,7 +250,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.7G Alpha",
+                                "           Wersja: 2.8G Alpha",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -674,13 +674,16 @@ def zapisz_mod_wpis():
         temp.close()
         opis_trunku = opis.get()
         opis_trunku = str(opis_trunku)
-        if len(opis_trunku) <= 25:
-            if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
-                zapisz_mod()
+        try:
+            if len(opis_trunku) <= 25:
+                if 1 <= int(ilosc_element) <= 2000 and float(moc_element) >= 0.1 and float(moc_element) <= 100:
+                    zapisz_mod()
+                else:
+                    error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
             else:
-                error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
-        else:
-            error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+                error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+        except ValueError:
+            error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
     except UnicodeEncodeError:
         error("\nOpis zawiera nieobsługiwane znaki!")
 
