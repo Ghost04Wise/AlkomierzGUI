@@ -72,10 +72,10 @@ def menu_dodaj():
     wzor8 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor8.pack()
-    wzor9 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+    wzor9 = tk.Button(lewa, text='Whisky 100ml', command=lambda:trunekwzor(100, 40, "Whisky"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor9.pack()
-    wzor10 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+    wzor10 = tk.Button(lewa, text='Wódka 100ml', command=lambda:trunekwzor(100, 40, "Wódka"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor10.pack()
 
@@ -1011,7 +1011,7 @@ def spr_zap():
                                         else:
                                             error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                                     else:
-                                        error("Baza musi być\n uzupełniana chrolonoligcznie!")
+                                        error("Baza musi być\n uzupełniana chronologicznie!")
                                 else:
                                     if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                                         if ilosc_element_baza() >= 5:
@@ -1021,13 +1021,13 @@ def spr_zap():
                                     else:
                                         error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                             else:
-                                error("Błędna data wypicia trunku!")
+                                error("\nBłędna data wypicia trunku!")
                         else:
                             error("Nie możesz wpisać trunku\n którego nie wypiłeś!")
                     else:
                         error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
                 except ValueError:
-                    error("Błędna data wypicia trunku!")
+                    error("\nBłędna data wypicia trunku!")
         except TypeError:
             error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
     except UnicodeEncodeError:
