@@ -15,7 +15,7 @@ tablica_danych = []
 data = datetime.date.today()
 
 okno = tk.Tk()
-window_height = 350
+window_height = 352
 window_width = 515
 screen_width = okno.winfo_screenwidth()
 screen_height = okno.winfo_screenheight()
@@ -39,8 +39,48 @@ def menu_dodaj():
     global opis
     global data2
     wyczysc_ramke()
+
+    lewa = tk.Frame(okno)
+    lewa.pack(side=LEFT)
+    lewa.configure(bg='seagreen')
+    gora = tk.Label(lewa, text="    WYBIERZ TRUNEK:     ", bg='seagreen', fg="silver", font='Helvetica 12 bold')
+    gora.pack()
+    wzor0 = tk.Button(lewa, text='Tyskie Gronie', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                        font='Helvetica 10 bold', width=22)
+    wzor0.pack()
+    wzor1 = tk.Button(lewa, text='Żywiec', command=lambda:trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor1.pack()
+    wzor2 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor2.pack()
+    wzor3 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor3.pack()
+    wzor4 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor4.pack()
+    wzor5 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor5.pack()
+    wzor6 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor6.pack()
+    wzor7 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor7.pack()
+    wzor8 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor8.pack()
+    wzor9 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor9.pack()
+    wzor10 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+                       font='Helvetica 10 bold', width=22)
+    wzor10.pack()
+
     menu_gorna = tk.Frame(okno)
-    menu_gorna.pack(side=TOP)
+    menu_gorna.pack(side=LEFT)
     menu_gorna.configure(background='darkseagreen')
     menu = tk.Menu(okno)
     okno.config(menu=menu)
@@ -56,19 +96,20 @@ def menu_dodaj():
                          bg="darkseagreen", fg="brown4",
                          font='Helvetica 14 bold')
     kolejnosc.pack()
-    ilosc_tekst = tk.Label(menu_gorna, text="ILOŚĆ(ml):", bg='darkseagreen',
+    ilosc_tekst = tk.Label(menu_gorna, text="ILOŚĆ:", bg='darkseagreen',
                            fg="gold",
                            font='Helvetica 11 bold')
     ilosc_tekst.pack()
     ilosc = Entry(menu_gorna, width=10)
     ilosc.pack()
-    ilosc.focus_set()
+    ilosc.insert(0, 'ml')
     ilosc.get()
-    moc_tekst = tk.Label(menu_gorna, text="\nZAWARTOŚĆ ALKOHOLU(%):", bg='darkseagreen',
+    moc_tekst = tk.Label(menu_gorna, text="\nZAWARTOŚĆ ALKOHOLU:", bg='darkseagreen',
                          fg="gold", font='Helvetica 11 bold')
     moc_tekst.pack()
     moc = Entry(menu_gorna, width=10)
     moc.pack()
+    moc.insert(0, '%')
     opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
     opis_tekst.pack()
     opis = Entry(menu_gorna, width=25)
@@ -889,16 +930,31 @@ def srednia_posiadowy():
 # Sekcja zapisu nowego trunku:
 
 
+def trunekwzor(il,mo,op):
+
+    global ilosc
+    global moc
+    global opis
+    ilosc.delete(0, END)
+    ilosc.insert(0, int(il))
+    moc.delete(0, END)
+    moc.insert(0, float(mo))
+    opis.delete(0, END)
+    opis.insert(0, op)
+
+
 def spr_zap():
 
     global ilosc_element
     global moc_element
     try:
         ilosc_element = ilosc.get()
+        ilosc_element = ilosc_element.replace("ml", "")
         ilosc_element = int(ilosc_element)
         moc_element = moc.get()
         moc_element = str(moc_element)
         moc_element = moc_element.replace(',', '.')
+        moc_element = moc_element.replace('%', '')
         moc_element = float(moc_element)
     except ValueError:
         None
@@ -1001,10 +1057,12 @@ def zapisz():
     global ilosc_element
     global moc_element
     ilosc_element = ilosc.get()
+    ilosc_element = ilosc_element.replace("ml","")
     ilosc_element = int(ilosc_element)
     moc_element = moc.get()
     moc_element = str(moc_element)
     moc_element = moc_element.replace(',', '.')
+    moc_element = moc_element.replace('%', '')
     moc_element = float(moc_element)
     zapisz_date()
     ilosc_element = str(ilosc_element)
@@ -1268,5 +1326,5 @@ def zmiana_dalej():
 # Sekcja główna wywołania programu:
 
 
-menu_info()
+menu_podglad()
 okno.mainloop()
