@@ -51,10 +51,10 @@ def menu_dodaj():
     wzor1 = tk.Button(lewa, text='Żywiec', command=lambda:trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor1.pack()
-    wzor2 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+    wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda:trunekwzor(500, 6, "Perła Chmielowa"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor2.pack()
-    wzor3 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+    wzor3 = tk.Button(lewa, text='Amber Koźlak', command=lambda:trunekwzor(500, 6.5, "Amber Koźlak"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor3.pack()
     wzor4 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
@@ -173,8 +173,8 @@ def menu_podglad():
             a, b, c, d = 2, 3, 4, 1
             id_trunku = 0
             try:
-                lista_trun.insert(END, "-------------------------------------------------    " +
-                                  str(tablica_danych[pozycja + d]) + "    --------------------------"
+                lista_trun.insert(END, "------------------------------------------------    " +
+                                  str(tablica_danych[pozycja + d]) + " (62g)    --------------------"
                                                                      "------------------------------")
                 lista_trun.insert(END,  "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
