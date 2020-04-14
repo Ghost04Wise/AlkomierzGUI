@@ -1,3 +1,4 @@
+ilosc alkoholu wypisywana dla kazdego dnia przy dacie
 dodanie jezyka angielskiego
 wykres picia
 

@@ -174,8 +174,8 @@ def menu_podglad():
             id_trunku = 0
             try:
                 lista_trun.insert(END, "------------------------------------------------    " +
-                                  str(tablica_danych[pozycja + d]) + " (62g)    --------------------"
-                                                                     "------------------------------")
+                                  str(tablica_danych[pozycja + d]) + " (" + str(dzienny_alkohol(pozycja + d)) +
+                                  "g)   --------------------------------------------------")
                 lista_trun.insert(END,  "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
 
@@ -186,9 +186,10 @@ def menu_podglad():
                     if pozycja + d + 4 <= ilosc_element_baza() - 1:
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "")
-                            lista_trun.insert(END, "\n-------------------------------------------------    " +
-                                              str(tablica_danych[pozycja + d + 4]) + "    ---------------------------"
-                                                                                     "-----------------------------")
+                            lista_trun.insert(END, "------------------------------------------------    " +
+                                              str(tablica_danych[pozycja + d]) + " (" +
+                                              str(dzienny_alkohol(pozycja + d+4)) + "g)   -----------------------------"
+                                                                                    "-------------------")
                             lista_trun.insert(END, "")
                     else:
                         break
@@ -925,6 +926,18 @@ def srednia_posiadowy():
     except IndexError:
         None
     return int(alkoholomierz() / (len(dni_picia) + 1))
+
+
+def dzienny_alkohol(dzien_pic):
+
+    tab_alk = []
+    id_dnia = 1
+    while id_dnia <= ilosc_element_baza() - 2:
+        if tablica_danych[dzien_pic] == tablica_danych[id_dnia]:
+            tab_alk.append((int((int(tablica_danych[id_dnia+1]) * float(tablica_danych[id_dnia+2])) / 100)))
+        id_dnia +=  4
+
+    return sum(tab_alk)
 
 
 # Sekcja zapisu nowego trunku:
