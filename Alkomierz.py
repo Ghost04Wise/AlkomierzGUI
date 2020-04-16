@@ -45,17 +45,17 @@ def menu_dodaj():
     lewa.configure(bg='seagreen')
     gora = tk.Label(lewa, text="    WYBIERZ TRUNEK:     ", bg='seagreen', fg="silver", font='Helvetica 12 bold')
     gora.pack()
-    wzor0 = tk.Button(lewa, text='Tyskie Gronie', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
-                        font='Helvetica 10 bold', width=22)
+    wzor0 = tk.Button(lewa, text='Tyskie Gronie', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor0.pack()
     wzor1 = tk.Button(lewa, text='Żywiec', command=lambda:trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor1.pack()
-    wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda:trunekwzor(500, 6, "Perła Chmielowa"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda:trunekwzor(500, 6, "Perła Chmielowa"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor2.pack()
-    wzor3 = tk.Button(lewa, text='Amber Koźlak', command=lambda:trunekwzor(500, 6.5, "Amber Koźlak"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor3 = tk.Button(lewa, text='Amber Koźlak', command=lambda:trunekwzor(500, 6.5, "Amber Koźlak"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor3.pack()
     wzor4 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
@@ -175,7 +175,7 @@ def menu_podglad():
             try:
                 lista_trun.insert(END, "------------------------------------------------    " +
                                   str(tablica_danych[pozycja + d]) + " (" + str(dzienny_alkohol(pozycja + d)) +
-                                  "g)   --------------------------------------------------")
+                                  "g)   ------------------------------------------------------")
                 lista_trun.insert(END,  "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
 
@@ -187,9 +187,9 @@ def menu_podglad():
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "")
                             lista_trun.insert(END, "------------------------------------------------    " +
-                                              str(tablica_danych[pozycja + d]) + " (" +
-                                              str(dzienny_alkohol(pozycja + d+4)) + "g)   -----------------------------"
-                                                                                    "-------------------")
+                                              str(tablica_danych[pozycja + d + 4]) + " (" +
+                                              str(dzienny_alkohol(pozycja + d + 4)) + "g)   ---------------------------"
+                                                                                    "----------------------------")
                             lista_trun.insert(END, "")
                     else:
                         break
