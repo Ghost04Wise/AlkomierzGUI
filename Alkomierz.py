@@ -23,7 +23,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 2.8G Alpha")
+okno.title("Alkomierz 3G Beta")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -45,37 +45,37 @@ def menu_dodaj():
     lewa.configure(bg='seagreen')
     gora = tk.Label(lewa, text="    WYBIERZ TRUNEK:     ", bg='seagreen', fg="silver", font='Helvetica 12 bold')
     gora.pack()
-    wzor0 = tk.Button(lewa, text='Tyskie Gronie', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver',
+    wzor0 = tk.Button(lewa, text='Tyskie Gronie', command=lambda: trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver',
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor0.pack()
-    wzor1 = tk.Button(lewa, text='Żywiec', command=lambda:trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
+    wzor1 = tk.Button(lewa, text='Żywiec', command=lambda: trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor1.pack()
-    wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda:trunekwzor(500, 6, "Perła Chmielowa"), bg='silver',
+    wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda: trunekwzor(500, 6, "Perła Chmielowa"), bg='silver',
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor2.pack()
-    wzor3 = tk.Button(lewa, text='Amber Koźlak', command=lambda:trunekwzor(500, 6.5, "Amber Koźlak"), bg='silver',
+    wzor3 = tk.Button(lewa, text='Amber Koźlak', command=lambda: trunekwzor(500, 6.5, "Amber Koźlak"), bg='silver',
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor3.pack()
-    wzor4 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor4 = tk.Button(lewa, text='Namysłów Pils', command=lambda: trunekwzor(500, 6, "Namysłów Pils"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor4.pack()
-    wzor5 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor5 = tk.Button(lewa, text='Kasztelan Niepasteryzowane', command=lambda: trunekwzor(500, 5,
+                      "Kasztelan Niepasteryzowane"), bg='silver', fg="brown", font='Helvetica 10 bold', width=22)
     wzor5.pack()
-    wzor6 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor6 = tk.Button(lewa, text='Amber APA', command=lambda: trunekwzor(500, 5.2, "Amber APA"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor6.pack()
-    wzor7 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+    wzor7 = tk.Button(lewa, text='Trybunał Pils', command=lambda: trunekwzor(500, 6, "Trybunał Pils"), bg='silver',
+                      fg="brown", font='Helvetica 10 bold', width=22)
     wzor7.pack()
-    wzor8 = tk.Button(lewa, text='', command=lambda:trunekwzor(500, 5.2, "Tyskie Gronie"), bg='silver', fg="brown",
+    wzor8 = tk.Button(lewa, text='Wino 250ml', command=lambda: trunekwzor(250, 12, "Wino"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor8.pack()
-    wzor9 = tk.Button(lewa, text='Whisky 100ml', command=lambda:trunekwzor(100, 40, "Whisky"), bg='silver', fg="brown",
+    wzor9 = tk.Button(lewa, text='Whisky 100ml', command=lambda: trunekwzor(100, 40, "Whisky"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor9.pack()
-    wzor10 = tk.Button(lewa, text='Wódka 100ml', command=lambda:trunekwzor(100, 40, "Wódka"), bg='silver', fg="brown",
+    wzor10 = tk.Button(lewa, text='Wódka 100ml', command=lambda: trunekwzor(100, 40, "Wódka"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
     wzor10.pack()
 
@@ -112,7 +112,7 @@ def menu_dodaj():
     moc.insert(0, '%')
     opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
     opis_tekst.pack()
-    opis = Entry(menu_gorna, width=25)
+    opis = Entry(menu_gorna, width=30)
     opis.pack()
     opis.get()
     opis.bind("<Return>", (lambda event: spr_zap()))
@@ -260,7 +260,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 2.8G Alpha",
+                          "           Wersja: 3G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -292,7 +292,7 @@ def menu_info():
                     font='Helvetica 12 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 2.8G Alpha",
+                                "           Wersja: 3G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -674,7 +674,7 @@ def edytuj(id):
     moc.insert(0, str(tablica_danych[id + 3 * (id - 1) + 2]))
     opis_tekst = tk.Label(menu_gorna, text="\nOPIS TRUNKU:", bg="darkseagreen", fg="gold", font="Helvetica 11 bold")
     opis_tekst.pack()
-    opis = Entry(menu_gorna, width=25)
+    opis = Entry(menu_gorna, width=30)
     opis.pack()
     opis.insert(0, str(tablica_danych[id + 3 * (id - 1)+3]))
     opis.get()
@@ -717,13 +717,13 @@ def zapisz_mod_wpis():
         opis_trunku = opis.get()
         opis_trunku = str(opis_trunku)
         try:
-            if len(opis_trunku) <= 25:
+            if len(opis_trunku) <= 30:
                 if 1 <= int(ilosc_element) <= 2000 and float(moc_element) >= 0.1 and float(moc_element) <= 100:
                     zapisz_mod()
                 else:
                     error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
             else:
-                error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+                error("Zbyt długi opis trunku\n(maksymalnie 30 znaków)")
         except ValueError:
             error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
     except UnicodeEncodeError:
@@ -984,7 +984,7 @@ def spr_zap():
             if data_trunku == "":
                 opis_trunku = opis.get()
                 opis_trunku = str(opis_trunku)
-                if len(opis_trunku) <= 25:
+                if len(opis_trunku) <= 30:
                     if 1 <= ilosc_element <= 2000 and moc_element >= 0.1 and moc_element <= 100:
                         if ilosc_element_baza() >= 5:
                             zapisz()
@@ -993,12 +993,12 @@ def spr_zap():
                     else:
                         error("Ilość wyraź w wartości\n całkowitej 1-2000,\nmoc 0,1-100!")
                 else:
-                    error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+                    error("Zbyt długi opis trunku\n(maksymalnie 30 znaków)")
             else:
                 opis_trunku = opis.get()
                 opis_trunku = str(opis_trunku)
                 try:
-                    if len(opis_trunku) <= 25:
+                    if len(opis_trunku) <= 30:
                         data_trunku = str(data_trunku)
                         rok = data_trunku[0:4]
                         rok = int(rok)
@@ -1038,7 +1038,7 @@ def spr_zap():
                         else:
                             error("Nie możesz wpisać trunku\n którego nie wypiłeś!")
                     else:
-                        error("Zbyt długi opis trunku\n(maksymalnie 25 znaków)")
+                        error("Zbyt długi opis trunku\n(maksymalnie 30 znaków)")
                 except ValueError:
                     error("\nBłędna data wypicia trunku!")
         except TypeError:
