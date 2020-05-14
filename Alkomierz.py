@@ -259,8 +259,8 @@ def menu_podglad_pusta():
                            font='Helvetica 10 bold')
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
-                     text="\n\nTomasz Kasperek                                                      "
-                          "           Wersja: 3G Beta",
+                     text="\n\nTomek Kasperek                                                      "
+                          "             Wersja: 3G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -290,9 +290,10 @@ def menu_info():
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
-    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
-    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomasz Kasperek                                                      "
-                                "           Wersja: 3G Beta",
+    opis2 = tk.Label(okno, text='ALKOMIERZ')
+    opis2.pack()
+    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomek Kasperek                                                      "
+                                "             Wersja: 3G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -817,7 +818,7 @@ def alkoholomierz():
     try:
         while ilosc_element_baza() > pozycja:
             wpis_bazy_do_tablicy()
-            czysta = float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))
+            czysta = (float(int(tablica_danych[pozycja + a]) * (float(tablica_danych[pozycja + b]) / 100))) * 0.8
             czyste.append(czysta)
             pozycja += 1
             a += 3
@@ -865,11 +866,11 @@ def porownanie_do_polakow():
     dzielnik = dni_wpisywania()
     if dni_wpisywania() == 0:
         dzielnik = 1
-    if alkoholomierz() / dzielnik > 30:
+    if alkoholomierz() / dzielnik >= 31:
         return "PIJESZ WIĘCEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
     if alkoholomierz() / dzielnik < 30:
         return "PIJESZ MNIEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
-    if alkoholomierz() / dzielnik == 30:
+    if alkoholomierz() / dzielnik >= 30 and alkoholomierz() / dzielnik < 31:
         return "PIJESZ TYLE CO PRZECIĘTNY POLAK (30g/dzień)!"
 
 
