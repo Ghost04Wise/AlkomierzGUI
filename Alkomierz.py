@@ -23,7 +23,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 3G Beta")
+okno.title("Alkomierz 3.1G Beta")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -173,9 +173,9 @@ def menu_podglad():
             a, b, c, d = 2, 3, 4, 1
             id_trunku = 0
             try:
-                lista_trun.insert(END, "------------------------------------------------    " +
-                                  str(tablica_danych[pozycja + d]) + " (" + str(dzienny_alkohol(pozycja + d)) +
-                                  "g)   ------------------------------------------------------")
+                lista_trun.insert(END, "--------------------------------------------------    " +
+                                  str(tablica_danych[pozycja + d]) + "    --------------------------------"
+                                                                     "---------------------")
                 lista_trun.insert(END,  "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
 
@@ -186,10 +186,9 @@ def menu_podglad():
                     if pozycja + d + 4 <= ilosc_element_baza() - 1:
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "")
-                            lista_trun.insert(END, "------------------------------------------------    " +
-                                              str(tablica_danych[pozycja + d + 4]) + " (" +
-                                              str(dzienny_alkohol(pozycja + d + 4)) + "g)   ---------------------------"
-                                                                                    "----------------------------")
+                            lista_trun.insert(END, "--------------------------------------------------    " +
+                                              str(tablica_danych[pozycja + d + 4]) + "   ---------------------------"
+                                                                                    "---------------------------")
                             lista_trun.insert(END, "")
                     else:
                         break
@@ -218,17 +217,17 @@ def menu_podglad():
                                                      str(ilosc_plynu()) + "L TRUNKÓW,\n W KTÓRYCH ZNAJDOWAŁO SIĘ "
                                                      + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU.",
                                     bg="seagreen", fg="gold",
+                                    font='Helvetica 9 bold')
+            wyliczenia2 = Label(menu_dolna, text=ostatni_tydzien(),
+                                    bg="seagreen", fg="red4",
                                     font='Helvetica 11 bold')
-            wyliczenia2 = Label(menu_dolna, text=porownanie_do_polakow(),
-                                    bg="seagreen", fg="blue",
-                                    font='Helvetica 11 bold')
-            wyliczenia3 = Label(menu_dolna, text="ŚREDNIO PODCZAS JEDNEGO POSIEDZENIA WYPIJASZ " +
+            wyliczenia3 = Label(menu_dolna, text="ŚREDNIO W DNIU, W KTÓRYM PIJESZ, SPOŻYWASZ " +
                                                      str(srednia_posiadowy())
                                                      + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
                                     font='Helvetica 9 bold')
             wyliczenia1.pack()
-            wyliczenia2.pack()
             wyliczenia3.pack()
+            wyliczenia2.pack()
         except ValueError:
            error_uszkodzona()
     else:
@@ -260,7 +259,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomek Kasperek                                                      "
-                          "             Wersja: 3G Beta",
+                          "             Wersja: 3.1G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -290,10 +289,14 @@ def menu_info():
     menu.add_command(label="  WYJŚCIE  ", command=zamykanie)
     opis = tk.Label(okno, text="\nWitaj w programie\n\n\n\n\n", fg="lightskyblue", bg="seagreen",
                     font='Helvetica 12 bold')
-    opis2 = tk.Label(okno, text='ALKOMIERZ')
-    opis2.pack()
-    opis3 = tk.Label(okno, text="\n\n\n\n\n\nTomek Kasperek                                                      "
-                                "             Wersja: 3G Beta",
+    informacja = tk.Label(okno, text="BAZA JEST PUSTA!", fg="red2", bg="seagreen",
+                          font='Helvetica 21 bold')
+    informacja2 = tk.Label(okno, text="Dodaj pierwszy trunek", fg="red2", bg="seagreen",
+                           font='Helvetica 10 bold')
+    opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
+    opis3 = tk.Label(okno,
+                     text="\n\n\n\n\n\nTomek Kasperek                                                      "
+                          "             Wersja: 3.1G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -861,20 +864,18 @@ def dni_wpisywania():
     return dni
 
 
-def porownanie_do_polakow():
+def porownanie():
 
     dzielnik = dni_wpisywania()
     if dni_wpisywania() == 0:
         dzielnik = 1
-    if alkoholomierz() / dzielnik >= 31:
-        return "PIJESZ WIĘCEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
-    if alkoholomierz() / dzielnik < 30:
-        return "PIJESZ MNIEJ ("+str(porownanie_do_polakow_wartosc())+"g/dzień) NIŻ PRZECIĘTNY POLAK (30g/dzień)!"
-    if alkoholomierz() / dzielnik >= 30 and alkoholomierz() / dzielnik < 31:
-        return "PIJESZ TYLE CO PRZECIĘTNY POLAK (30g/dzień)!"
+    if alkoholomierz() / dzielnik < 28:
+        return "WYPIJASZ UMIARKOWANE ILOŚCI ALKOHOLU ("+str(porownanie_wartosc())+"g/dzień)"
+    if alkoholomierz() / dzielnik >= 28:
+        return "PIJESZ RYZYKOWNIE! ("+str(porownanie_wartosc())+"g/dzień)"
 
 
-def porownanie_do_polakow_wartosc():
+def porownanie_wartosc():
 
     if dni_wpisywania() == 0:
         return int(alkoholomierz() / 1)
@@ -912,7 +913,7 @@ def podglad_ile_dni():
 def ile_alko_wtrunku(id_trunku):
 
     wpis_bazy_do_tablicy()
-    return int((int(tablica_danych[id_trunku+2]) * float(tablica_danych[id_trunku+3])) / 100)
+    return int(((int(tablica_danych[id_trunku+2])*0.8) * float(tablica_danych[id_trunku+3])) / 100)
 
 
 def srednia_posiadowy():
@@ -935,10 +936,64 @@ def dzienny_alkohol(dzien_pic):
     id_dnia = 1
     while id_dnia <= ilosc_element_baza() - 2:
         if tablica_danych[dzien_pic] == tablica_danych[id_dnia]:
-            tab_alk.append((int((int(tablica_danych[id_dnia+1]) * float(tablica_danych[id_dnia+2])) / 100)))
-        id_dnia +=  4
+            tab_alk.append((int(((int(tablica_danych[id_dnia+1])*0.8) * float(tablica_danych[id_dnia+2])) / 100)))
+        id_dnia += 4
 
     return sum(tab_alk)
+
+
+def ostatni_tydzien():
+
+    if ilosc_element_baza() < 5:
+        return None
+    else:
+        ostatni_tydz = []
+        kol = 4
+        data_trunku = tablica_danych[ilosc_element_baza() - kol]
+        data_trunku = str(data_trunku)
+        rok = data_trunku[0:4]
+        rok = int(rok)
+        miesiac = data_trunku[5:7]
+        miesiac = int(miesiac)
+        dzien = data_trunku[8:10]
+        dzien = int(dzien)
+        tab_data = [rok, miesiac, dzien]
+        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+        today = datetime.date.today()
+        interwal = today - data_wpis
+        dni = int(interwal.total_seconds() / 86400)
+
+        while dni <= 6:
+            if ilosc_element_baza() > kol + 4:
+                try:
+                    trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                        tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+                    ostatni_tydz.append(trunek)
+                    kol += 4
+
+                    data_trunku = tablica_danych[ilosc_element_baza() - kol]
+                    data_trunku = str(data_trunku)
+                    rok = data_trunku[0:4]
+                    rok = int(rok)
+                    miesiac = data_trunku[5:7]
+                    miesiac = int(miesiac)
+                    dzien = data_trunku[8:10]
+                    dzien = int(dzien)
+                    tab_data = [rok, miesiac, dzien]
+                    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                    today = datetime.date.today()
+                    interwal = today - data_wpis
+                    dni = int(interwal.total_seconds() / 86400)
+                except IndexError:
+                    None
+            else:
+                trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                    tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+                ostatni_tydz.append(trunek)
+                break
+
+    suma = int(sum(ostatni_tydz))
+    return "W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU!"
 
 
 # Sekcja zapisu nowego trunku:
