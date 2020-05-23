@@ -214,13 +214,16 @@ def menu_podglad():
             menu_dolna.pack(side=TOP, fill=X)
             menu_dolna.configure(background='seagreen')
             wyliczenia1 = Label(menu_dolna, text="OD " + dat + " (" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
-                                                     str(ilosc_plynu()) + "L TRUNKÓW,\n W KTÓRYCH ZNAJDOWAŁO SIĘ "
-                                                     + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU.",
+                                                     str(ilosc_plynu()) + "L TRUNKÓW ("
+                                                     + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU).",
                                     bg="seagreen", fg="gold",
                                     font='Helvetica 9 bold')
             wyliczenia2 = Label(menu_dolna, text=ostatni_tydzien(),
                                     bg="seagreen", fg="red4",
                                     font='Helvetica 11 bold')
+            wyliczenia4 = Label(menu_dolna, text=dni_bezalko(),
+                                bg="seagreen", fg="red4",
+                                font='Helvetica 11 bold')
             wyliczenia3 = Label(menu_dolna, text="ŚREDNIO W DNIU, W KTÓRYM PIJESZ, SPOŻYWASZ " +
                                                      str(srednia_posiadowy())
                                                      + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
@@ -228,6 +231,7 @@ def menu_podglad():
             wyliczenia1.pack()
             wyliczenia3.pack()
             wyliczenia2.pack()
+            wyliczenia4.pack()
         except ValueError:
            error_uszkodzona()
     else:
@@ -864,25 +868,6 @@ def dni_wpisywania():
     return dni
 
 
-def porownanie():
-
-    dzielnik = dni_wpisywania()
-    if dni_wpisywania() == 0:
-        dzielnik = 1
-    if alkoholomierz() / dzielnik < 28:
-        return "WYPIJASZ UMIARKOWANE ILOŚCI ALKOHOLU ("+str(porownanie_wartosc())+"g/dzień)"
-    if alkoholomierz() / dzielnik >= 28:
-        return "PIJESZ RYZYKOWNIE! ("+str(porownanie_wartosc())+"g/dzień)"
-
-
-def porownanie_wartosc():
-
-    if dni_wpisywania() == 0:
-        return int(alkoholomierz() / 1)
-    else:
-        return int(alkoholomierz() / dni_wpisywania())
-
-
 def ilosc_plynu():
 
     pozycja = 2
@@ -993,7 +978,81 @@ def ostatni_tydzien():
                 break
 
     suma = int(sum(ostatni_tydz))
-    return "W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU!"
+    return "W CIĄGU 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU"
+
+
+def dni_bezalko():
+
+    if ilosc_element_baza() < 5:
+        return None
+    else:
+        ostatni_tydz = []
+        kol = 4
+        data_trunku = tablica_danych[ilosc_element_baza() - kol]
+        data_trunku = str(data_trunku)
+        rok = data_trunku[0:4]
+        rok = int(rok)
+        miesiac = data_trunku[5:7]
+        miesiac = int(miesiac)
+        dzien = data_trunku[8:10]
+        dzien = int(dzien)
+        tab_data = [rok, miesiac, dzien]
+        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+        today = datetime.date.today()
+        interwal = today - data_wpis
+        dni = int(interwal.total_seconds() / 86400)
+        ostatni_tydz.append(dni-1)
+        ost = data_wpis
+
+        while dni <= 7:
+            if ilosc_element_baza() > kol + 4:
+                try:
+                    kol += 4
+                    data_trunku = tablica_danych[ilosc_element_baza() - kol]
+                    data_trunku = str(data_trunku)
+                    rok = data_trunku[0:4]
+                    rok = int(rok)
+                    miesiac = data_trunku[5:7]
+                    miesiac = int(miesiac)
+                    dzien = data_trunku[8:10]
+                    dzien = int(dzien)
+                    tab_data = [rok, miesiac, dzien]
+                    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                    today = datetime.date.today()
+                    interwal = today - data_wpis
+                    dni = int(interwal.total_seconds() / 86400)
+                    print(dni)
+
+                    if data_wpis == ost:
+                        None
+                    else:
+                        interwal = ost - data_wpis
+                        dni1 = int(interwal.total_seconds() / 86400)
+                        if dni1 == 1:
+                            None
+                            ost = data_wpis
+                        else:
+                            if dni <= 7:
+                                ostatni_tydz.append(dni1)
+                                ost = data_wpis
+                                print(dni)
+                            else:
+                                None
+
+                except IndexError:
+                    None
+            else:
+                break
+
+    suma = int(sum(ostatni_tydz))
+    if suma < 0:
+        return "PIJĄC CODZIENIE!"
+    if suma > 7:
+        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ"
+    if suma == 7:
+        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ"
+    if 0 <= suma <= 6:
+        return "DNI BEZ ALKOHOLU: " + str(suma)
 
 
 # Sekcja zapisu nowego trunku:
