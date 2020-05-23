@@ -983,74 +983,72 @@ def ostatni_tydzien():
 
 def dni_bezalko():
 
-    if ilosc_element_baza() < 5:
-        return None
-    else:
-        ostatni_tydz = []
-        kol = 4
-        data_trunku = tablica_danych[ilosc_element_baza() - kol]
-        data_trunku = str(data_trunku)
-        rok = data_trunku[0:4]
-        rok = int(rok)
-        miesiac = data_trunku[5:7]
-        miesiac = int(miesiac)
-        dzien = data_trunku[8:10]
-        dzien = int(dzien)
-        tab_data = [rok, miesiac, dzien]
-        data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-        today = datetime.date.today()
-        interwal = today - data_wpis
-        dni = int(interwal.total_seconds() / 86400)
-        ostatni_tydz.append(dni-1)
-        ost = data_wpis
+    ostatni_tydz = []
+    kol = 4
+    data_trunku = tablica_danych[ilosc_element_baza() - kol]
+    data_trunku = str(data_trunku)
+    rok = data_trunku[0:4]
+    rok = int(rok)
+    miesiac = data_trunku[5:7]
+    miesiac = int(miesiac)
+    dzien = data_trunku[8:10]
+    dzien = int(dzien)
+    tab_data = [rok, miesiac, dzien]
+    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+    today = datetime.date.today()
+    interwal = today - data_wpis
+    dni = int(interwal.total_seconds() / 86400)
+    ostatni_tydz.append(dni)
+    ost = data_wpis
 
-        while dni <= 7:
-            if ilosc_element_baza() > kol + 4:
-                try:
-                    kol += 4
-                    data_trunku = tablica_danych[ilosc_element_baza() - kol]
-                    data_trunku = str(data_trunku)
-                    rok = data_trunku[0:4]
-                    rok = int(rok)
-                    miesiac = data_trunku[5:7]
-                    miesiac = int(miesiac)
-                    dzien = data_trunku[8:10]
-                    dzien = int(dzien)
-                    tab_data = [rok, miesiac, dzien]
-                    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
-                    today = datetime.date.today()
-                    interwal = today - data_wpis
-                    dni = int(interwal.total_seconds() / 86400)
-                    print(dni)
+    while dni <= 6:
+        if ilosc_element_baza() > kol + 4:
+            try:
+                kol += 4
+                data_trunku = tablica_danych[ilosc_element_baza() - kol]
+                data_trunku = str(data_trunku)
+                rok = data_trunku[0:4]
+                rok = int(rok)
+                miesiac = data_trunku[5:7]
+                miesiac = int(miesiac)
+                dzien = data_trunku[8:10]
+                dzien = int(dzien)
+                tab_data = [rok, miesiac, dzien]
+                data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                today = datetime.date.today()
+                interwal = today - data_wpis
+                dni = int(interwal.total_seconds() / 86400)
 
-                    if data_wpis == ost:
+                if data_wpis == ost:
+                    None
+                else:
+                    interwal = ost - data_wpis
+                    dni1 = int(interwal.total_seconds() / 86400)
+                    if dni1 == 1:
                         None
+                        ost = data_wpis
                     else:
-                        interwal = ost - data_wpis
-                        dni1 = int(interwal.total_seconds() / 86400)
-                        if dni1 == 1:
-                            None
+                        if dni <= 6:
+                            print(dni1)
+                            ostatni_tydz.append(dni1 - 1)
+                            ost = data_wpis
+                        if dni > 6:
+                            print(dni1)
+                            ostatni_tydz.append(dni1 - (dni-6))
                             ost = data_wpis
                         else:
-                            if dni <= 7:
-                                ostatni_tydz.append(dni1)
-                                ost = data_wpis
-                                print(dni)
-                            else:
-                                None
+                            None
 
-                except IndexError:
-                    None
-            else:
-                break
+            except IndexError:
+                None
+        else:
+            break
 
     suma = int(sum(ostatni_tydz))
     if suma < 0:
-        return "PIJĄC CODZIENIE!"
-    if suma > 7:
-        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ"
-    if suma == 7:
-        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ"
+        return "PRZEZ OSTATNIE 7 DNI PIŁEŚ CODZIENNIE!"
+    if suma >= 7:
+        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ."
     if 0 <= suma <= 6:
         return "DNI BEZ ALKOHOLU: " + str(suma)
 
