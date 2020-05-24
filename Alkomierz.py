@@ -978,7 +978,7 @@ def ostatni_tydzien():
                 break
 
     suma = int(sum(ostatni_tydz))
-    return "W CIĄGU 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU"
+    return "W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU!"
 
 
 def dni_bezalko():
@@ -1029,11 +1029,9 @@ def dni_bezalko():
                         ost = data_wpis
                     else:
                         if dni <= 6:
-                            print(dni1)
                             ostatni_tydz.append(dni1 - 1)
                             ost = data_wpis
                         if dni > 6:
-                            print(dni1)
                             ostatni_tydz.append(dni1 - (dni-6))
                             ost = data_wpis
                         else:
@@ -1050,7 +1048,7 @@ def dni_bezalko():
     if suma >= 7:
         return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ."
     if 0 <= suma <= 6:
-        return "DNI BEZ ALKOHOLU: " + str(suma)
+        return "PRZEZ OSTATNIE 7 DNI - " + str(suma) + " BEZ ALKOHOLU."
 
 
 # Sekcja zapisu nowego trunku:
