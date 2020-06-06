@@ -23,7 +23,7 @@ x_cordinate = int((screen_width/2) - (window_width/2))
 y_cordinate = int((screen_height/2) - (window_height/2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
-okno.title("Alkomierz 3.1G Beta")
+okno.title("Alkomierz 3.2G Beta")
 okno.configure(background='seagreen')
 okno.resizable(False, False)
 okno.wm_iconbitmap('ikona.ico')
@@ -218,16 +218,15 @@ def menu_podglad():
                                                      + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU).",
                                     bg="seagreen", fg="gold",
                                     font='Helvetica 9 bold')
-            wyliczenia2 = Label(menu_dolna, text=ostatni_tydzien(),
+            wyliczenia2 = Label(menu_dolna, text="W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(ostatni_tydzien())
+                                                 + "g CZYSTEGO ALKOHOLU!",
                                     bg="seagreen", fg="red4",
                                     font='Helvetica 11 bold')
-            wyliczenia4 = Label(menu_dolna, text=dni_bezalko(),
-                                bg="seagreen", fg="red4",
-                                font='Helvetica 11 bold')
+            wyliczenia4 = Label(menu_dolna, text=pozwolenie_picia(), bg="seagreen", fg="red4", font='Helvetica 11 bold')
             wyliczenia3 = Label(menu_dolna, text="ŚREDNIO W DNIU, W KTÓRYM PIJESZ, SPOŻYWASZ " +
-                                                     str(srednia_posiadowy())
-                                                     + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
-                                    font='Helvetica 9 bold')
+                                str(srednia_posiadowy())
+                                + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
+                                font='Helvetica 9 bold')
             wyliczenia1.pack()
             wyliczenia3.pack()
             wyliczenia2.pack()
@@ -263,7 +262,7 @@ def menu_podglad_pusta():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\nTomek Kasperek                                                      "
-                          "             Wersja: 3.1G Beta",
+                          "             Wersja: 3.2G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -300,7 +299,7 @@ def menu_info():
     opis2 = tk.Label(okno, text="A L K O M I E R Z\n", fg="brown", bg="seagreen", font='gothic 26 bold')
     opis3 = tk.Label(okno,
                      text="\n\n\n\n\n\nTomek Kasperek                                                      "
-                          "             Wersja: 3.1G Beta",
+                          "             Wersja: 3.2G Beta",
                      fg="lightskyblue", bg="seagreen", font='Helvetica 10 bold')
     opis.pack()
     opis2.pack()
@@ -978,7 +977,7 @@ def ostatni_tydzien():
                 break
 
     suma = int(sum(ostatni_tydz))
-    return "W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(suma) + "g CZYSTEGO ALKOHOLU!"
+    return suma
 
 
 def dni_bezalko():
@@ -1043,12 +1042,77 @@ def dni_bezalko():
             break
 
     suma = int(sum(ostatni_tydz))
-    if suma < 0:
-        return "PRZEZ OSTATNIE 7 DNI PIŁEŚ CODZIENNIE!"
-    if suma >= 7:
-        return "PRZEZ OSTATNIE 7 DNI NIC NIE PIŁEŚ."
-    if 0 <= suma <= 6:
-        return "PRZEZ OSTATNIE 7 DNI - " + str(suma) + " BEZ ALKOHOLU."
+    return suma
+
+
+def pozwolenie_picia():
+
+    tyle = 200 - ostatni_tydzien()
+
+    if tyle > 40:
+        tyle = 40
+
+    ostatni_tydz = []
+    kol = 4
+    data_trunku = tablica_danych[ilosc_element_baza() - kol]
+    data_trunku = str(data_trunku)
+    rok = data_trunku[0:4]
+    rok = int(rok)
+    miesiac = data_trunku[5:7]
+    miesiac = int(miesiac)
+    dzien = data_trunku[8:10]
+    dzien = int(dzien)
+    tab_data = [rok, miesiac, dzien]
+    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+    today = datetime.date.today()
+    interwal = today - data_wpis
+    dni = int(interwal.total_seconds() / 86400)
+
+    while dni <= 0:
+        if ilosc_element_baza() > kol + 4:
+            try:
+                trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                    tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+                ostatni_tydz.append(trunek)
+                kol += 4
+
+                data_trunku = tablica_danych[ilosc_element_baza() - kol]
+                data_trunku = str(data_trunku)
+                rok = data_trunku[0:4]
+                rok = int(rok)
+                miesiac = data_trunku[5:7]
+                miesiac = int(miesiac)
+                dzien = data_trunku[8:10]
+                dzien = int(dzien)
+                tab_data = [rok, miesiac, dzien]
+                data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                today = datetime.date.today()
+                interwal = today - data_wpis
+                dni = int(interwal.total_seconds() / 86400)
+            except IndexError:
+                None
+        else:
+            trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+            ostatni_tydz.append(trunek)
+            break
+        suma = sum(ostatni_tydz)
+
+    suma = int(sum(ostatni_tydz))
+    lol = tyle - suma
+    if lol < 0:
+        lol = 0
+
+    if dni_bezalko() >= 3 and dni_wpisywania() >= 3:
+        if ostatni_tydzien() >= 200:
+            return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
+        else:
+            if lol == 0:
+                return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
+            else:
+                return "Możesz spożyć dziś " + str(lol) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
+    else:
+        return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
 
 
 # Sekcja zapisu nowego trunku:
