@@ -19,8 +19,8 @@ window_height = 352
 window_width = 515
 screen_width = okno.winfo_screenwidth()
 screen_height = okno.winfo_screenheight()
-x_cordinate = int((screen_width/2) - (window_width/2))
-y_cordinate = int((screen_height/2) - (window_height/2))
+x_cordinate = int((screen_width / 2) - (window_width / 2))
+y_cordinate = int((screen_height / 2) - (window_height / 2))
 okno.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 
 okno.title("Alkomierz 3.2G Beta")
@@ -33,7 +33,6 @@ okno.wm_iconbitmap('ikona.ico')
 
 
 def menu_dodaj():
-
     global ilosc
     global moc
     global opis
@@ -49,7 +48,7 @@ def menu_dodaj():
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor0.pack()
     wzor1 = tk.Button(lewa, text='Żywiec', command=lambda: trunekwzor(500, 5.6, "Żywiec"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+                      font='Helvetica 10 bold', width=22)
     wzor1.pack()
     wzor2 = tk.Button(lewa, text='Perła Chmielowa', command=lambda: trunekwzor(500, 6, "Perła Chmielowa"), bg='silver',
                       fg="brown", font='Helvetica 10 bold', width=22)
@@ -61,7 +60,8 @@ def menu_dodaj():
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor4.pack()
     wzor5 = tk.Button(lewa, text='Kasztelan Niepasteryzowane', command=lambda: trunekwzor(500, 5,
-                      "Kasztelan Niepasteryzowane"), bg='silver', fg="brown", font='Helvetica 10 bold', width=22)
+                                                                                          "Kasztelan Niepasteryzowane"),
+                      bg='silver', fg="brown", font='Helvetica 10 bold', width=22)
     wzor5.pack()
     wzor6 = tk.Button(lewa, text='Amber APA', command=lambda: trunekwzor(500, 5.2, "Amber APA"), bg='silver',
                       fg="brown", font='Helvetica 10 bold', width=22)
@@ -70,10 +70,10 @@ def menu_dodaj():
                       fg="brown", font='Helvetica 10 bold', width=22)
     wzor7.pack()
     wzor8 = tk.Button(lewa, text='Wino 250ml', command=lambda: trunekwzor(250, 12, "Wino"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+                      font='Helvetica 10 bold', width=22)
     wzor8.pack()
     wzor9 = tk.Button(lewa, text='Whisky 100ml', command=lambda: trunekwzor(100, 40, "Whisky"), bg='silver', fg="brown",
-                       font='Helvetica 10 bold', width=22)
+                      font='Helvetica 10 bold', width=22)
     wzor9.pack()
     wzor10 = tk.Button(lewa, text='Wódka 100ml', command=lambda: trunekwzor(100, 40, "Wódka"), bg='silver', fg="brown",
                        font='Helvetica 10 bold', width=22)
@@ -119,7 +119,7 @@ def menu_dodaj():
     data_tekst = tk.Label(menu_gorna, text="\nDATA SPOŻYCIA:", bg="darkseagreen", fg="gold",
                           font="Helvetica 12 bold")
     data_format_tekst = tk.Label(menu_gorna, text="RRRR-MM-DD", bg="darkseagreen", fg="red",
-                          font="Helvetica 8 bold")
+                                 font="Helvetica 8 bold")
     data_tekst.pack()
     data_format_tekst.pack()
     data2 = Entry(menu_gorna, width=10)
@@ -138,7 +138,7 @@ def menu_dodaj():
 
 
 def menu_podglad():
-
+    
     if os.path.isfile("temp.txt"):
         os.unlink("temp.txt")
 
@@ -176,19 +176,19 @@ def menu_podglad():
                 lista_trun.insert(END, "--------------------------------------------------    " +
                                   str(tablica_danych[pozycja + d]) + "    --------------------------------"
                                                                      "---------------------")
-                lista_trun.insert(END,  "")
+                lista_trun.insert(END, "")
                 for lista_trunek, pozycja_trunek in enumerate(tablica_danych):
 
                     lista_trun.insert(END, str(pozycja + 1) + ".  Wypiłeś " + str(tablica_danych[pozycja + a]) + "ml " +
-                                          str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) +
-                                          "g): " + str(tablica_danych[pozycja + c]))
+                                      str(tablica_danych[pozycja + b]) + "% (" + str(ile_alko_wtrunku(id_trunku)) +
+                                      "g): " + str(tablica_danych[pozycja + c]))
                     lista_trun.see(tk.END)
                     if pozycja + d + 4 <= ilosc_element_baza() - 1:
                         if str(tablica_danych[pozycja + d]) != str(tablica_danych[pozycja + d + 4]):
                             lista_trun.insert(END, "")
                             lista_trun.insert(END, "--------------------------------------------------    " +
                                               str(tablica_danych[pozycja + d + 4]) + "   ---------------------------"
-                                                                                    "---------------------------")
+                                                                                     "---------------------------")
                             lista_trun.insert(END, "")
                     else:
                         break
@@ -205,7 +205,7 @@ def menu_podglad():
             przycisk_usun_trunek = tk.Button(menu_gorna, text="         USUŃ TRUNEK         ", bg="seagreen2",
                                              font='Helvetica 10 ', command=komunikat_usun_trunek)
             przycisk_usun_baze = tk.Button(menu_gorna, text="  USUŃ BAZĘ DANYCH    ", bg="seagreen2", fg="red",
-                                               font='Helvetica 10 bold', command=pewien_usun_baze)
+                                           font='Helvetica 10 bold', command=pewien_usun_baze)
             przycisk_edytuj_trunek.pack(side=LEFT)
             przycisk_usun_trunek.pack(side=LEFT)
             przycisk_usun_baze.pack(side=LEFT)
@@ -214,31 +214,30 @@ def menu_podglad():
             menu_dolna.pack(side=TOP, fill=X)
             menu_dolna.configure(background='seagreen')
             wyliczenia1 = Label(menu_dolna, text="OD " + dat + " (" + str(podglad_ile_dni()) + ") WYPIŁEŚ " +
-                                                     str(ilosc_plynu()) + "L TRUNKÓW ("
-                                                     + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU).",
-                                    bg="seagreen", fg="gold",
-                                    font='Helvetica 9 bold')
+                                                 str(ilosc_plynu()) + "L TRUNKÓW ("
+                                                 + str(alkoholomierz()) + "g CZYSTEGO ALKOHOLU).",
+                                bg="seagreen", fg="gold",
+                                font='Helvetica 9 bold')
             wyliczenia2 = Label(menu_dolna, text="W CIĄGU OSTATNICH 7 DNI SPOŻYŁEŚ " + str(ostatni_tydzien())
                                                  + "g CZYSTEGO ALKOHOLU!",
-                                    bg="seagreen", fg="red4",
-                                    font='Helvetica 11 bold')
+                                bg="seagreen", fg="red4",
+                                font='Helvetica 11 bold')
             wyliczenia4 = Label(menu_dolna, text=pozwolenie_picia(), bg="seagreen", fg="red4", font='Helvetica 11 bold')
             wyliczenia3 = Label(menu_dolna, text="ŚREDNIO W DNIU, W KTÓRYM PIJESZ, SPOŻYWASZ " +
-                                str(srednia_posiadowy())
-                                + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
+                                                 str(srednia_posiadowy())
+                                                 + "g CZYSTEGO ALKOHOLU.", bg="seagreen", fg="gold",
                                 font='Helvetica 9 bold')
             wyliczenia1.pack()
             wyliczenia3.pack()
             wyliczenia2.pack()
             wyliczenia4.pack()
         except ValueError:
-           error_uszkodzona()
+            error_uszkodzona()
     else:
         menu_podglad_pusta()
 
 
 def menu_podglad_pusta():
-
     wyczysc_ramke()
     menu_gorna = tk.Frame(okno)
     menu_gorna.pack()
@@ -307,7 +306,6 @@ def menu_info():
 
 
 def zamykanie():
-
     time.sleep(0.1)
     if os.path.isfile("temp.txt"):
         os.unlink("temp.txt")
@@ -319,19 +317,16 @@ def zamykanie():
 
 
 def wyczysc_ramke():
-
     for obiekty in okno.winfo_children():
         obiekty.destroy()
 
 
 def komunikat_nie():
-
     okno_kom.destroy()
     menu_podglad()
 
 
 def error(komunikat):
-
     global okno_error
     okno_error = tk.Toplevel()
     window_height = 120
@@ -359,7 +354,6 @@ def error(komunikat):
 
 
 def error_del():
-
     okno_error.destroy()
 
 
@@ -409,7 +403,6 @@ def error_uszkodzona():
 
 
 def wpis_bazy_do_tablicy():
-
     tablica_danych.clear()
     with open(sciezka, 'r') as zawartosc:
         for linia in zawartosc:
@@ -420,7 +413,6 @@ def wpis_bazy_do_tablicy():
 
 
 def wpis_tablicy_do_bazy():
-
     poz = 0
     poz = int(poz)
     while len(tablica_danych) > poz:
@@ -435,7 +427,6 @@ def wpis_tablicy_do_bazy():
 
 
 def pewien_usun_baze():
-
     global klucz_autoryzacyjny
     global okno_kom
     okno_kom = tk.Toplevel()
@@ -476,7 +467,6 @@ def pewien_usun_baze():
 
 
 def usun_baze():
-
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
     kl_aut = str(kl_aut)
@@ -494,7 +484,6 @@ def usun_baze():
 
 
 def komunikat_usun_trunek():
-
     global id_usun
     global klucz_autoryzacyjny
     global okno_kom
@@ -539,7 +528,6 @@ def komunikat_usun_trunek():
 
 
 def usuwanie_trunku():
-
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
     kl_aut = str(kl_aut)
@@ -559,13 +547,12 @@ def usuwanie_trunku():
 
 
 def usuwanie(id):
-
     wpis_bazy_do_tablicy()
     baza_danych = open(sciezka, 'w')
-    tablica_danych.pop(id+3*(id-1))
-    tablica_danych.pop(id+3*(id-1))
-    tablica_danych.pop(id+3*(id-1))
-    tablica_danych.pop(id+3*(id-1))
+    tablica_danych.pop(id + 3 * (id - 1))
+    tablica_danych.pop(id + 3 * (id - 1))
+    tablica_danych.pop(id + 3 * (id - 1))
+    tablica_danych.pop(id + 3 * (id - 1))
     if len(tablica_danych) < 5:
         tablica_danych.pop(0)
     wpis_tablicy_do_bazy()
@@ -576,7 +563,6 @@ def usuwanie(id):
 
 
 def komunikat_edytuj_trunek():
-
     global id_usun
     global klucz_autoryzacyjny
     global okno_kom
@@ -641,7 +627,6 @@ def edytuj_trunku():
 
 
 def edytuj(id):
-
     global ilosc
     global moc
     global opis
@@ -683,11 +668,11 @@ def edytuj(id):
     opis_tekst.pack()
     opis = Entry(menu_gorna, width=30)
     opis.pack()
-    opis.insert(0, str(tablica_danych[id + 3 * (id - 1)+3]))
+    opis.insert(0, str(tablica_danych[id + 3 * (id - 1) + 3]))
     opis.get()
     opis.bind("<Return>", (lambda event: spr_zap()))
     data2 = Entry(menu_gorna, width=10)
-    data2.insert(0, tablica_danych[id+3*(id-1)])
+    data2.insert(0, tablica_danych[id + 3 * (id - 1)])
     data2.get()
     przerwa = tk.Label(menu_gorna, text="\n\n\n\n\n\n", bg="darkseagreen")
     przerwa.pack()
@@ -696,13 +681,12 @@ def edytuj(id):
     przycisk_dodaj.pack(side=LEFT)
     przycisk_dodaj.bind("<Return>", (lambda event: zapisz_mod_wpis()))
     przycisk_anuluj = tk.Button(menu_gorna, text="                 ANULUJ                 ",
-                               bg="seagreen2", command=menu_podglad)
+                                bg="seagreen2", command=menu_podglad)
     przycisk_anuluj.pack(side=RIGHT)
     przycisk_anuluj.bind("<Return>", (lambda event: menu_podglad()))
 
 
 def zapisz_mod_wpis():
-
     global ilosc_element
     global moc_element
     try:
@@ -738,7 +722,6 @@ def zapisz_mod_wpis():
 
 
 def zapisz_mod():
-
     global ilosc_element
     global moc_element
     global opis
@@ -770,7 +753,6 @@ def zapisz_mod():
 
 
 def ilosc_element_baza():
-
     wpis_bazy_do_tablicy()
     sztuki = len(tablica_danych)
     return int(sztuki)
@@ -783,7 +765,7 @@ def spr_poprawnosc_bazy():
         baza_danych = open(sciezka, 'a')
         baza_danych.close()
     else:
-        while not (ilosc_element_baza()-1) % 4 == 0:
+        while not (ilosc_element_baza() - 1) % 4 == 0:
             us = len(tablica_danych) - 1
             us = int(us)
             tablica_danych.pop(us)
@@ -813,7 +795,6 @@ def spr_poprawnosc_bazy():
 
 
 def alkoholomierz():
-
     global dat
     global czysty_alkohol
     pozycja = 0
@@ -839,7 +820,6 @@ def alkoholomierz():
 
 
 def ilosc_dawek():
-
     wpis_bazy_do_tablicy()
     enty = (len(tablica_danych)) / 4
     enty = int(enty) + 1
@@ -849,7 +829,6 @@ def ilosc_dawek():
 
 
 def dni_wpisywania():
-
     data_start = tablica_danych[1]
 
     rok = data_start[0:4]
@@ -868,7 +847,6 @@ def dni_wpisywania():
 
 
 def ilosc_plynu():
-
     pozycja = 2
     pozycja = int(pozycja)
     ilosc_pl = []
@@ -879,7 +857,7 @@ def ilosc_plynu():
             ilosc_pl.append(ilosc_plynu)
             pozycja += 4
             ilosc_suma = sum(ilosc_pl)
-            ilosc_suma = ilosc_suma/1000
+            ilosc_suma = ilosc_suma / 1000
             ilosc_suma = float(ilosc_suma)
     except IndexError:
         error("ilosc_plynu")
@@ -887,7 +865,6 @@ def ilosc_plynu():
 
 
 def podglad_ile_dni():
-
     if dni_wpisywania() == 0:
         return "DZIŚ"
     else:
@@ -895,13 +872,11 @@ def podglad_ile_dni():
 
 
 def ile_alko_wtrunku(id_trunku):
-
     wpis_bazy_do_tablicy()
-    return int(((int(tablica_danych[id_trunku+2])*0.8) * float(tablica_danych[id_trunku+3])) / 100)
+    return int(((int(tablica_danych[id_trunku + 2]) * 0.8) * float(tablica_danych[id_trunku + 3])) / 100)
 
 
 def srednia_posiadowy():
-
     pozycja = 1
     dni_picia = []
     try:
@@ -915,19 +890,17 @@ def srednia_posiadowy():
 
 
 def dzienny_alkohol(dzien_pic):
-
     tab_alk = []
     id_dnia = 1
     while id_dnia <= ilosc_element_baza() - 2:
         if tablica_danych[dzien_pic] == tablica_danych[id_dnia]:
-            tab_alk.append((int(((int(tablica_danych[id_dnia+1])*0.8) * float(tablica_danych[id_dnia+2])) / 100)))
+            tab_alk.append((int(((int(tablica_danych[id_dnia + 1]) * 0.8) * float(tablica_danych[id_dnia + 2])) / 100)))
         id_dnia += 4
 
     return sum(tab_alk)
 
 
 def ostatni_tydzien():
-
     if ilosc_element_baza() < 5:
         return None
     else:
@@ -1031,7 +1004,7 @@ def dni_bezalko():
                             ostatni_tydz.append(dni1 - 1)
                             ost = data_wpis
                         if dni > 6:
-                            ostatni_tydz.append(dni1 - (dni-6))
+                            ostatni_tydz.append(dni1 - (dni - 6))
                             ost = data_wpis
                         else:
                             None
@@ -1045,12 +1018,67 @@ def dni_bezalko():
     return suma
 
 
+def dzis_pite():
+
+    ostatni_tydz = []
+    kol = 4
+    data_trunku = tablica_danych[ilosc_element_baza() - kol]
+    data_trunku = str(data_trunku)
+    rok = data_trunku[0:4]
+    rok = int(rok)
+    miesiac = data_trunku[5:7]
+    miesiac = int(miesiac)
+    dzien = data_trunku[8:10]
+    dzien = int(dzien)
+    tab_data = [rok, miesiac, dzien]
+    data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+    today = datetime.date.today()
+    interwal = today - data_wpis
+    dni = int(interwal.total_seconds() / 86400)
+
+    while dni == 0:
+        if ilosc_element_baza() > kol + 1:
+            try:
+                trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                    tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+                ostatni_tydz.append(trunek)
+                kol += 4
+
+                data_trunku = tablica_danych[ilosc_element_baza() - kol]
+                data_trunku = str(data_trunku)
+                rok = data_trunku[0:4]
+                rok = int(rok)
+                miesiac = data_trunku[5:7]
+                miesiac = int(miesiac)
+                dzien = data_trunku[8:10]
+                dzien = int(dzien)
+                tab_data = [rok, miesiac, dzien]
+                data_wpis = datetime.date(tab_data[0], tab_data[1], tab_data[2])
+                today = datetime.date.today()
+                interwal = today - data_wpis
+                dni = int(interwal.total_seconds() / 86400)
+            except IndexError:
+                None
+        else:
+            trunek = int(((int(tablica_danych[ilosc_element_baza() - kol + 1]) * 0.8) * float(
+                tablica_danych[ilosc_element_baza() - kol + 2])) / 100)
+            ostatni_tydz.append(trunek)
+            break
+        suma = sum(ostatni_tydz)
+
+    suma = int(sum(ostatni_tydz))
+
+    return suma
+
+
 def pozwolenie_picia():
 
-    tyle = 200 - ostatni_tydzien()
-
-    if tyle > 40:
-        tyle = 40
+    dzis = 200 - ostatni_tydzien()
+    temp = 40 - dzis_pite()
+    if temp < dzis:
+        dzis = temp
+    else:
+        dzis = dzis
 
     ostatni_tydz = []
     kol = 4
@@ -1099,27 +1127,23 @@ def pozwolenie_picia():
         suma = sum(ostatni_tydz)
 
     suma = int(sum(ostatni_tydz))
-    lol = tyle - suma
-    if lol < 0:
-        lol = 0
 
     if dni_bezalko() >= 3 and dni_wpisywania() >= 3:
         if ostatni_tydzien() >= 200:
             return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
         else:
-            if lol == 0:
-                return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
-            else:
-                return "Możesz spożyć dziś " + str(lol) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
+            return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
     else:
-        return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
+        if dni_bezalko() <= dni_wpisywania():
+            return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
+        else:
+            return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
 
 
 # Sekcja zapisu nowego trunku:
 
 
-def trunekwzor(il,mo,op):
-
+def trunekwzor(il, mo, op):
     global ilosc
     global moc
     global opis
@@ -1132,7 +1156,6 @@ def trunekwzor(il,mo,op):
 
 
 def spr_zap():
-
     global ilosc_element
     global moc_element
     try:
@@ -1223,8 +1246,7 @@ def spr_zap():
 
 
 def kolejnosc_wpisu():
-
-    data_trunku = tablica_danych[ilosc_element_baza()-4]
+    data_trunku = tablica_danych[ilosc_element_baza() - 4]
     data_trunku = str(data_trunku)
     rok = data_trunku[0:4]
     rok = int(rok)
@@ -1241,11 +1263,10 @@ def kolejnosc_wpisu():
 
 
 def zapisz():
-
     global ilosc_element
     global moc_element
     ilosc_element = ilosc.get()
-    ilosc_element = ilosc_element.replace("ml","")
+    ilosc_element = ilosc_element.replace("ml", "")
     ilosc_element = int(ilosc_element)
     moc_element = moc.get()
     moc_element = str(moc_element)
@@ -1261,7 +1282,6 @@ def zapisz():
 
 
 def zapisz_date():
-
     data_trunku = data2.get()
     data_trunku = str(data_trunku)
     if data_trunku == "":
@@ -1277,7 +1297,6 @@ def zapisz_date():
 
 
 def zapisz_date_dzisiejsza():
-
     wpis_bazy_do_tablicy()
     baza_danych = open(sciezka, 'a')
     baza_danych.write(str(data) + "\n")
@@ -1285,7 +1304,6 @@ def zapisz_date_dzisiejsza():
 
 
 def nowy_trunek(ilosc, moc):
-
     baza_danych = open(sciezka, 'a')
     baza_danych.write(ilosc_element + "\n")
     baza_danych.write(moc_element + "\n")
@@ -1293,7 +1311,6 @@ def nowy_trunek(ilosc, moc):
 
 
 def zapisz_opis():
-
     global opis
     opis_trunku = opis.get()
     opis_trunku = str(opis_trunku)
@@ -1304,21 +1321,20 @@ def zapisz_opis():
 
 
 def to_co_ostatnio():
-
     if ilosc_element_baza() >= 5:
         zapisz_date_dzisiejsza()
         wpis_bazy_do_tablicy()
         global ilosc_element
         global moc_element
-        ilosc_element = tablica_danych[ilosc_element_baza()-4]
+        ilosc_element = tablica_danych[ilosc_element_baza() - 4]
         ilosc_element = int(ilosc_element)
-        moc_element = tablica_danych[ilosc_element_baza()-3]
+        moc_element = tablica_danych[ilosc_element_baza() - 3]
         moc_element = float(moc_element)
         if ilosc_element >= 1 and moc_element >= 0.1 and ilosc_element <= 2000 and moc_element <= 100:
             ilosc_element = str(ilosc_element)
             moc_element = str(moc_element)
             nowy_trunek(ilosc_element, moc_element)
-            opis_trunku = str(tablica_danych[ilosc_element_baza()-4])
+            opis_trunku = str(tablica_danych[ilosc_element_baza() - 4])
             opis_trunku = str(opis_trunku)
             baza_danych = open(sciezka, 'a')
             baza_danych.write(opis_trunku + "\n")
@@ -1334,7 +1350,6 @@ def to_co_ostatnio():
 
 
 def get_klucz(czynnosc):
-
     if ilosc_element_baza() < 5 and czynnosc == zmiana_hasla:
         None
     else:
@@ -1377,7 +1392,6 @@ def get_klucz(czynnosc):
 
 
 def zapamietaj_klucz():
-
     klucz_dostepu = klucz.get()
     klucz_dostepu = str(klucz_dostepu)
     klucz_dostepu2 = klucz_repeat.get()
@@ -1409,23 +1423,20 @@ def zapamietaj_klucz():
 
 
 def zakoduj(klucz):
-
-    kod=''
+    kod = ''
     for znak in klucz:
-        kod=kod+chr(ord(znak)+5)
+        kod = kod + chr(ord(znak) + 5)
     return kod
 
 
 def odkoduj(klucz):
-
-    kod=''
+    kod = ''
     for znak in klucz:
-        kod=kod+chr(ord(znak)-5)
+        kod = kod + chr(ord(znak) - 5)
     return kod
 
 
 def uwierzytelnienie():
-
     wpis_bazy_do_tablicy()
     if str(odkoduj(tablica_danych[0])) == str(kl_aut):
         return 1
@@ -1434,7 +1445,6 @@ def uwierzytelnienie():
 
 
 def zmiana_hasla_uwierzytelnianie():
-
     global klucz_autoryzacyjny
     global okno_kom
     okno_kom = tk.Toplevel()
@@ -1469,38 +1479,36 @@ def zmiana_hasla_uwierzytelnianie():
 
 
 def zmiana_hasla():
+    klucz_dostepu = klucz.get()
+    klucz_dostepu = str(klucz_dostepu)
+    klucz_dostepu2 = klucz_repeat.get()
+    klucz_dostepu2 = str(klucz_dostepu2)
 
-        klucz_dostepu = klucz.get()
-        klucz_dostepu = str(klucz_dostepu)
-        klucz_dostepu2 = klucz_repeat.get()
-        klucz_dostepu2 = str(klucz_dostepu2)
-
-        try:
-            temp = open("temp.txt", 'a')
-            temp.write(klucz_dostepu + "\n")
-            temp.close()
-            if len(klucz_dostepu) >= 5:
-                if klucz_dostepu == klucz_dostepu2:
-                    wpis_bazy_do_tablicy()
-                    if ilosc_element_baza() > 0:
-                        tablica_danych[0] = str(zakoduj(klucz_dostepu))
-                        baza_danych = open(sciezka, 'w')
-                        wpis_tablicy_do_bazy()
-                    else:
-                        baza_danych = open(sciezka, 'a')
-                        baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
-                        baza_danych.close()
-                    okno_getkod.destroy()
+    try:
+        temp = open("temp.txt", 'a')
+        temp.write(klucz_dostepu + "\n")
+        temp.close()
+        if len(klucz_dostepu) >= 5:
+            if klucz_dostepu == klucz_dostepu2:
+                wpis_bazy_do_tablicy()
+                if ilosc_element_baza() > 0:
+                    tablica_danych[0] = str(zakoduj(klucz_dostepu))
+                    baza_danych = open(sciezka, 'w')
+                    wpis_tablicy_do_bazy()
                 else:
-                    error("Wpisane klucze są różne!")
+                    baza_danych = open(sciezka, 'a')
+                    baza_danych.write(str(zakoduj(klucz_dostepu)) + "\n")
+                    baza_danych.close()
+                okno_getkod.destroy()
             else:
-                error("Wpisany klucz jest zbyt krótki!")
-        except UnicodeEncodeError:
-            error("\nKlucz zawiera nieobsługiwane znaki!")
+                error("Wpisane klucze są różne!")
+        else:
+            error("Wpisany klucz jest zbyt krótki!")
+    except UnicodeEncodeError:
+        error("\nKlucz zawiera nieobsługiwane znaki!")
 
 
 def zmiana_dalej():
-
     global kl_aut
     kl_aut = klucz_autoryzacyjny.get()
     kl_aut = str(kl_aut)
