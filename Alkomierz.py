@@ -753,6 +753,7 @@ def zapisz_mod():
 
 
 def ilosc_element_baza():
+
     wpis_bazy_do_tablicy()
     sztuki = len(tablica_danych)
     return int(sztuki)
@@ -795,6 +796,7 @@ def spr_poprawnosc_bazy():
 
 
 def alkoholomierz():
+
     global dat
     global czysty_alkohol
     pozycja = 0
@@ -820,6 +822,7 @@ def alkoholomierz():
 
 
 def ilosc_dawek():
+
     wpis_bazy_do_tablicy()
     enty = (len(tablica_danych)) / 4
     enty = int(enty) + 1
@@ -829,6 +832,7 @@ def ilosc_dawek():
 
 
 def dni_wpisywania():
+
     data_start = tablica_danych[1]
 
     rok = data_start[0:4]
@@ -1132,10 +1136,16 @@ def pozwolenie_picia():
         if ostatni_tydzien() >= 200:
             return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
         else:
-            return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
+            if dzis < 0:
+                return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
+            else:
+                return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
     else:
         if dni_bezalko() <= dni_wpisywania():
-            return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
+            if dzis < 0:
+                return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
+            else:
+                return "Możesz spożyć dziś " + str(dzis) + "g czystego alkoholu(" + str(dni_bezalko()) + ")"
         else:
             return "Nie możesz dziś pić alkoholu!(" + str(dni_bezalko()) + ")"
 
